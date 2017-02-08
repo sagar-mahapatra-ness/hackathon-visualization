@@ -1,0 +1,302 @@
+{
+  "nodesX": {
+    "name": "Src_RG",
+    "nodes": [
+      {
+        "name": "thunderCats"
+      },
+      {
+        "name": "circusOfStrange"
+      },
+      {
+        "name": "mastersOfUniverse"
+      },
+      {
+        "name": "teamZenith"
+      },
+      {
+        "name": "watchmen"
+      },
+      {
+        "name": "suicideSquad"
+      }
+    ]
+  },
+  "nodesY": {
+    "name": "Dest_RG",
+    "nodes": [
+      {
+        "name": "suicideSquad"
+      },
+      {
+        "name": "teamZenith"
+      },
+      {
+        "name": "thunderCats"
+      },
+      {
+        "name": "watchmen"
+      },
+      {
+        "name": "circusOfStrange"
+      },
+      {
+        "name": "mastersOfUniverse"
+      }
+    ]
+  },
+  "links": [
+    {
+      "source": 0,
+      "target": 0,
+      "value": {
+        "volume": 59
+      }
+    },
+    {
+      "source": 1,
+      "target": 0,
+      "value": {
+        "volume": 55
+      }
+    },
+    {
+      "source": 2,
+      "target": 0,
+      "value": {
+        "volume": 50
+      }
+    },
+    {
+      "source": 3,
+      "target": 0,
+      "value": {
+        "volume": 43
+      }
+    },
+    {
+      "source": 4,
+      "target": 0,
+      "value": {
+        "volume": 41
+      }
+    },
+    {
+      "source": 5,
+      "target": 0,
+      "value": {
+        "volume": 40
+      }
+    },
+    {
+      "source": 1,
+      "target": 1,
+      "value": {
+        "volume": 52
+      }
+    },
+    {
+      "source": 0,
+      "target": 1,
+      "value": {
+        "volume": 51
+      }
+    },
+    {
+      "source": 5,
+      "target": 1,
+      "value": {
+        "volume": 48
+      }
+    },
+    {
+      "source": 4,
+      "target": 1,
+      "value": {
+        "volume": 45
+      }
+    },
+    {
+      "source": 2,
+      "target": 1,
+      "value": {
+        "volume": 43
+      }
+    },
+    {
+      "source": 3,
+      "target": 1,
+      "value": {
+        "volume": 39
+      }
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "value": {
+        "volume": 49
+      }
+    },
+    {
+      "source": 2,
+      "target": 2,
+      "value": {
+        "volume": 46
+      }
+    },
+    {
+      "source": 4,
+      "target": 2,
+      "value": {
+        "volume": 45
+      }
+    },
+    {
+      "source": 0,
+      "target": 2,
+      "value": {
+        "volume": 43
+      }
+    },
+    {
+      "source": 5,
+      "target": 2,
+      "value": {
+        "volume": 42
+      }
+    },
+    {
+      "source": 3,
+      "target": 2,
+      "value": {
+        "volume": 35
+      }
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "value": {
+        "volume": 49
+      }
+    },
+    {
+      "source": 4,
+      "target": 3,
+      "value": {
+        "volume": 47
+      }
+    },
+    {
+      "source": 3,
+      "target": 3,
+      "value": {
+        "volume": 44
+      }
+    },
+    {
+      "source": 5,
+      "target": 3,
+      "value": {
+        "volume": 41
+      }
+    },
+    {
+      "source": 2,
+      "target": 3,
+      "value": {
+        "volume": 39
+      }
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "value": {
+        "volume": 38
+      }
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "value": {
+        "volume": 51
+      }
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "value": {
+        "volume": 49
+      }
+    },
+    {
+      "source": 5,
+      "target": 4,
+      "value": {
+        "volume": 42
+      }
+    },
+    {
+      "source": 2,
+      "target": 4,
+      "value": {
+        "volume": 39
+      }
+    },
+    {
+      "source": 3,
+      "target": 4,
+      "value": {
+        "volume": 39
+      }
+    },
+    {
+      "source": 4,
+      "target": 4,
+      "value": {
+        "volume": 33
+      }
+    },
+    {
+      "source": 3,
+      "target": 5,
+      "value": {
+        "volume": 49
+      }
+    },
+    {
+      "source": 2,
+      "target": 5,
+      "value": {
+        "volume": 42
+      }
+    },
+    {
+      "source": 5,
+      "target": 5,
+      "value": {
+        "volume": 41
+      }
+    },
+    {
+      "source": 4,
+      "target": 5,
+      "value": {
+        "volume": 41
+      }
+    },
+    {
+      "source": 0,
+      "target": 5,
+      "value": {
+        "volume": 39
+      }
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "value": {
+        "volume": 37
+      }
+    }
+  ]
+}

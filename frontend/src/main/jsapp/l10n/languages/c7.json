@@ -1,0 +1,122 @@
+{
+  "nodesX": {
+    "name": "Malware_Name",
+    "nodes": [
+      {
+        "name": "Trojan.Ransomware.Locky"
+      },
+      {
+        "name": "FE_Heuristic_G2_105389"
+      }
+    ]
+  },
+  "nodesY": {
+    "name": "Victim_RG",
+    "nodes": [
+      {
+        "name": "thunderCats"
+      },
+      {
+        "name": "watchmen"
+      },
+      {
+        "name": "teamZenith"
+      },
+      {
+        "name": "circusOfStrange"
+      },
+      {
+        "name": "mastersOfUniverse"
+      },
+      {
+        "name": "suicideSquad"
+      }
+    ]
+  },
+  "links": [
+    {
+      "source": 0,
+      "target": 0,
+      "value": {
+        "volume": 478
+      }
+    },
+    {
+      "source": 1,
+      "target": 0,
+      "value": {
+        "volume": 436
+      }
+    },
+    {
+      "source": 1,
+      "target": 1,
+      "value": {
+        "volume": 468
+      }
+    },
+    {
+      "source": 0,
+      "target": 1,
+      "value": {
+        "volume": 440
+      }
+    },
+    {
+      "source": 1,
+      "target": 2,
+      "value": {
+        "volume": 480
+      }
+    },
+    {
+      "source": 0,
+      "target": 2,
+      "value": {
+        "volume": 416
+      }
+    },
+    {
+      "source": 1,
+      "target": 3,
+      "value": {
+        "volume": 440
+      }
+    },
+    {
+      "source": 0,
+      "target": 3,
+      "value": {
+        "volume": 422
+      }
+    },
+    {
+      "source": 0,
+      "target": 4,
+      "value": {
+        "volume": 440
+      }
+    },
+    {
+      "source": 1,
+      "target": 4,
+      "value": {
+        "volume": 406
+      }
+    },
+    {
+      "source": 0,
+      "target": 5,
+      "value": {
+        "volume": 437
+      }
+    },
+    {
+      "source": 1,
+      "target": 5,
+      "value": {
+        "volume": 404
+      }
+    }
+  ]
+}
