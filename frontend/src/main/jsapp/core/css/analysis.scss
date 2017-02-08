@@ -393,3 +393,11 @@ mdp-date-picker md-input-container label, mdp-time-picker md-input-container lab
 .mdp-datepicker-date-wrapper{
   background-color:rgb(255, 255, 255) !important;  
 }
+md-input-container:not(.md-input-has-value) input:not(:focus){
+  color:#fff !important;
+}
+.card-type{
+  _md-label{
+    top:27%;
+  }
+}

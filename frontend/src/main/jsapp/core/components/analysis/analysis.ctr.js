@@ -24,7 +24,7 @@
             dataVisualizationApi,            
             dataVisualizationService, 
             $mdpDatePicker, 
-            $mdpTimePicker,coreservices,$mdDialog,$q) {
+            $mdpTimePicker,coreservices,$mdDialog,$q,$http) {
         "ngInject";
 
         console.log("analysisCtr initialised");
@@ -35,6 +35,45 @@
         $scope.filterApplyed = false;
         var twodData = dataVisualizationService.returnTwoDDataToAnalysis();
         console.dir(twodData);
+        $scope.load2DData = function(result){
+            angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
+            $scope.filterApplyed = true;
+            //console.log(dataVC);
+           // dataVisualizationService.getEventDataFor2DRendering(dataVC).then(function(result){
+                angular.element(document.querySelector('#events-page-mask')).css('display', 'none');
+                var filterWarningDiv;
+                 
+                if(result.links.length === 0){
+                    d3.select('#events-container').select("svg").remove();
+                    filterWarningDiv = d3.select("#events-grid").append("div").attr("class", "filter-warning-prompt");
+                    var filterWarningPos = document.querySelector('#events-grid').getBoundingClientRect();
+                    filterWarningDiv.html("<i class=\"material-icons\">&#xE002;</i><div class='text' id='marquee-help-btn'>No events found.</div>");
+                    filterWarningDiv.style("left", filterWarningPos.left + (filterWarningPos.width/2) + "px");
+                    filterWarningDiv.style("top", filterWarningPos.top + (filterWarningPos.height/3) + "px");
+
+                    return;
+                } else {
+                    d3.select("#events-grid .filter-warning-prompt").remove();
+                }
+                var chartObj = {
+                    elem: '#navigator',
+                    dataset: result  // not customisable option
+                };
+            setTimeout(function(){ 
+                dataVisualizationApi.eventsNavigator(chartObj); 
+             }, 3000);
+            
+
+         // });
+       };
+       if(twodData !== ''){
+            console.dir(twodData);
+            $http.get('/languages/'+twodData.data+'.json').then(function(res){
+                $scope.load2DData(res.data);  
+            });
+            //var data_2d ="";
+              
+        }
         $scope.eventFilterModel.axisAccessControl = [
             {value: "Src_IP", text: 'Source IP'},
             {value: "Src_VM", text: 'Source VM'},
@@ -541,7 +580,8 @@
            } 
        };
 
-       $scope.load2DData = function(dataVC){
+       /*$scope.load2DData = function(dataVC){
+            console.log(dataVC);
             dataVisualizationService.getEventDataFor2DRendering(dataVC).then(function(result){
                 angular.element(document.querySelector('#events-page-mask')).css('display', 'none');
                 var filterWarningDiv;
@@ -565,7 +605,7 @@
                 dataVisualizationApi.eventsNavigator(chartObj); 
 
           });
-       };
+       };*/
        $scope.threeDInputData = function(){
         console.log(" show3DData "); 
           console.dir(shieldXUI.landscapeData);
@@ -831,7 +871,7 @@
           /*  angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
             $scope.filterApplyed = true;
             $scope.show2DData();*/
-            $scope.senDataToWebSocket();
+            //$scope.senDataToWebSocket();
        };
         
         

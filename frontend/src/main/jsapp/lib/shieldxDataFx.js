@@ -93,7 +93,7 @@ function shieldxDataFx() {
         var domElem = options.elem;
         var w, h, marginTop = 150, marginRight = 75, marginBottom = 150, marginLeft = 150, xAxisPadding = 144, yAxisPadding = 64;
         for(var i=0;i<data.links.length;i++){
-            data.links[i].value = [{"value":Math.floor(Math.random() * 6) + 1 },{"value":Math.floor(Math.random() * 6) + 1},{"value":Math.floor(Math.random() * 6) + 1 }];
+            data.links[i].value = [{"value":Math.floor(Math.random() * 100) + 1 },{"value":Math.floor(Math.random() * 100) + 1},{"value":Math.floor(Math.random() * 100) + 1 }];
         }
         var selectedList2D = [];
         var nodeRadius;
@@ -239,7 +239,7 @@ function shieldxDataFx() {
         var eventTooltipDiv = d3.select("#events").append("div").attr("class", "eventsToolTip");
 
         var brush, brushButtonTray, brushClose, brushResize;
-
+        var radius_pie_data = matrixData[0].height;
         //add the SVG element
         var svg = d3.select(options.elem).append("svg")
             .attr("width", w)
@@ -251,8 +251,8 @@ function shieldxDataFx() {
             .value(function(d) { return d.value; });
 
         var arc = d3.svg.arc()
-            .innerRadius(50 - 20)
-            .outerRadius(50);
+            .innerRadius(radius_pie_data/2 - (radius_pie_data/2)/2)
+            .outerRadius(radius_pie_data/2);
 
         var nodes = svg.attr("id", "events-analysis")
             .selectAll("rect")
@@ -262,7 +262,12 @@ function shieldxDataFx() {
             
         nodes.selectAll("path")   
             .data(function(d){
-                return pie(d.value);
+                if(d.value){
+                    return pie(d.value);    
+                }else{
+                    return "";    
+                }
+                
             })
             .enter()
             .append("path")
@@ -946,9 +951,12 @@ function shieldxDataFx() {
             var data = options.dataset;
             var domElem = options.elem;
             var w, h;
-             for(var i=0;i<data.links.length;i++){
-                data.links[i].value = [{"value":Math.floor(Math.random() * 6) + 1 },{"value":Math.floor(Math.random() * 6) + 1},{"value":Math.floor(Math.random() * 6) + 1 }];
+            for(var i=0;i<data.links.length;i++){
+                data.links[i].value = [{"value":Math.floor(Math.random() * 100) + 1 },{"value":Math.floor(Math.random() * 100) + 1},{"value":Math.floor(Math.random() * 100) + 1 }];
             }
+            /* for(var i=0;i<data.links.length;i++){
+                data.links[i].value = [{"value":Math.floor(Math.random() * 6) + 1 },{"value":Math.floor(Math.random() * 6) + 1},{"value":Math.floor(Math.random() * 6) + 1 }];
+            }*/
             //w = parseInt(angular.element(document.querySelector(options.elem)).css('width'));           
             //h = parseInt(angular.element(document.querySelector(options.elem)).css('height'));
             
@@ -984,7 +992,13 @@ function shieldxDataFx() {
                 .links(data.links)
                 .square(false) // set to false if m x n matrix
                 .directed(true)
-                .nodeID(function (d) {return d.name;});
+                .nodeID(function (d) {
+                    if(d){
+                        return d.name;    
+                    }else{
+                        return "teamZenith";
+                    }
+                    });
 
             var matrixData = adjacencyMatrix();
             if(angular.element(document.getElementById('events')).scope().graphAttributeModel.colorSelected.match(/volume/ig)) {
@@ -999,7 +1013,7 @@ function shieldxDataFx() {
             }
             //Remove whatever chart with the same id/class was present before
             d3.select(options.elem).select("svg").remove();
-
+            var radius_pie = matrixData[0].height;
             // add the SVG element
             var svg = d3.select(options.elem).append("svg")
                 //.attr("transform", "translate(50,50)")
@@ -1013,8 +1027,8 @@ function shieldxDataFx() {
                 .value(function(d) { return d.value; });
 
             var arc = d3.svg.arc()
-                .innerRadius(10 - 5)
-                .outerRadius(10);
+                .innerRadius(radius_pie/2 - (radius_pie/2)/2)
+                .outerRadius(radius_pie/2);
 
             var nodes = svg
                 .selectAll("rect")
@@ -1027,7 +1041,12 @@ function shieldxDataFx() {
 
                 nodes.selectAll("path")
                 .data(function(d){
-                    return pie(d.value);
+                    if(d.value){
+                        return pie(d.value);    
+                    }else{
+                        return "";    
+                    }
+                    
                 })
                 .enter()
                 .append("path")

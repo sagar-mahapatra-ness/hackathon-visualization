@@ -1,30 +1,32 @@
-<div class="analyalis-table">
-    <form  ng-cloak>
+<div class="analyalis-table" layout="row" layout-align="center center">
+    <form ng-cloak style="margin-top:40px;">
         <div layout="row">
-	        <p>Selected Day: </p>
-	        <md-radio-group ng-model="dateSelected" layout="row">
-	            <md-radio-button value="Today" class="md-primary">Today</md-radio-button>
-	            <md-radio-button value="YesterDay">YesterDay </md-radio-button>
-	        </md-radio-group>
-       </div>
-       <div>
-        	<div layout="row">
-		       	<mdp-date-picker mdp-disabled="switchTo3D" mdp-placeholder="Start Date" ng-model="eventFilterModel.startDate"></mdp-date-picker>
-		        <mdp-time-picker mdp-disabled="switchTo3D" mdp-placeholder="Start Time" ng-model="eventFilterModel.startTime"></mdp-time-picker>
-		    </div>
-		    <div layout="row">
-	        	<mdp-date-picker mdp-disabled="switchTo3D" mdp-placeholder="End Date" ng-model="eventFilterModel.endDate"></mdp-date-picker>
-	        	<mdp-time-picker  mdp-disabled="switchTo3D" mdp-placeholder="End Time" ng-model="eventFilterModel.endTime"></mdp-time-picker>
-	       </div>
-	    </div>
-	    <div layout="row">
-	    	<p>Selected Card Type: </p>
-	        <md-radio-group ng-model="cardTypeSelected" layout="row">
-	            <md-radio-button  ng-repeat="val in cardType" value="{{val.type}}" class="md-primary">{{val.value}}</md-radio-button>
-	        </md-radio-group>
-	    </div>
-	    <div>
-	    	<md-button flex="5" class="md-raised md-accent" style="margin: 0; border-radius: 0px; width: 100%; color: #fff;" ng-click="showGraph($event)">Apply</md-button>
-	    </div>
+            <div layout="column" flex="35">
+                <p>Selected Day: </p>
+                <md-radio-group ng-model="dateSelected" layout="column">
+                    <md-radio-button value="Today" class="md-primary">Today</md-radio-button>
+                    <md-radio-button value="YesterDay">Yesterday </md-radio-button>
+                </md-radio-group>
+            </div>
+            <div layout="column" flex>
+                <div layout="row">
+                    <mdp-date-picker mdp-disabled="switchTo3D" mdp-placeholder="Start Date" ng-model="startDate"></mdp-date-picker>
+                    <mdp-time-picker mdp-disabled="switchTo3D" mdp-placeholder="Start Time" ng-model="startTime"></mdp-time-picker>
+                </div>
+                <div layout="row">
+                    <mdp-date-picker mdp-disabled="switchTo3D" mdp-placeholder="End Date" ng-model="endDate"></mdp-date-picker>
+                    <mdp-time-picker mdp-disabled="switchTo3D" mdp-placeholder="End Time" ng-model="endTime"></mdp-time-picker>
+                </div>
+            </div>
+        </div>
+        <div layout="column">
+            <p>Selected Card Type: </p>
+            <md-radio-group ng-model="cardTypeSelected" layout="row" >
+                <md-radio-button ng-repeat="val in cardType" value="{{val.type}}" class="md-primary card-type">{{val.value}}</md-radio-button>
+            </md-radio-group>
+        </div>
+        <div style="margin-top:40px;">
+            <md-button flex="5" class="md-raised md-accent" style="margin: 0; border-radius: 0px; width: 100%; color: #fff;" ng-click="showGraph($event)">Apply</md-button>
+        </div>
     </form>
 </div>
