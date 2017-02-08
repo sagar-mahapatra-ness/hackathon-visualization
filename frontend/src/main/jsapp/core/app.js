@@ -361,14 +361,14 @@ angular
             templateUrl: 'core/components/my-locker/my-locker.html'
         });
 
-		
+        
         $stateProvider.state('home.notification', {
             url: '/notification',
             abstract:true,
             controller: 'notificationCtr',
             controllerAs: 'notificationCtr',
             templateUrl: 'core/components/administration/notification/notification.html'
-        });		
+        });     
         $stateProvider.state('home.notification.settings', {
             url: '/notificationSettingsCtr',
             controller: 'notificationSettingsCtr',
@@ -402,7 +402,7 @@ angular
              },
         }); 
 
-		
+        
         $stateProvider.state('home.setup', {
             url: '/setup',
             abstract:true,
@@ -901,7 +901,7 @@ angular
         templateUrl: 'core/directive/widget-painter/drilldown-collection/NewApplications/NewApplications.html',
     });  
     
-      $urlRouterProvider.otherwise('analysis');  
+      $urlRouterProvider.otherwise('dashboard');  
       // $urlRouterProvider.otherwise('quickSetup/quickSetup-begin');
     }).config(function(RestangularProvider) {
         "ngInject";

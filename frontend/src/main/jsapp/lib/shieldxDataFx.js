@@ -92,7 +92,9 @@ function shieldxDataFx() {
         var data = options.dataset;
         var domElem = options.elem;
         var w, h, marginTop = 150, marginRight = 75, marginBottom = 150, marginLeft = 150, xAxisPadding = 144, yAxisPadding = 64;
-
+        for(var i=0;i<data.links.length;i++){
+            data.links[i].value = [{"value":Math.floor(Math.random() * 6) + 1 },{"value":Math.floor(Math.random() * 6) + 1},{"value":Math.floor(Math.random() * 6) + 1 }];
+        }
         var selectedList2D = [];
         var nodeRadius;
 
@@ -186,7 +188,8 @@ function shieldxDataFx() {
             var colourSet = ['#f03e3e','#fd7e14','#fcc419','#d0cd02','#ffffff'];
 
             var pie = d3.layout.pie()
-                .sort(null);
+                .sort(null)
+                .value(function(d) { return d.value; });
 
             var arc = d3.svg.arc()
                 .innerRadius(radius - 20)
@@ -241,24 +244,43 @@ function shieldxDataFx() {
         var svg = d3.select(options.elem).append("svg")
             .attr("width", w)
             .attr("height", h);
+        var colourSet = ['#1f77b4','#aec7e8','#ff7f0e','#ffbb78','#2ca02c'];
 
-        var nodes = svg.append("g")
-            //.attr("transform", "translate(0,50)")
-            .attr("id", "events-analysis")
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.value; });
+
+        var arc = d3.svg.arc()
+            .innerRadius(50 - 20)
+            .outerRadius(50);
+
+        var nodes = svg.attr("id", "events-analysis")
             .selectAll("rect")
             .data(matrixData)
             .enter()
-            .append("circle")
-            .attr("r", function (d) {return d.height / 2;})
+            .append("g");
+            
+        nodes.selectAll("path")   
+            .data(function(d){
+                return pie(d.value);
+            })
+            .enter()
+            .append("path")
+            .attr("fill", function(d, i) { 
+                return colourSet[i]; 
+            })
+            .attr("d", arc)
+            /*.attr("x", function (d) {return d.x+(d.height / 2);})
+            .attr("y", function (d) {return d.y+(d.height / 2);})*/
             //.attr("height", function (d) {return d.height;})
-            .attr("cx", function (d) {return d.x+(d.height / 2);})
+            /*.attr("cx", function (d) {return d.x+(d.height / 2);})
             .attr("cy", function (d) {return d.y+(d.height / 2);})
             .style("stroke", "black")
             .style("stroke-width", "1px")
             .style("stroke-opacity", 0.1)
             .style("fill", function (d) { 
                 return setColors(d.value);
-            })
+            })*/
             .style("fill-opacity", function (d) { return d.weight * 0.8; /*return 1;*/ })
             .on('mouseover', function(d,i){
                 
@@ -298,6 +320,12 @@ function shieldxDataFx() {
                     angular.element(document.querySelector('.events-y-axis-data')).css('display', 'none');
                 }
             }); 
+        nodes.transition()
+            .delay(function(d, i) { return i * 200; })
+            .duration(500)
+            .attr("transform",function(d){ 
+                return "translate(" + (d.x+(d.height / 2)) + "," + (d.y+(d.height / 2)) + ")"; 
+            });
 
         d3.select('#brush-event-data-btn').on('click',function(d,i){
             angular.element(document.getElementById('events')).scope().toggle3D();
@@ -918,7 +946,9 @@ function shieldxDataFx() {
             var data = options.dataset;
             var domElem = options.elem;
             var w, h;
-
+             for(var i=0;i<data.links.length;i++){
+                data.links[i].value = [{"value":Math.floor(Math.random() * 6) + 1 },{"value":Math.floor(Math.random() * 6) + 1},{"value":Math.floor(Math.random() * 6) + 1 }];
+            }
             //w = parseInt(angular.element(document.querySelector(options.elem)).css('width'));           
             //h = parseInt(angular.element(document.querySelector(options.elem)).css('height'));
             
@@ -976,24 +1006,41 @@ function shieldxDataFx() {
                 .attr("id", "events-analysis")
                 .attr("width",w)
                 .attr("height",h);
+            var colourSet = ['#1f77b4','#1f77b4','#1f77b4','#1f77b4','#1f77b4'];
 
-            var nodes = svg.append("g")
-                //.attr("transform", "translate(20,1)")
+            var pie = d3.layout.pie()
+                .sort(null)
+                .value(function(d) { return d.value; });
+
+            var arc = d3.svg.arc()
+                .innerRadius(10 - 5)
+                .outerRadius(10);
+
+            var nodes = svg
                 .selectAll("rect")
                 .data(matrixData)
                 .enter()
-                .append("circle")
-                .attr("r", function (d) {
-                    return d.height / 2;
+                .append("g")
+                .attr("transform",function(d){ 
+                    return "translate(" + (d.x+(d.height / 2)) + "," + (d.y+(d.height / 2)) + ")"; 
+                });
+
+                nodes.selectAll("path")
+                .data(function(d){
+                    return pie(d.value);
                 })
-                .attr("cx", function (d) {return d.x+(d.height / 2);})
-                .attr("cy", function (d) {return d.y+(d.height / 2);})
-                .style("stroke", "black")
+                .enter()
+                .append("path")
+                .attr("fill", function(d, i) { 
+                    return colourSet[i]; 
+                })
+                .attr("d", arc)
+                /*.style("stroke", "black")
                 .style("stroke-width", "1px")
                 .style("stroke-opacity", 0.1)
                 .style("fill", function (d) {                    
                     return setColors(d.value); 
-                })
+                })*/
                 .style("fill-opacity", function (d) { return d.weight * 0.2; });
 
 

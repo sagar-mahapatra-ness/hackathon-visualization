@@ -33,7 +33,8 @@
         $scope.graphAttributeModel = {};
         $scope.eventFilterModel.defaultAxisAccessControl = {xAxsis:"Src_RG", yAxis:"Dest_RG"};
         $scope.filterApplyed = false;
-
+        var twodData = dataVisualizationService.returnTwoDDataToAnalysis();
+        console.dir(twodData);
         $scope.eventFilterModel.axisAccessControl = [
             {value: "Src_IP", text: 'Source IP'},
             {value: "Src_VM", text: 'Source VM'},
@@ -816,29 +817,21 @@
 
         dataVisualizationService.conectToWebSocket().then(
             function(data){
-                dataVisualizationService.subscribToTheTopic("/topic/outgoing").then(function(dataRecived){
-                   console.log(" data recived from server 3"+dataRecived);
-                   console.dir(dataRecived);
-                   var refdata = JSON.parse(dataRecived.content);
-                   $scope.processCraditData(refdata);
+                dataVisualizationService.subscribToTheTopic("/topic/greetings").then(function(dataRecived){
+                   console.log(" data recived from server "+dataRecived);
                 });
             }
         );
 
-        $scope.processCraditData = function(data){
-           console.log("processCraditData ");
-           console.dir(data);
-        };
-
-       $scope.senDataToWebSocket = function(data){
-          dataVisualizationService.sendDataToWebSocketTopic("/app/incoming",data);
+       $scope.senDataToWebSocket = function(){
+          dataVisualizationService.sendDataToWebSocketTopic("/app/hello","sagar mahapatro");
        }; 
 
         $scope.showGraph = function(event) {
           /*  angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
             $scope.filterApplyed = true;
             $scope.show2DData();*/
-            $scope.senDataToWebSocket({command:"start",data:""});
+            $scope.senDataToWebSocket();
        };
         
         
