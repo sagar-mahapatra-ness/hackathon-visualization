@@ -1,0 +1,36 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+
+        <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>{{title}}</h3>
+            </div>
+            <div flex></div>
+            <div class="search-container-box" layout="row" layout-align="space-between center">
+                <div id="ip-config-dialog-network-count">{{newtworks.length}} {{ 'wizard.ippool.network' | translate }}</div>
+                <!-- <md-input-container id="ip-config-dialog-search-input">
+                    <input ng-model="networkName" type="text">                     
+                </md-input-container> 
+                <i class="material-icons dialog-search-icon">search</i>  -->
+                <div class="search-div">
+                    <search methodbridge="methodBridge"  datalist='newtworks' searchconfig='{listname:"newtworks", searchkeylocale: "!", key: "label"}' showicon='true'></search>
+                </div>
+                
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" class="ip-config-dialog-content">
+         <md-progress-circular ng-hide="networkFetched" class="md-accent" md-diameter="40" style= "margin: auto;"></md-progress-circular>
+            <md-radio-group ng-model="selectedNetworkID"    ng-change="onSelectionChanged()">
+                <md-radio-button value="{{network.id}}"  ng-repeat="network in newtworks">{{network.label}}</md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div layout="row">
+            <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+            <md-button ng-click="closeDialogWithAnswer(selectedNetworkID)" ng-disabled="!selectEnableState" class=" md-accent md-raised" style="color: #FFFFFF;">{{ 'wizard.ippool.select' | translate }}</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

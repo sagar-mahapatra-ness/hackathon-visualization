@@ -1,0 +1,15 @@
+<md-content layout="column" class='quick-setup-rightpanel' ng-hide="isOpen">
+        <md-toolbar class="md-primary md-hue-1" layout="row">
+            <md-icon class="light-bulb" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+            <span class="qs-help-close-text">{{ 'wizard.quide.header' | translate}}</span>
+            <div flex></div>
+            <button class="md-icon-button md-primary md-hue-3 md-button qs-help-close" ng-click="toggleHelpPanel()"><i class="material-icons">close</i></button>            
+        </md-toolbar>
+        <md-divider style="margin:0;"></md-divider>
+        <!-- Please set the right URL for the respective pages-->
+        
+        <div ng-include="helpContentURL"  height="{{fixHelpContentHeight()}}" class="help-content" style="overflow-y: scroll;"></div>
+
+        
+</md-content>
+

@@ -1,0 +1,67 @@
+<md-dialog aria-label="Upload UrlFiltering"  ng-cloak class="fullscreen-dialog">
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon aria-label="Close dialog">clear</md-icon>
+            </md-button>
+            <h2>Upload blacklisted and whitelisted URL content</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>    
+
+    <md-dialog-content style="padding:10px;">
+        <section class="elem-width-large" layout="row" style="margin: 0 auto;"> 
+
+            <form name='urlfilteringForm' class="urlfiltering-upload-form">
+                <div class="animate-if elem-width-large">
+                    <section layout="row" layout-align="space-between stretch">
+                        <md-input-container class="single-col-component elem-width-large">
+                            <label>Tenant</label>
+                            <md-select name='tenant' ng-model="urlfiltering.tenantId" ng-change="" required>
+                                <md-option ng-repeat="tenant in urlfiltering.tenants" value="{{tenant.id}}" >
+                                    {{tenant.name + " (" + tenant.cloudName + ")"}}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="urlfilteringForm.tenant.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </section>
+
+                    <section layout="row" layout-align="space-between stretch" style="padding-bottom: 20px;">
+                        <label class="uploadbutton single-col-component elem-width-large"
+                               style="position:relative; padding-bottom: 9px"
+                               >
+                            <div class="button" ng-show="urlfiltering.tenantId">Browse</div>
+                            <div class="button" ng-show="!urlfiltering.tenantId" 
+                                 style="background-color: #4a90e2; opacity: 0.38;">
+                                Browse
+                            </div>
+                            <div class='input-file-text'>{{fileInputText}}</div>
+                            <input 
+                                class="input-file" 
+                                type="file" 
+                                file-model="urlfilteringcsvfile" 
+                                aria-label="url filtering"
+                                ng-disabled="!urlfiltering.tenantId"
+                                onchange="angular.element(this).scope().fileNameChanged(this)"
+                                />
+                        </label>
+                    </section>
+
+                    <section layout="row" layout-align="space-between stretch">
+                        <label>&nbsp;</label>
+                        <md-button class="md-accent upload-ssl-keys-buttom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                                   ng-click = "uploadUrlfilteringContent()"
+                                   ng-disabled="!urlfilteringcsvfile">
+                            Upload CSV
+                        </md-button>
+                    </section>
+                </div>
+            </form>
+        </section>
+    
+    </md-dialog-content>
+
+</md-dialog>

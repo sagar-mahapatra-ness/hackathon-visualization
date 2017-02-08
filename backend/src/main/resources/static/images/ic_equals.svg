@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>equal</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="equal">
+            <g>
+                <polygon id="Shape-Copy-2" points="0 0 18 0 18 18 0 18"></polygon>
+                <path d="M14.25,7.5 L3.75,7.5 L3.75,6 L14.25,6 L14.25,7.5 L14.25,7.5 Z M14.25,12 L3.75,12 L3.75,10.5 L14.25,10.5 L14.25,12 Z" id="Shape" fill="#6D6E71"></path>
+            </g>
+        </g>
+    </g>
+</svg>

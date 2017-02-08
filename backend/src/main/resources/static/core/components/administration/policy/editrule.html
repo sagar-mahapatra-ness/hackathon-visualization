@@ -1,0 +1,144 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page  admin-page">
+    <div class="admin-page-policies-header">
+         <md-toolbar layout="row" layout-align="space-between none" class="admin-policy-table-toolbar">
+            <div>
+                <span class="policy-title" ui-sref="home.policy">Threat Detection Policies</span> 
+                <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> Add Rule
+            </div>
+        </md-toolbar>
+        <md-table-container>
+        <section layout="row" style="margin: 0 0 72px 10%;">
+            <form name="addnewRule" novalidate="true">
+                <h3>1. Name your Rule</h3>                     
+                <label class="labelnameSmall" style="color: #4a90e2;">Rule Name</label>
+                <md-input-container class="md-block">
+                    <input name='rulename'  ng-model="newRule.name" required >
+                    <div ng-messages="addnewRule.rulename.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+                <div class="section-wrapper">
+                    <h3>2. Select (Possible Attacker) Applications to Monitor (optional)</h3>                     
+                    <label class="labelnameSmall">Monitor Applications</label>
+                    <div>
+                        <md-button ng-show="selectedApp.length == 0" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Applications To Monitor","appid",selectedApp)'>
+                            SELECT 
+                        </md-button>
+                        <div ng-show="selectedApp.length > 0" layout="row" class="listHosts ">
+                            <div layout="row" class="deployment-specc-hosts">
+                               <md-button class="md-accent md-hue-3"  ng-click='showPopupList($event,"Applications To Monitor","appid",selectedApp)'>
+                                <md-icon class="edit-button-icon" >edit</md-icon>
+                            </md-button>
+                            </div>
+                        </div>
+                        <div class='listHosts'>
+                            <div ng-repeat="app in selectedApp">
+                                {{app}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <h3>3. Select Protocols to Monitor (optional)</h3>                     
+                    <label class="labelnameSmall">Monitor Protocol</label>
+                    <div>
+                        <md-button ng-show="selectedProtocols.length == 0" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Protocols To Monitor","protocol",selectedProtocols)'>
+                            SELECT 
+                        </md-button>
+                        <div ng-show="selectedProtocols.length > 0" layout="row" class="listHosts ">
+                            <div layout="row" class="deployment-specc-hosts">
+                               <md-button class="md-accent md-hue-3"  ng-click='showPopupList($event,"Protocols To Monitor","protocol",selectedProtocols)'>
+                                <md-icon class="edit-button-icon" >edit</md-icon>
+                            </md-button>
+                            </div>
+                        </div>
+                        <div class='listHosts'>
+                            <div ng-repeat="protocol in selectedProtocols">
+                                {{protocol}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <h3>4. Select Operating System (optional)</h3>                     
+                    <label class="labelnameSmall">OS</label>
+                    <div>
+                        <md-button ng-show="selectedOS.length == 0" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Operating Systems","os",selectedOS)'>
+                            SELECT 
+                        </md-button>
+                        <div ng-show="selectedOS.length > 0" layout="row" class="listHosts ">
+                            <div layout="row" class="deployment-specc-hosts">
+                               <md-button class="md-accent md-hue-3"  ng-click='showPopupList($event,"Operating Systems","os",selectedOS)'>
+                                <md-icon class="edit-button-icon" >edit</md-icon>
+                            </md-button>
+                            </div>
+                        </div>
+                        <div class='listHosts'>
+                            <div ng-repeat="os in selectedOS">
+                                {{os}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <h3>5. Select Severity (optional)</h3>                     
+                    <label class="labelnameSmall">Severity</label>
+                    <div>
+                        <md-select name='serverity' ng-model="newRule.severity" required>
+                            <md-option ng-repeat="severity in severities" value="{{severity}}">
+                                {{severity}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <h3>6. Select Target (optional)</h3>                     
+                    <label class="labelnameSmall">Target</label>
+                    <div>
+                        <md-select name='target' ng-model="newRule.target" required>
+                            <md-option ng-repeat="target in targets" value="{{target}}">
+                                {{target}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+                <div class="section-wrapper">
+                    <h3>7. Filter and Pick Specific Signatures (optional)</h3>                     
+                    <label class="labelnameSmall">Specific Signatures</label>
+                    <div>
+                        <md-button class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showSSList($event)'>
+                            SELECT 
+                        </md-button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <md-divider></md-divider>
+        <div layout="row" layout-align="space-between center">
+            <section>
+            </section>
+            <section>
+                <md-button class="md-accent md-hue-3 md-button md-ink-ripple" class="stepper-back" ng-click="cancelNewRule();">
+                    CANCEL
+                </md-button>
+                <md-button class="md-accent md-raised modal-done-button" ng-click="addNewRule();">
+                    ADD
+                </md-button>
+            </section>
+        </div>
+        </md-table-container>
+        <div flex></div>
+    </div>    
+</div>
+<style type="text/css">
+    .labelnameSmall{    
+        color:#4a90e2;
+        font-size: 13px;
+    }
+    .addNewTypePolicy.zeroMargin{
+        margin: 8px 0px 0px !important;
+    }
+    .section-wrapper{
+        margin-top: 60px;
+    }
+</style>

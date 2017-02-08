@@ -1,0 +1,74 @@
+<div layout="column">
+    <quicksetupheader values='headerValues'></quicksetupheader>
+    <section layout="row" flex-offset="10" id="quick-setup-infrastructure-connector">
+        <md-content flex layout-padding layout="column" class="content-height-fixer">
+        
+        <div class="qs-header-text-container">
+            {{ 'wizardinfrastucture.virtual_chassis.mainheading' | translate}} <md-icon class="light-bulb icon-18"  ng-click="helpButtonClicked('virtual_chassis_title_help_wizard')" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+        </div>
+        <div class='quick-setup-form'>
+            
+            <form name="virtualChassisForm" novalidate="true">
+                <div layout="column">
+                    <md-input-container class="md-block vs-chaissis-name" >
+                        <label>{{virtual_chassis_name}}</label>
+                        <input 
+                            autofocus
+                            md-maxlength="12" 
+                            name='virtualChassisName' 
+                            id="virtualChassisNameID"
+                            ng-model="vChassis.name" 
+                            ng-pattern="/^[a-zA-Z0-9]*$/"
+                            required>
+                        <div ng-messages="virtualChassisForm.virtualChassisName.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 12 characters long.</div>
+                            <div ng-message="pattern">Only alphanumeric characters are allowed.</div>
+
+                        </div>
+                        <md-icon class="light-bulb vs-md-icon icon-18" ng-click=" helpButtonClicked('virtual_chassis_naming_help_wizard')" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                        
+                    </md-input-container>
+                    <!--<md-input-container class="md-block" flex-gt-sm>
+                        <label>{{virtual_chassis_description}}</label>
+                        <input 
+                            name='virtualChassisDesc' 
+                            ng-model="vChassis.desc" 
+                            md-maxlength="100" 
+                            ng-pattern="/^[a-zA-Z0-9.-\s]*$/"
+                            required
+                            >
+                        <div ng-messages="virtualChassisForm.virtualChassisDesc.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 100 characters long.</div>
+                            <div ng-message="pattern">Only alphanumeric, ".", "-", " " are allowed.</div>
+                        </div>
+                    </md-input-container>-->
+                    <!-- <section layout="row"> -->
+                        <md-input-container class="md-block deployment-spec-field"  >
+                             <label>Deployment Specification</label> 
+                            <md-select aria-label='virtualChassis' name='virtualChassis' ng-model="vChassis.virtualChassisSelected" required>
+                                <md-option value='{{virtualChassisItem.id}}' ng-repeat="virtualChassisItem in virtualChassisList">
+                                {{virtualChassisItem.name}}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="virtualChassisForm.infraType.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                               <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('virtual_chassis_deploySpec_help_wizard')" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                        </md-input-container>
+                        
+                   <!--  </section> -->
+                </div>
+            </form>
+        </div>
+        </md-content>
+        
+        <!-- help panels [start] -->
+   
+     <helpcontainer contentid="active_help_id" excesscomponent="4" ></helpcontainer>
+   
+    <!-- help panels [end] -->
+
+        </section>
+</div>

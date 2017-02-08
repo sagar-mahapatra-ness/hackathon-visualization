@@ -1,0 +1,33 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+
+        <div layout="column" style="margin: 20px;">
+            <div layout="row">
+                <h3>Create New security group?</h3>
+            </div>
+            <div flex></div>
+            <div layout="row" layout-align="space-between center">
+             <form name="projectForm">
+                 <md-input-container class="md-block" style="width: 260px;padding-left:20px;">
+                    <label style="font-size: 16px;  padding-left:20px; font-weight: normal; font-style: normal;  font-stretch: normal;  line-height: 1; color: #6d6e71;">Name</label>
+                    <input style="width: 254px;" name='groupname' md-maxlength="40" ng-model="groupName" required ng-pattern="/^[a-zA-Z0-9.-]*$/">
+                    
+                    <div ng-messages="projectForm.groupname.$error" role="alert">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than 40 characters long.</div>
+                        <div ng-message="pattern">Only alphanumeric, ".", "-", " " are allowed.</div>
+                        <div ng-show="errorMessage.show" >{{ errorMessage.text }}</div>
+                    </div>
+                </md-input-container>
+              </form>  
+            </div>
+        </div>
+        
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div layout="row">
+            <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">CANCEL</md-button>
+            <md-button  ng-disabled="!projectForm.groupname.$valid" ng-click="answer()"  class=" md-accent md-raised" style="color: #FFFFFF;">Create</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

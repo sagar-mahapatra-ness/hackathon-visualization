@@ -1,0 +1,177 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer add-new-policy admin-page">
+
+    <section layout="row" flex flex-offset="10">
+        <section>
+            <div class='header-text-container'>Email Notification
+                <md-icon class="light-bulb" ng-click="helpButtonClicked('user_help_wizard')">lightbulb_outline</md-icon>
+            </div>
+            <form name="emailNotificationForm" novalidate="true" class="email-notification-form">
+                <div layout="column" class="md-block elem-width-large">
+
+                    <div>
+                        <!-- span class="new-policy-heading"> 1. {{'admin.setup.enable.syslog.notification' | translate}}</span-->
+                        <md-content class="md-block elem-width-xlarge">
+                            <label>{{'admin.setup.enable.email.notification' | translate}}</label>
+                            <md-radio-group class="radio-selection-grp" layout="row" ng-model="emailnotification.enable" ng-click="radioClicked()">
+                                <md-radio-button value=1>Yes</md-radio-button>
+                                <md-radio-button value=0>No</md-radio-button>
+                            </md-radio-group>
+                        </md-content>
+                    </div>
+
+                    <!--
+                    <div>
+                        <section layout="column" class="select-tenant" ng-show="!tenantselected">
+                            <label>Tenant </label>
+                            <md-button class="md-primarymd-hue-3 select-tenant-button" ng-click="callpopupTenats($event)">
+                                <span>Select</span>
+                            </md-button>
+                        </section>
+                        <section layout="column" class="select-tenant" ng-show="tenantselected">
+                            <label>Tenant </label>
+                            <span class="selected-tenant-name"> {{selectedTenantObj.name}} <md-icon class="material-icons"><span  ng-click="callpopupTenats($event)">edit</span></md-icon>
+                            </span>
+                        </section>
+                    </div>
+                    -->
+
+                    <div>
+                        <md-content class="md-block elem-width-xlarge">
+                            <label>{{'admin.setup.send.email.notification' | translate}}</label>
+                            <!--
+                            <div layout="column">
+                                <md-checkbox
+                                    ng-model="emailnotification.isEnabledForThreat"
+                                    aria-label="IfEmailResponseEnabledForThreat">
+                                    {{'admin.setup.send.email.if.enabled.for.threat' | translate}}
+                                </md-checkbox>
+                            </div>
+                            -->
+                            <div layout="column">
+                                <md-checkbox
+                                    ng-model="emailnotification.isMatchingSeverity"
+                                    aria-label="severityFilter">
+                                    {{'admin.setup.send.email.matching.severity.filter' | translate}}
+                                </md-checkbox>
+                            </div>
+                            <md-input-container>
+                                <md-select aria-label="severityrange" name='severityFilter' ng-model="emailnotification.severityRange" required>
+                                    <md-option ng-repeat="severity in severityRanges" value="{{severity.id}}">
+                                        {{severity.name}}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="emailNotificationForm.severityFilter.$error" role="alert">
+                                    <div ng-message="required">This is required.</div>
+                                </div>
+                            </md-input-container>
+                        </md-content>
+                    </div>
+
+                    <div>
+                        <section layout="column" class="md-block elem-width-xlarge">
+                            <md-input-container>
+                                <label>{{'admin.setup.email.notification.suppression.time' | translate}}:&nbsp;</label>
+                                <input mdc-datetime-picker="" name="supressiontime" date="false" time="true" type="text" id="time" short-time="true"
+                                    placeholder="10" md-min-date="minDate" format="HH:MM a" ng-model="emailnotification.suppressionTime" class="md-input" required>
+                                <div ng-messages="emailNotificationForm.supressiontime.$error" role="alert">
+                                    <div ng-message-exp="['required']">
+                                        This is required
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </section>
+                    </div>
+
+                    <div>
+                        <label>{{'admin.setup.email.custom.message' | translate}}</label>
+                        <section layout="column" class="md-block elem-width-xlarge">
+                            <md-input-container class="md-block elem-width-xlarge">
+                                <label>Subject</label>
+                                <textarea
+                                       md-maxlength="250"
+                                       name='subject'
+                                       id="subj"
+                                       ng-model="emailnotification.subject" required>
+                                </textarea>
+                                <div ng-messages="emailNotificationForm.subject.$error">
+                                    <div ng-message="required">This is required.</div>
+                                    <div ng-message="md-maxlength">The Subject has to be less than or equal to 250 characters long.</div>
+                                </div></br>
+
+                            </md-input-container>
+
+                            <md-input-container class="md-block elem-width-xlarge">
+                                <label>Body</label>
+                                <textarea
+                                    md-maxlength="500"
+                                    name='msgbody'
+                                    id="body"
+                                    ng-model="emailnotification.body"
+                                    messageappender
+                                    required>
+                                    </textarea>
+
+                                <div ng-messages="emailNotificationForm.msgbody.$error">
+                                    <div ng-message="required">This is required.</div>
+                                    <div ng-message="md-maxlength">The message body has to be less than or equal to 500 characters long.</div>
+                                </div></br>
+                                <div layout="column" messageTokensCtr>
+                                    <div layout="row" ng-repeat="tokens in emailMsgTokens" ng-switch on="$index % 6">
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index]"><a id={{$index}} href ng-click="customMessageBuilder(emailMsgTokens[$index].tokenkey)">{{emailMsgTokens[$index].value}}</a>&nbsp;</span>
+                                        </div>
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index+1]"><a id={{$index+1}} href ng-click="customMessageBuilder(emailMsgTokens[$index+1].tokenkey)">{{emailMsgTokens[$index+1].value}}</a>&nbsp;</span>
+                                        </div>
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index+2]"><a id={{$index+2}} href ng-click="customMessageBuilder(emailMsgTokens[$index+2].tokenkey)">{{emailMsgTokens[$index+2].value}}</a>&nbsp;</span>
+                                        </div>
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index+3]"><a id={{$index+3}} href ng-click="customMessageBuilder(emailMsgTokens[$index+3].tokenkey)">{{emailMsgTokens[$index+3].value}}</a>&nbsp;</span>
+                                        </div>
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index+4]"><a id={{$index+4}} href ng-click="customMessageBuilder(emailMsgTokens[$index+4].tokenkey)">{{emailMsgTokens[$index+4].value}}</a>&nbsp;</span>
+                                        </div>
+                                        <div ng-switch-when="0">
+                                            <span ng-show="emailMsgTokens[$index+5]"><a id={{$index+5}} href ng-click="customMessageBuilder(emailMsgTokens[$index+5].tokenkey)">{{emailMsgTokens[$index+5].value}}</a>&nbsp;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </section>
+                    </div>
+
+                    <div>
+                        <section layout="row">
+                            <md-input-container class="md-block elem-width-medium">
+                                <!-- md-input-container class="md-block" flex="50"-->
+                                <label>Recipients</label>
+                                <md-select name='recipient' ng-model="emailnotification.recipient" required>
+                                    <md-option ng-repeat="recipient in recipientemails" value="{{recipient.emailaddress}}">
+                                        {{recipient.emailaddress}}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="emailNotificationForm.recipient.$error" role="alert">
+                                    <div ng-message="required">This is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-icon class="material-icons"><md-tooltip>New</md-tooltip><span  ng-click="callpopupAddRecipients($event)">add_box</span></md-icon>&nbsp;
+                        </section>
+                    </div>
+
+                    <div>
+                        <section layout="row" layout-align="end end">
+                            <label>&nbsp;</label>
+                            <md-button class="md-accent smb-config-botton md-raised modal-done-button md-button md-ink-ripple fullRowButton"
+                                       ng-click = "addEmailNotificationProfile()">
+                                Save
+                            </md-button>
+                        </section>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </section>
+    
+</div>

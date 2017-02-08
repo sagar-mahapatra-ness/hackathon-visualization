@@ -1,0 +1,76 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer  widget-page"  ng-controller="InventoryofMicroServicesCtr" style="height: 100%;">
+	<div class="drilldown-title" layout="row" layout-align="space-between none">
+		<span>{{title}}</span>
+		<md-button class="md-icon-button md-primary md-hue-3 export" aria-label="export"  ng-csv="tableData" csv-header="['Type', 'Low', 'Current','Source Port','High']"  filename="totalData.csv" field-separator="," decimal-separator=",">
+            <md-tooltip md-delay="250" md-direction="bottom">
+                Export
+            </md-tooltip>
+            <md-icon>system_update_alt</md-icon>
+        </md-button> 
+		</div>
+		<div class="select-interval-drildown" layout="row">
+			<md-input-container>
+	            <label>Time Interval</label>
+	            <md-select ng-model="timeInterval" >
+	                <md-option ng-repeat="opt in intervalOptions" ng-value="opt.value">
+	                    <span>{{opt.text}}</span>
+	                </md-option>
+	            </md-select>
+	        </md-input-container>
+	        <div>
+	        <md-button class=" md-raised set-dridown-interval" ng-click="updateDirllDownInterval(timeInterval)">Set</md-button>
+	        </div>
+		</div>
+	<!-- 	<button class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"
+	         download="myTable.csv">
+	        <i class="glyphicon glyphicon-new-window"></i> &#160;Export
+	      </button> -->
+		<md-table-container>
+			<table md-table md-row-select ng-model="selected"   md-progress="promise" export-csv="csv" separator=",">
+				<thead md-head >
+					<tr md-row >
+						<th md-column >Type</th>
+						<th md-column >Low</th>
+						<th md-column >Current</th>
+						<th md-column >High</th>
+						<!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN HEADERS -->
+						<!-- <th md-column><span>data.title</span></th> -->
+						<!-- END -->
+					</tr>
+					<tr md-row >
+						<td md-cell class="select-multiple-values-filter"> 
+						<md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="response" multiple md-selected-text="getSelectedText(response,3)">
+                                <md-optgroup >
+                                    <md-option ng-repeat="(index,item) in distinctNames track by $index"  class="policy-table-option" value="{{item.name}}" ng-selected="true">
+                                        {{item.name}}
+                                    </md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                        </td>
+                        <td md-cell ></td>
+                        <td md-cell style="width: 240px;"> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"count"}' showicon='true' ></td>
+                        <td md-cell></td>
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row md-auto-select md-select="data" md-select-id="name" ng-repeat="data in tableData | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false"  ng-class="{highlighted : data.active}">
+						<td md-cell ><span>{{data.name}}</span></td>
+						<td md-cell ng-init="datamin = minItemValue(data.name)" ><span>{{datamin.count}}</span></td>
+						<td md-cell class="button-cluster" style="width: 240px;">
+							{{data.count}}
+						</td>
+						<td  md-cell ng-init="datamax = maxItemValue(data.name)" ><span>{{datamax.count}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+		<div flex> </div>
+		<div>
+			<md-content layout="column" layout-align="start stretch" class="widget-footer">
+				<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(tableData.length)? tableData.length : 0 }}" md-page-select>
+				</md-table-pagination>
+			</md-content>
+		</div>
+</div>

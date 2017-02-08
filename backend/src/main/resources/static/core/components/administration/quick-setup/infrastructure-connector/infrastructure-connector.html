@@ -1,0 +1,139 @@
+<section layout="row" flex flex-offset="10" id="quick-setup-infrastructure-connector" ng-init="getCloudData()">
+    <md-content flex layout-padding class="content-height-fixer">
+
+        <div class="qs-header-text-container">
+            {{infrastructure_subheading}} <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_header_help_wizard')" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+            <!-- <div class='wizard-main-heading'> {{infrastructure_heading}} </div>
+            <div class='wizard-sub-heading'> {{infrastructure_subheading}}</div> -->
+        </div>       
+        
+        <div class='elem-width-large'>
+        <form name="infrastructureForm" novalidate="true">
+            <div layout="column">
+                <section layout="row">
+                    <md-input-container class="md-block" flex="50" >
+                        <label>{{infrastucture_type}}</label>
+                        <md-select name='infraType' ng-model="infrastructure.type" required>
+                            <md-option ng-repeat="type in infra.types" value="{{type.value}}">
+                                {{type.name}}
+                            </md-option>
+                        </md-select>
+                        
+                        <div ng-messages="infrastructureForm.infraType.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_type_help_wizard')" style="font-size: 18px;margin-left: 235px;margin-top: 20px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    <div layout="column" flex="50"></div>
+                </section>
+                <!-- <md-input-container class="md-block" flex-gt-sm> -->
+                  <section layout="row"> 
+                    <md-autocomplete 
+                        ng-model="infrastructure.name"
+                        md-match-case-insensitive
+                        md-autofocus
+                        md-input-name="infraName"
+                        md-selected-item="infrastructure.name" 
+                        md-search-text="searchText"
+                        md-input-maxlength="40"
+                        md-search-text-change="searchTextChange(searchText)"
+                        md-item-text="item.name"
+                        md-items="item in querySearch(searchText)" 
+                        md-selected-item-change="selectedItemChange(item)"
+                        md-floating-label="Name Infrastructure control connector" required
+                        ng-pattern="/^[a-zA-Z0-9.-]*$/"
+                        class="elem-width-medium">
+                        <md-item-template>
+                            <span md-highlight-text="searchText">{{item.name}}</span>
+                        </md-item-template>
+                        <div ng-messages="infrastructureForm.infraName.$error" ng-if="infrastructureForm.infraName.$touched">
+                            <div ng-message-exp="['required', 'maxlength']" class="md-input-message-animation">
+                                Infrastructure name must be between 1 and 40 characters long.
+                            </div>                           
+                            <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                        </div>
+                        
+                    
+                    </md-autocomplete>
+                    <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_connector_naming_help_wizard')" style="font-size: 18px;margin-left: 15px;margin-top: 20px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                 </section>
+                <!-- </md-input-container> -->
+                <section layout="row" layout-align="space-between center" ng-show="infrastructure.type !== 'OPENSTACK'">
+                    <md-input-container class="elem-width-medium">                        
+                        <label>{{infrastucture_ipaddress_fqdn}}</label>
+                        <input name='infraIpFqdn'  ng-model="infrastructure.ip" required ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra" id="wizInfraIpFqdn">
+                        <div ng-messages="infrastructureForm.infraIpFqdn.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_ip_fqdn_help_wizard')" style="font-size: 18px;margin-left: 15px;margin-top: 20px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    <div class="supplimentary-label">FQDN - Fully qualified domain name</div>
+                   
+                </section>
+                <section ng-show="infrastructure.type === 'OPENSTACK'">
+                    <md-input-container class="elem-width-medium">
+                        <label>IP address of infrastructure</label>
+                        <input name='infraIpFqdn'  ng-model="infrastructure.ip" required ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra">
+                        <div ng-messages="infrastructureForm.infraIpFqdn.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                        <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_ip_fqdn_help_wizard')" style="font-size: 18px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    </md-input-container>
+                    <md-input-container class="elem-width-medium">
+                        <label>Domain name of infrastructure</label>
+                        <input name='infradomain' ng-model="infrastructure.domain" required ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra">
+                        <div ng-messages="infrastructureForm.infradomain.$error">
+                            <div ng-message="required">This is required.</div>
+                            <!--<div ng-message="md-maxlength">Your login must be between 1 and 40 characters long.</div>-->
+                        </div>
+                        <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_openStack_infra_domian_help_wizard')" style="font-size: 18px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    </md-input-container>
+                    <md-input-container class="elem-width-medium https-checkbox">
+                        <md-checkbox ng-model="infrastructure.https" aria-label="Enable HTTPS" ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra">
+                            Enable HTTPS
+                        </md-checkbox>
+                        <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_openStack_infra_domian_help_wizard')" style="font-size: 18px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    </md-input-container>
+                </section>
+                <md-input-container class="elem-width-medium">
+                    <label>{{infrastucture_login}}</label>
+                    <input name='infraLogin' ng-model="infrastructure.username" required ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra">
+                    <div ng-messages="infrastructureForm.infraLogin.$error" role="alert">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                    <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_login_help_wizard')" style="font-size: 18px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                </md-input-container>
+                <section layout="row">
+                    <md-input-container  class="elem-width-medium">
+                        <label>{{infrastucture_password}}</label>
+                        <input type='{{pwdType}}' name='infraPassword' ng-model="infrastructure.password" required ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra">
+                        <div ng-messages="infrastructureForm.infraPassword.$error" role="alert">
+                            <div ng-message-exp='required'>
+                                This is required.
+                            </div>
+                        </div>
+                        <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('infra_password_help_wizard')" style="font-size: 18px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+                    </md-input-container>
+                    <md-icon ng-click='togglePasswordType()' ng-show="!setPreExistingInfra && pwdType==='password'" ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra" class="show-key">visibility</md-icon>
+                    <md-icon ng-click='togglePasswordType()' ng-show="!setPreExistingInfra && pwdType==='text'" ng-disabled="((infrastructure.type) && (!changedData))? true: setPreExistingInfra" class="show-key">visibility_off</md-icon>
+                </section>
+                <section layout="row">
+                <!-- <md-button class="md-accent md-raised create-infra" 
+                           ng-disabled="infrastructureForm.$invalid || (!changedData) || (setPreExistingInfra)" 
+                           ng-click = "callCreateInfrastructure()">
+                    {{create_infrastructure}}
+                </md-button> -->
+                    <div layout="column" flex></div>
+                </section>
+            </div>
+        </form>
+        </div>
+    </md-content>
+
+    <!-- help panels [start] -->
+   
+    <helpcontainer contentid="active_help_id"  excesscomponent="3" ></helpcontainer>
+
+    <!-- help panels [end] -->
+    
+</section>

@@ -1,0 +1,14 @@
+<div layout="column" layout-align="start stretch" class="admin-page">
+    <div class="admin-page-policies-header">
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="currentTab">
+                <md-tab label="Syslog" ui-sref="home.notification.settings.syslog">
+                    <div ui-view="syslognotificationprofile"></div>
+                </md-tab>      
+                <md-tab label="Email" ui-sref="home.notification.settings.email">
+                    <div ui-view="emailnotificationprofile" style="height:100%;"></div>
+                </md-tab>                           
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

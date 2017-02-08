@@ -1,0 +1,71 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer  admin-page policy-page-details-list ">
+    <div class="policy-table-page">
+        <div class="admin-page-policies-header  ">
+            <md-toolbar layout="row" layout-align="start center" class="admin-policy-table-toolbar">
+                <div class="acl-policy-heading">
+                    <span class="policy-title" ui-sref="home.policy.policylist.accesscontrol"> {{ 'admin.policy.accessPolicy.heading' | translate}} </span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> <span class="details-title">Policy Details</span>
+                </div>
+
+            </md-toolbar>
+        </div>
+        <form name="accessEditForm" novalidate="true" class="acces-control-form">
+            <section layout="row" class=" edit-name-tenant">
+                <div layout="column" class="edit-name policy-header-details">
+                    <div class="edit-heading">Policy Name</div>
+                    <div ng-show="editcontainer">{{aclPolicyBasedId.name}}
+                        <md-icon ng-show="is_update_policy" class="material-icons icon-18" ng-click="editcontainer = !editcontainer" style="cursor: pointer;opacity:0.6;">edit</md-icon>
+                    </div>
+                    <div ng-show="!editcontainer">
+                        <md-input-container class="elem-width-medium">
+                            <input md-maxlength="100" name='aclPolicyName' id="aclPolicyName" aria-label="malware Policy" ng-model="aclPolicyBasedId.name" ng-pattern="/^[a-zA-Z0-9 _.-]*$/" required>
+                            <div ng-messages="accessEditForm.aclPolicyName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                            </div>
+                        </md-input-container>
+                        <span>
+                            <md-icon style="cursor:pointer;opacity:0.6;" ng-click="editcontainer=true;" role="button" tabindex="0" class="icon-18 material-icons">close</md-icon>
+                            <md-icon style="cursor:pointer;color:#4a90e2;" ng-click="editcontainer=true;" role="button" tabindex="0" class="icon-18 material-icons">done</md-icon>
+                        </span>
+                    </div>
+                </div>
+                <div layout="column" class="policy-header-details edit-name-tenant">
+                    <div class="edit-heading">Tenant</div>
+                    <!-- {{selectedTenantObj}} -->
+                    <div ng-show="!tenantselected">{{aclPolicyBasedId.tenantName}}
+                        <md-icon ng-if="is_update_policy" class=" icon-18 material-icons" ng-click="editTenant()" style="opacity:0.6;cursor: pointer;">edit</md-icon>
+                    </div>
+                    <div ng-show="tenantselected" class="tenant-selected">
+                        <span>{{selectedTenantObj.name}} <md-icon class="icon-18 material-icons" ng-click="editTenant()" style="cursor: pointer;opacity:0.6;">edit</md-icon></span>
+                    </div>
+                </div>
+               <!--  <div layout="column" class="policy-header-details">
+                      <div class="edit-heading">Created By</div>
+                      <span>-</span>
+                </div> -->
+                <div layout="column" class="policy-header-details">
+                      <div class="edit-heading">Last Updated</div>
+                      <span>{{aclPolicyBasedId.lastModified | date:'MM/dd/yyyy'}}<!-- {{aclPolicyBasedId.modifiedDate}} --></span>
+                </div>
+            </section>
+            <md-divider style="margin: 24px 0;"></md-divider>
+            <section class="malware-policy-table">
+                <acl-policy-table totaldata="aclPolicyBasedId" content="aclPolicyBasedId.aclRules" mode="modeValue"></acl-policy-table>
+            </section>
+        </form>
+    </div>
+    <div flex></div>
+      <div class="policy-page-footer" >
+        <md-content  class="admin-footer" layout="row" layout-align="space-between center">
+            <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(aclPolicyBasedId.aclRules.length) ? aclPolicyBasedId.aclRules.length : 0 }}" md-page-select>
+            </md-table-pagination>
+            <!-- {{accessEditForm.$dirty}} {{accessEditForm.$invalid}} -->
+            <div class="acl-page-detail-footer"> 
+            <md-button ng-if="is_update_policy" class="md-accent md-raised  modal-done-button" ng-click="callUpdatePolicyData(aclPolicyBasedId);" ng-disabled="!accessEditForm.$dirty || accessEditForm.$invalid">
+                save
+            </md-button>
+            </div>
+        </md-content>
+    </div>
+</div>

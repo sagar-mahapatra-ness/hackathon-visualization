@@ -1,0 +1,460 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page  admin-page" style="height: 782px;margin-top:24px;">
+    <md-toolbar layout="row" layout-align="space-between none" class="admin-toolbar">
+        <div>
+            {{ 'admin.policy.globalThreat.heading' | translate}}
+        </div>
+        <!-- <div class="control-tray" layout="row">
+            <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                <md-tooltip md-delay="250" md-direction="bottom">
+                    Search
+                </md-tooltip>
+                <md-icon>search</md-icon>
+            </md-button>
+            <md-button ng-disabled="promiseCompleted" class="md-primary md-hue-3 addNewTypePolicy" aria-label="add" ng-click='callpopupToAddNew($event)'>
+                <md-icon>add_circle_outline</md-icon> Add
+            </md-button>
+        </div> -->
+    </md-toolbar>
+    <!-- <div layout="row" layout-align="center center" layout-xs="column" class="height80 topbanner">
+      <div flex>
+        <h3 class="text-center counterHead">10,000</h3>
+        <p class="text-center headDescription">Total</p>
+      </div>
+      <div flex>
+        <h3 class="text-center counterHead">9,999</h3>
+        <p class="text-center headDescription">Enabled</p>
+      </div>
+    </div> -->
+    <section layout="row" layout-align="center center" class="height80 topbanner" style="min-height: 80px;">
+        <div style="width: 50%" layout="column" layout-align="center center">
+            <div><h3 class="counterHead" >{{::globalthreatData.length}}</h3></div>
+            <div class="headDescription">Total</div>
+        </div>
+        <md-divider class="vertical-divider"></md-divider>
+        <div style="width: 50%" layout="column" layout-align="center center">
+            <div><h3 class="counterHead">{{enabledThreats}}</h3></div>
+            <div class="headDescription">Enabled</div>
+        </div>
+    </section>
+    <!-- Old Action Panel Design -->
+    <!-- <section layout="row" layout-align="end center" class="height64 filterbar">
+        <div>
+            <md-icon class="enable-green dp16">check_circle</md-icon> Enable
+        </div>
+        <div>
+            <md-icon class="dp16">radio_button_unchecked</md-icon>
+            Disable
+        </div>
+        <div>
+            <md-icon class="dp16">do_not_disturb_alt</md-icon>
+            Block
+        </div>
+        <div>
+            <md-icon class="dp16">notifications_none</md-icon>
+            Alert
+        </div>
+        <div>
+            <md-icon class="dp16">insert_drive_file</md-icon>
+            Log Packets
+        </div>
+    </section> -->
+    <!-- New Action Panel Design -->
+    <section layout="row" layout-align="start center" class="action-section" style="padding-top:24px;">
+        <div layout="column" layout-align="center center" class="actionset">
+            <div ng-disabled="!policyselected.length">
+                Status
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button" ng-class="{'modal-done-button':responseSet.enabled}" ng-click="updateResponse($event,'enabled',true)" ng-disabled="!policyselected.length" style="padding: 0px  18px;">Enable</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.enabledNot}" ng-click="updateResponse($event,'enabled',false)"  ng-disabled="!policyselected.length">Disable</md-button>
+            </div>
+        </div>
+        <div layout="column" layout-align="center center"  class="actionset">
+            <div ng-disabled="!policyselected.length">
+                <md-icon class="icon-18">border_color</md-icon>
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button positive" ng-class="{'modal-done-button':responseSet.logPacket}" ng-click="updateResponse($event,'logPacket',true)" ng-disabled="!policyselected.length">Log</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.logPacketNot}" ng-click="updateResponse($event,'logPacket',false)" ng-disabled="!policyselected.length">Don't Log</md-button>
+            </div>
+        </div>
+        <div layout="column" layout-align="center center" class="actionset">
+            <div ng-disabled="!policyselected.length">
+                <md-icon class="icon-18">notifications_none</md-icon>
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button positive" ng-class="{'modal-done-button':responseSet.alert}" ng-click="updateResponse($event,'alert',true)" ng-disabled="!policyselected.length">Alert</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.alertNot}" ng-click="updateResponse($event,'alert',false)" ng-disabled="!policyselected.length">Don't Alert</md-button>
+            </div>
+        </div>
+        <div layout="column" layout-align="center center" class="actionset">
+            <div ng-disabled="!policyselected.length">
+                <md-icon class="icon-18">do_not_disturb_alt</md-icon>
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button positive" ng-class="{'modal-done-button':responseSet.block}" ng-click="updateResponse($event,'block',true)" ng-disabled="!policyselected.length">Block</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.blockNot}" ng-click="updateResponse($event,'block',false)" ng-disabled="!policyselected.length">Don't Block</md-button>
+            </div>
+        </div>
+        <div layout="column" layout-align="center center" class="actionset">
+            <div ng-disabled="!policyselected.length">
+                <md-icon class="icon-18">email</md-icon>
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button positive" ng-class="{'modal-done-button':responseSet.notifySMTP}" ng-click="updateResponse($event,'notifySMTP',true)" ng-disabled="!policyselected.length">Email</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.notifySMTPNot}" ng-click="updateResponse($event,'notifySMTP',false)" ng-disabled="!policyselected.length">Don't Email</md-button>
+            </div>
+        </div>
+        <div layout="column" layout-align="center center" class="actionset">
+            <div ng-disabled="!policyselected.length">
+                <md-icon class="icon-18">import_contacts</md-icon>
+            </div>
+            <div layout="row" layout-align="center end">
+                <md-button class="md-button positive" ng-class="{'modal-done-button':responseSet.notifySysLog}" ng-click="updateResponse($event,'notifySysLog',true)" ng-disabled="!policyselected.length">Syslog</md-button> 
+                <md-button class="md-button negative" ng-class="{'modal-done-button':responseSet.notifySysLogNot}" ng-click="updateResponse($event,'notifySysLog',false)" ng-disabled="!policyselected.length">Don't Syslog</md-button>
+            </div>
+        </div>
+        
+    </section>
+    <section layout="row" layout-align="start center" class="counterRow">
+        <div ng-show="policyselected.length">
+            {{policyselected.length}} selected
+        </div>
+    </section>
+    <md-table-container class="showCheckbox">
+        <table md-table md-row-select multiple="true" ng-model="policyselected" md-progress="promise" ng-class="{isdisabled: !is_update_policy} ">
+            <thead md-head md-on-reorder="onReorder">
+                <tr md-row class="allCheckboxrow">
+                    <th md-column><span>Status</span></th>
+                    <th md-column><span>Response Action</span></th>
+                    <th md-column><span>Email</span></th>
+                    <th md-column><span>Sys Log</span></th>
+                    <th md-column md-order-by="name" style="width: 300px;"><span>Name</span></th>
+                    <th md-column md-order-by="_numthreatID"><span>Id</span></th>
+                    <th md-column md-order-by="_numprotocolID"><span>Protocol ID</span></th>
+                    <th md-column md-order-by="severity"><span>Severity</span></th>
+                    <th md-column md-order-by="protectionType"><span>Protection Type</span></th>
+                    <th md-column><span>Threat Reference</span></th>
+                    <!-- END -->
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr class="searchbar">
+                    <td></td>
+                    <td style="padding: 0 0 0 24px;">
+                        <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="filterset._status" multiple md-selected-text="getSelectedText(filterset._status,2)">
+                                <md-option ng-repeat="(index,item) in ['Enabled', 'Disabled'] track by $index" class="policy-table-option" value="{{item}}"  ng-selected="true">
+                                {{item}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="filterset.response" multiple md-selected-text="getSelectedText(filterset.response,6)">
+                                <md-optgroup label="Enabled">
+                                    <md-option ng-repeat="(index,item) in [{name:'Log', icon:'border_color'}, {name:'Alert', icon:'notifications_none'}, {name:'Block', icon:'do_not_disturb_alt'},] track by $index"  class="policy-table-option" value="{{item.name}}-true" ng-selected="true">
+                                        {{item.name}}
+                                        <md-icon class="icon-18" style="margin-left: 120px;float:right;color: #4a90e2;">{{item.icon}}</md-icon>
+                                    </md-option>
+                                </md-optgroup>
+                                <md-optgroup label="Disabled">
+                                    <md-option ng-repeat="(index,item) in [{name:'Log', icon:'border_color'}, {name:'Alert', icon:'notifications_none'}, {name:'Block', icon:'do_not_disturb_alt'},] track by $index"  class="policy-table-option" value="{{item.name}}-false" ng-selected="true">
+                                        {{item.name}}
+                                        <md-icon class="icon-18" style="float:right;opacity: 0.5;color: #4a90e2;margin-left: 120px;">{{item.icon}}</md-icon>
+                                    </md-option>
+                                </md-optgroup>
+                                <!-- <md-option class="policy-table-option" value="">ALL</md-option>
+                                <md-option class="policy-table-option" value="block">Block</md-option>
+                                <md-option class="policy-table-option" value="alert">Alert</md-option>
+                                <md-option class="policy-table-option" value="logPacket">Log Packets</md-option> -->
+                            </md-select>
+                            <!-- <md-select ng-model="selectedToppings" multiple>
+                              <md-optgroup label="Meats">
+                                <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'meat' }">{{topping.name}}</md-option>
+                              </md-optgroup>
+                              <md-optgroup label="Veggies">
+                                <md-option ng-value="topping.name" ng-repeat="topping in toppings | filter: {category: 'veg' }">{{topping.name}}</md-option>
+                              </md-optgroup>
+                            </md-select> -->
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="filterset.action" multiple md-selected-text="getSelectedText(filterset.action,4)">
+                                <md-optgroup label="Enabled">
+                                    <md-option class="policy-table-option" ng-selected="true" value="notifySMTP-true">
+                                     Email
+                                     <md-icon class="icon-18" style="margin-left: 120px;float:right;color: #4a90e2;">email</md-icon>
+                                    </md-option>
+                                    <md-option class="policy-table-option" ng-selected="true" value="notifySysLog-true">
+                                     Syslog
+                                     <md-icon class="icon-18" style="margin-left: 120px;float:right;color: #4a90e2;">import_contacts</md-icon>
+                                    </md-option>
+                                </md-optgroup>
+                                <md-optgroup label="Disabled">
+                                    <md-option class="policy-table-option" ng-selected="true" value="notifySMTP-false">
+                                     Email
+                                     <md-icon class="icon-18" style="margin-left: 120px;float:right;opacity: 0.5;color: #4a90e2;">email</md-icon>
+                                    </md-option>
+                                    <md-option class="policy-table-option" ng-selected="true" value="notifySysLog-false">
+                                     Syslog
+                                     <md-icon class="icon-18" style="margin-left: 120px;float:right;opacity: 0.5;color: #4a90e2;">import_contacts</md-icon>
+                                    </md-option>
+                                </md-optgroup>
+                            </md-select>
+                        </md-input-container>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <search datalist='globalthreatData' searchconfig='{listname:"globalthreatData", searchkeylocale: "!", key: "name"}' showicon='false' ng-model="threatname"></search>
+                    </td>
+                    <td>
+                        <search datalist='globalthreatData' searchconfig='{listname:"globalthreatData", searchkeylocale: "!", key: "threatID"}' showicon='false'></search>
+                    </td>
+                    <td>
+                        <search datalist='globalthreatData' searchconfig='{listname:"globalthreatData", searchkeylocale: "!", key: "protocolID"}' showicon='false'></search>
+                    </td>
+                    <td>
+                        <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="filterset.severity" multiple md-selected-text="getSelectedText(filterset.severity,severitylevels.length)" >
+                                <md-option ng-repeat="item in severitylevels track by $index" class=" policy-table-option" ng-selected="true" value="{{item}}">
+                                    <md-icon class=" brightness material-icons active {{item}}">fiber_manual_record</md-icon>
+                                    <span style="margin-right: 80px;">{{item}}</span>
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </td>
+                    <td>
+                        <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="filterset.protectionType" multiple md-selected-text="getSelectedText(filterset.protectionType,2)">
+                                <md-option ng-repeat="(index,item) in ['SERVER', 'CLIENT'] track by $index" class="policy-table-option" ng-selected="true" value="{{item }}">
+                                {{item}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr md-row md-select="policy" md-select-id="id" ng-repeat="policy in filtered = (globalthreatData | filterthreat:filterset)  | limitTo: query.limit: (query.page - 1) * query.limit " ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-class="{'blurRow' : !policy.threatResponseData.enabled} ">
+                    <!-- <td md-cell class="button-cluster" ng-class="{show : hover}">
+                        <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="delete" ng-click='deleteMalwarePolicy(policy)'>
+                            <md-tooltip md-delay="250" md-direction="bottom">
+                                Delete Connection
+                            </md-tooltip>
+                            <md-icon>delete</md-icon>
+                        </md-button>
+                        <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click='callpopupDuplicatePolicy(policy)'>
+                            <md-tooltip md-delay="250" md-direction="bottom">content copy
+                            </md-tooltip>
+                            <md-icon>content_copy</md-icon>
+                        </md-button>
+                    </td> -->
+                    <!-- ng-click='goToPolicy(policy.id,"malware")' -->
+                    <td md-cell style="min-width: 80px;"><span><md-icon class="dp16 status" ng-class="{'enable-green active' : policy.threatResponseData.enabled} ">{{(policy.threatResponseData.enabled) ? "check_circle" : "radio_button_unchecked" }}</md-icon>{{(policy.threatResponseData.enabled) ? "Enabled" : "Disabled" }}</span></td>
+                    <td md-cell >
+                        <span class="responseSet" layout="row" layout-align="space-between center">
+                            <md-icon class="dp16" ng-class="{'active':policy.threatResponseData.logPacket}">border_color</md-icon>
+                            <md-icon class="dp16" ng-class="{'active':policy.threatResponseData.alert}">notifications_none</md-icon>
+                            <md-icon class="dp16" ng-class="{'active':policy.threatResponseData.block}">do_not_disturb_alt</md-icon>
+                        </span>
+                    </td>
+                    <td md-cell >
+                        <span class="responseSet" layout="row" layout-align="center center">
+                            <md-icon class="dp16" ng-class="{'active':policy.threatResponseData.notifySMTP}">email</md-icon>
+                        </span>
+                    </td>
+                    <td md-cell >
+                        <span class="responseSet" layout="row" layout-align="center center">
+                            <md-icon class="dp16" ng-class="{'active':policy.threatResponseData.notifySysLog}">import_contacts</md-icon>
+                        </span>
+                    </td>
+                    <td md-cell ><span>{{policy.name}}</span></td>
+                    <td md-cell ><span>{{policy.threatID}}</span></td>
+                    <td md-cell ><span>{{policy.protocolID}}</span></td>
+                    <td md-cell >
+                        <span class="{{policy.severity}}">
+                            <md-icon class="brightness active">fiber_manual_record</md-icon>
+                            {{policy.severity}}
+                        <!-- <md-select placeholder="Select">
+                            <md-option ng-repeat="(index,item) in ['HIGH', 'MEDIUM', 'LOW', 'CLEAN'] track by $index"  ng-selected="item == policy.severity" class="policy-table-option" ng-value="item" >
+                            <span><md-icon class="brightness" ng-class="item">brightness_1</md-icon>{{item}}</span>
+                            </md-option>
+                        </md-select> -->
+                        </span>
+                    </td>
+                    <td md-cell ><span>{{policy.protectionType}}</span></td>
+                    <td md-cell ng-click="openThreatPopup($event,policy.name,policy.threatReferences)"><span class="referenceText">View({{policy.threatReferences.length}})</span></td>
+                    <!-- END -->
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <!-- <div class="noOfPolicyLength">{{globalthreatData.length}} Policies</div> -->
+    <!-- </md-content> -->
+    <div flex></div>
+    <md-content layout="row" layout-align="space-between center" class="admin-footer" 
+        style="position: fixed;
+            width: 100%;
+            height: 56px;
+            bottom: 56px;
+            overflow:hidden;
+            left: 0;">
+        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{filtered.length}}" md-page-select>
+        </md-table-pagination>
+        <div layout="row" layout-align="start center">
+            <md-button class="tomato-button md-button md-ink-ripple" style="color: #4a90e2 !important;" ng-if="is_update_policy" ng-click="clearEdits()" >reset</md-button>
+            <md-button class="md-raised modal-done-button" ng-if="is_update_policy" ng-click="updateEdits()" ng-disabled="!policyselected.length">save</md-button>
+        </div>
+    </md-content>
+</div>
+<style type="text/css">
+.counterRow{
+    height: 56px;
+}
+    .height80{
+        height: 80px;
+    }
+    .text-center {
+    text-align: center;
+}
+.topbanner {
+    border: solid 1px rgba(109, 110, 113, 0.2);
+    margin-bottom: 24px;
+}
+.counterHead{
+        margin: 0px 0px 5px;
+    }
+.headDescription{
+    margin: 0px;
+    color: #6d6e71;
+    font-size: 13px;
+}
+.height64{
+    height: 64px;
+}
+.counterHead{
+    font-size: 24px;
+}
+.admin-page md-table-container.showCheckbox .md-checkbox-column,.admin-page md-table-container.showCheckbox .md-checkbox-cell {
+    display: table-cell;
+}
+.vertical-divider {
+  border-top-width: 0;
+  border-right-width: 1px;
+  border-right-style: solid;
+  height: 100%;
+}
+.filterbar div{
+    margin-left: 25px;
+    color: #6d6e71;
+    font-size: 14px;
+}
+.enable-green{
+    color:#13ce66;
+}
+.dp16{
+    width: 16px;
+    height: 16px;
+    font-size:  16px;
+    min-height: 16px;
+    min-width: 16px;
+}
+.showCheckbox th {
+    text-transform: uppercase;
+}
+.brightness.material-icons {
+        font-size: 8px;
+        width: 8px;
+        min-width: 8px;
+        min-height: 8px;
+        height: 8px;
+        margin-right: 8px;
+}
+md-icon.brightness.material-icons.High ,
+md-icon.brightness.material-icons.HIGH ,
+.High md-icon.brightness.material-icons ,
+.HIGH md-icon.brightness.material-icons {
+  color: #ff4949; }
+
+md-icon.brightness.material-icons.Medium ,
+md-icon.brightness.material-icons.MEDIUM ,
+.MEDIUM md-icon.brightness.material-icons,
+.Medium md-icon.brightness.material-icons{
+  color: #ffc030; }
+
+md-icon.brightness.material-icons.Low ,
+md-icon.brightness.material-icons.LOW ,
+.Low md-icon.brightness.material-icons,
+.LOW md-icon.brightness.material-icons{
+  color: #13ce66; }
+.filterdropdownstyle {
+    margin: 0;
+}
+.filterdropdownstyle md-select ._md-select-value{
+        border: none;
+}
+.filterdropdownstyle ._md-select-value > span:not(._md-select-icon) {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+.filterdropdownstyle ._md-select-value ._md-select-icon{
+    font-size: 14px;
+    color: #6d6e71;
+}
+.blurRow{
+    opacity: 0.5;
+}
+.admin-page md-table-container.showCheckbox  span md-icon{
+ opacity: 0.5;   
+}
+.admin-page md-table-container.showCheckbox  span md-icon.active{
+ opacity: 1;   
+}
+.responseSet md-icon{
+    color: #4a90e2;
+}
+.referenceText{
+ color: #4a90e2;
+ cursor: pointer;   
+}
+.threat-dialog{
+    width: 768px;
+}
+.status{
+        margin: 0 7px 5px 0;
+}
+.action-section button,.action-section button:hover{
+    margin:8px 0px;
+    border-radius: 0px;
+    border: solid 1px rgba(109, 110, 113, 0.2);
+    font-size: 14px;
+    min-width: 0px;
+    margin-bottom: 16px;
+    text-transform: capitalize;
+    color: #6d6e71;
+}
+.action-section .actionset{
+    margin-right: 24px;
+}
+.action-section .actionset div:first-child[disabled] {
+    opacity: 0.38;
+}
+.action-section button.positive {
+    padding: 0px 34px;
+}
+.action-section button.negative {
+    padding: 0px 16px;
+}
+md-checkbox.md-checked ._md-icon:after{
+    border-color: #fff;
+}
+._md-checkbox-enabled.md-default-theme[selected] ._md-icon, ._md-checkbox-enabled[selected] ._md-icon {
+    background-color: #4a90e2;
+}
+._md-checkbox-enabled.md-default-theme[selected] ._md-icon:after, ._md-checkbox-enabled[selected] ._md-icon:after{
+    border-color: #fff;
+}
+</style>

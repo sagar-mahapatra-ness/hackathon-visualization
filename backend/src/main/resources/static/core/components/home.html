@@ -1,0 +1,158 @@
+<section layout="column" ng-cloak>
+	<section layout="row" id="home-toolbar">
+		<md-toolbar class="headerBar md-primary">
+			<div class="md-toolbar-tools">
+				
+	       		<md-button class="md-icon-button md-primary" ng-click="leftPanelToggle()" aria-label="Settings" id="panelSettings">
+					<md-icon class="md-avatar" md-font-icon="md-24" >menu</md-icon>
+				</md-button>
+
+				<h2>
+					<span>{{headerText}}</span>
+				</h2>
+                                <span  ng-show="maximize">
+                                <md-icon class="material-icons" style="float:left; margin: 3px 8px 0px 0px; color: #6d6e71; opacity: .4">keyboard_arrow_right</md-icon>
+                                <span class="step-left-i"
+                                      style="color: #FFF;
+    float: left;
+    width: 20px;
+    font-size: 12px;
+    margin: 3px 8px 0px 0px;
+    padding: 3px 0px;
+    border-radius: 50%;
+    text-align: center;
+        background: #4a90e2;">6</span>
+                                <span class="text" style="font-size: 13px;">Make Security Assignments</span>
+                                </span>
+				<span flex></span>
+				<section layout="row" ng-show="!qsStarted">
+					<md-button class="md-icon-button md-primary " aria-label="Settings">
+						<md-icon class="md-avatar" md-font-icon="md-24">notifications</md-icon>
+					</md-button>
+					
+						<!-- <img src="" /> -->
+							
+					<md-menu md-offset="-13 50">
+					     <md-button class="menu-profile-button" ng-click="openMenu($mdOpenMenu, $event)" aria-label="Open Menu">
+					        <div class="profile-img" style="position: relative;">
+							</div>
+					     </md-button>
+					     <md-menu-content width="3"  style="padding: 0px 0;">
+					        <md-menu-item style="min-height: 50px; height: 50px;">
+					          <md-button ng-click="clickSignOut()" style="font-size:16px; height:20px">
+					             Logout
+					          </md-button>
+					        </md-menu-item>
+					      </md-menu-content>
+ 					</md-menu>
+ 					
+				</section>
+				<section ng-show="qsStarted">
+					<md-button class="cancel-setup" ng-click="endSetup($event)">CANCEL</md-button>
+				</section>
+			</div>
+		</md-toolbar>
+	</section>
+
+	<section layout="row" class="main-content">
+		<md-content flex style="overflow: hidden;">
+			<md-sidenav
+				class="md-sidenav-left"
+				md-component-id="left-nav-panel"
+				md-whiteframe="16"
+				style="position:fixed;">
+				<md-content style="border-bottom: solid 1px rgba(0,0,0,0.12);overflow: hidden; height: 63px;width:100%;">
+					<img src="images/quick-setup-logo_new.png" style="width: 152px;height: 32px;padding: 16px 24px;">
+				</md-content>
+				<v-accordion id="accordionA" class="vAccordion--shieldX-menu" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)"
+				style="overflow-x: hidden;">
+					<!-- ng-disabled="panesA" -->
+					<v-pane id="{{ ::pane.id }}" ng-repeat="pane in panesA" expanded="pane.isExpanded">
+						<v-pane-header id="{{ ::pane.id }}-header" aria-controls="{{ ::pane.id }}-content" ng-click="gotoPage($event)"
+						ng-show="pane.isVisible" ng-class="pane.subpanes.length > 0 ? 'showArrow' : ''">
+							<span style="display:inline; padding: 12px 15px; position:relative; top: 10px;">
+								<md-icon class="material-icons" ng-hide="pane.icon.indexOf('.svg', pane.icon.length - 4) !== -1">{{ ::pane.icon }}</md-icon>
+								<md-icon md-svg-src="{{ ::pane.icon }}" ng-show="pane.icon.indexOf('.svg', pane.icon.length - 4) !== -1">{{ ::pane.icon }}</md-icon>
+							</span>
+							<h5 style="display:inline;">{{ ::pane.header }}
+								<span ng-if="pane.bubble" class="header-bubble">{{ ::pane.bubble }}</span>
+							</h5>
+							<div style="opacity: 0.4;padding-left: 56px;font-size: 12px;">
+								{{ ::pane.details }}
+							</div>
+							<p class="material-icons"></p>
+						</v-pane-header>
+
+						<v-pane-content id="{{ ::pane.id }}-content" aria-labelledby="{{ ::pane.id }}-header">
+							<p>{{ ::pane.content }}</p>
+							<!-- {{userSessionMenagment.isUserAllowd()}} -->
+							<!-- ng-show="subpane.isVisible" -->
+							<v-accordion id="nestedAccordionA" ng-if="pane.subpanes">
+								<v-pane id="{{ ::subpane.id }}" ng-repeat="subpane in pane.subpanes" ng-if="subpane.isVisible" ng-disabled="subpane.isDisabled" >
+									<v-pane-header id="{{ ::subpane.id }}-header" aria-controls="{{ ::subpane.id }}-header" ng-click="gotoPage($event)"
+									ng-class="subpane.subpanes.length > 0 ? 'showArrow' : ''">
+										<h5>{{ ::subpane.header }} 
+											<span ng-if="subpane.headerAddOn" class="header-add-on">{{ ::subpane.headerAddOn }}</span>
+											<span ng-if="subpane.bubble" class="header-bubble">{{ ::subpane.bubble }}</span>
+										</h5>
+									</v-pane-header>
+									<v-pane-content id="{{ ::subpane.id }}-content" aria-labelledby="{{ ::subpane.id }}-content">
+										<p>{{ ::subpane.content }}</p>
+										<v-accordion id="nested2AccordionA" ng-if="subpane.subpanes">
+											<v-pane id="{{ ::sub.id }}" ng-repeat="sub in subpane.subpanes" ng-if="subpane.isVisible" ng-disabled="sub.isDisabled" >
+												<v-pane-header id="{{ ::sub.id }}-header" aria-controls="{{ ::sub.id }}-header" ng-click="gotoPage($event)"
+												ng-class="sub.subpanes.length > 0 ? 'showArrow' : ''">
+													<h5>{{ ::sub.header }} 
+														<span ng-if="sub.headerAddOn" class="header-add-on">{{ ::sub.headerAddOn }}</span>
+														<span ng-if="sub.bubble" class="header-bubble">{{ ::sub.bubble }}</span>
+													</h5>
+												</v-pane-header>
+												<v-pane-content id="{{ ::sub.id }}-content" aria-labelledby="{{ ::sub.id }}-content">
+													<p>{{ ::sub.content }}</p>
+												</v-pane-content>
+											</v-pane>
+										</v-accordion>
+									</v-pane-content>
+								</v-pane>
+							</v-accordion>
+						</v-pane-content>
+					</v-pane>
+
+				</v-accordion>
+			</md-sidenav>
+
+			<div ui-view flex></div>
+
+		</md-content>
+		
+		<div class='qs-toast toaster-off'>
+	        <md-content class="progress" layout="row" layout-align="space-between center" style='display:none;'>
+	            <div layout="row" layout-align="start center">
+	                <md-progress-circular md-mode="indeterminate" md-diameter="18"></md-progress-circular>
+	                <div layout="column" class="text-container">
+	                    <span class="header">Create Infrastructure Connector</span>
+	                    <span class="sub-header">This should take only a few minutes max...</span>
+	                </div>
+	            </div>
+	        </md-content>
+	        <md-content class="success" layout="row" layout-align="space-between center" style='display:none;'>
+	            <div layout="row" layout-align="start center">
+	                <md-icon>done</md-icon>
+	                <div layout="column" class="text-container">
+	                    <span class="header">Infrastructure Connector Created</span>
+	                    <span class="sub-header">Click NEXT to proceed with the Quick Setup</span>
+	                </div>
+	            </div>
+	        </md-content>
+	        <md-content class="fail" layout="row" layout-align="space-between center" style='display:none;'>
+	            <div layout="row" layout-align="start center">
+	                <md-icon>warning</md-icon>
+	                <div layout="column" class="text-container">
+	                    <span class="header">Infrastructure Connector Failed</span>
+	                    <span class="sub-header">Please verify the information you provided and try again</span>
+	                </div>
+	            </div>
+	        </md-content>
+	    </div>
+	</section>
+</section>

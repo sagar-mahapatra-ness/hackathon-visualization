@@ -1,0 +1,71 @@
+
+<section  layout="column" >
+   <form name="rangeForm"  layout-align="space-between center" class="elem-width-medium">
+   <section layout="row">
+   <md-input-container class="md-block" elem-width-small>
+        <label>Range Start</label>
+        <input required name="startRange" md-maxlength="20" ng-model="rangesRef[0].startRange" ng-pattern="/^[0-9.]*$/"  ng-keydown="valueChanged($event,'start-range')" rangevalidation rangecomp="{{rangesRef[0].endRange}}" rangetype="start"/>
+        <div ng-messages="rangeForm.startRange.$error" role="alert">
+            <div ng-message-exp="['required']"> This is required. </div>
+            <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+             <div ng-message="invalidrange"> Invalid range. Start range should be less than end range and value should be between 0 to 4094
+             </div>
+            <div ng-message="pattern" class="error-style" >Only numbers and "." are allowed.</div>
+        </div>
+    </md-input-container> 
+    <md-input-container class="md-block" elem-width-small>
+        <label>Range End</label>
+        <input required name="endRange" md-maxlength="20" ng-model="rangesRef[0].endRange" ng-pattern="/^[0-9.]*$/" rangevalidation ng-keydown="valueChanged($event,'end-range')" rangecomp="{{rangesRef[0].startRange}}" rangetype="end"/>
+        <div ng-messages="rangeForm.endRange.$error" role="alert">
+            <div ng-message-exp="['required']"> This is required. </div>
+            <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+            <div ng-message="invalidrange"> Invalid range. Start range should be less than end range and value should be between 0 to 4094 </div>
+            
+            <div ng-message="pattern" class="error-style" >Only numbers and "." are allowed.</div>
+        </div>
+    </md-input-container> 
+   </section>  
+
+ <section   ng-repeat="(key, range)  in rangesRef">
+      <section ng-if="key > 0" layout="row" layout-align="space-between center" class="elem-width-medium" style="position: relative;">
+   <md-input-container class="md-block" elem-width-small>
+        <label>Range Start</label>
+        <input required name="startRange{{key}}"  md-maxlength="20" ng-model="range.startRange" ng-pattern="/^[0-9.]*$/" rangevalidation rangecomp="{{range.endRange}}" ng-keydown="valueChanged($event,'start-range')" rangetype="start"/>
+        <div  ng-messages="createStarRangetMessage(rangeForm, key)"  role="alert">
+            <div ng-message-exp="required"> This is required. </div>
+            <div ng-message-exp="max-length"> The start range has to be less than 20 characters long.. </div>
+            <div ng-message="invalidrange"> Invalid range. Start range should be less than end range and value should be between 0 to 4094</div>
+            <div ng-message="pattern">Only numbers and "." are allowed.</div>
+        </div>
+    </md-input-container>
+    <md-input-container class="md-block" elem-width-small>
+        <label>Range End</label>
+        <input required name="endRange{{key}}"  md-maxlength="20" ng-model="range.endRange" ng-pattern="/^[0-9.]*$/" rangevalidation ng-keydown="valueChanged($event,'end-range')" rangecomp="{{range.startRange}}" rangetype="end" />
+        <div  ng-messages="createEndRangeMessage(rangeForm, key)"  role="alert">
+            <div ng-message-exp="['required']"> This is required. </div>
+            <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+            <div ng-message="invalidrange"> Invalid range. Start range should be less than end range and value should be between 0 to 4094</div>
+            <div ng-message="pattern">Only numbers and "." are allowed.</div>
+        </div>
+    </md-input-container>
+
+
+    <md-button class="md-icon-button md-primary md-hue-3 " ng-click="removeRange($event,iprange,key)" aria-label="delete" style="margin: auto 5px; position: absolute; right: -28px;">
+            <md-tooltip md-delay="250" md-direction="bottom"> Delete Range </md-tooltip>
+            <md-icon style="font-size: 16px; margin-left:10px;">delete</md-icon>
+    </md-button>
+</section>
+</section>
+
+</form> 
+
+<section>
+    <md-button class="md-accent md-hue-3" aria-label="add" ng-click="addNewRange($event)" flex="45" style="text-transform: none;">
+        <md-icon style="font-size: 16px; height: 14px; width: 14px; min-height: 14px; max-height: 14px; margin-top: -4px;">add_circle_outline</md-icon>  Add another range 
+    </md-button>
+    <div flex="80"></div>
+</section>
+</section>
+
+
+

@@ -1,0 +1,114 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog spsQuickSetUpDialog">
+    <div ng-show="!showAddPolicy">
+        <md-dialog-content>
+            <div layout="column">
+                <div layout="row" class="dialog-header" style="padding-left: 24px; padding-right: 14px; padding-top:20px">
+                    <div style="font-family: Roboto;font-size: 20px;font-weight: 500; font-style: normal; font-stretch: normal;color: #000000;">Security Policy Set</div>
+                    <div flex></div>
+                    <md-button class="md-accent md-icon-button" ng-click='showAddSPSSelectionDialogCtrDialog($event)' style="padding: 0; min-width: 23px; min-height: 36px; width: 20px; height: 20px;">
+                        <md-icon>add_circle_outline</md-icon>
+                    </md-button>
+                </div>
+                <div flex></div>
+               
+                <div class="search-container-box" layout="row" layout-align="space-between center" >
+                    <div id="ip-config-dialog-network-count">{{existingSPS.length-1}}  Security Policy Sets</div>
+                    <!-- <md-input-container id="ip-config-dialog-search-input">
+                        <input ng-model="networkName" type="text">                     
+                    </md-input-container> 
+                    <i class="material-icons dialog-search-icon">search</i>  -->
+                    <div class="search-div">
+                        <search datalist='existingSPS'  searchconfig='{listname:"existingSPS", searchkeylocale: "!", key: "name", serchboxprifix:"asp" }' showicon='true'></search>
+                    </div>                
+                </div>
+            </div>
+            <md-divider></md-divider>
+            <div layout="column" class="ip-config-dialog-content">
+             <md-progress-circular ng-hide="spsFetched" class="md-accent" md-diameter="40" style= "margin: auto;"></md-progress-circular>
+                <md-radio-group ng-model="selectedSPS"    ng-change="onSelectionChanged()">
+                    <md-radio-button value="{{sps.name}}"  ng-repeat="sps in existingSPS" ng-show="sps.name !== 'None' ">{{sps.name}}</md-radio-button>
+                </md-radio-group>
+            </div>
+            <md-divider></md-divider>
+        </md-dialog-content>
+        <md-dialog-actions>
+            <div layout="row">
+                <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+                <md-button ng-click="closeDialogWithAnswer(selectedNetworkID)" ng-disabled="!selectEnableState" class=" md-accent md-raised" style="color: #FFFFFF;">{{ 'wizard.ippool.select' | translate }}</md-button>
+            </div>
+        </md-dialog-actions>
+    </div>
+    <div ng-show="showAddPolicy">
+        <div>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Assign Security Policy Set</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-divider></md-divider>
+                <md-dialog-content layout="row" style="max-height:820px;overflow-y: hidden;">
+
+                    <div layout="column"  flex="30" style="margin-right: 10px; border-right: 1px solid rgba(109, 110, 113, 0.2);">
+                        <div class="search-container-box" layout="row" layout-align="space-between center" >
+                            <!-- <md-input-container id="ip-config-dialog-search-input">
+                                <input ng-model="networkName" type="text">                     
+                            </md-input-container> 
+                            <i class="material-icons dialog-search-icon">search</i>  -->
+                            <div class="search-div">
+                                <search datalist='existingSPS'  searchconfig='{listname:"existingSPS", searchkeylocale: "!", key: "name", serchboxprifix:"asp" }' showicon='true'></search>
+                            </div>
+                            
+                        </div>
+                        <!-- <md-divider></md-divider>
+                        <div class="add-policy-set policy-table-page">
+                            <md-button class="md-primary md-hue-3 addNewTypePolicy" aria-label="add" ng-click="showAddPolicy=true">
+                            <md-icon>add_circle_outline</md-icon> Add
+                            </md-button>                        
+                        </div> -->
+
+                        <div id="ip-config-dialog-network-count">{{existingSPS.length-1}}  Security Policy Sets</div>
+
+                        <md-divider></md-divider>
+                        <div layout="column" class="ip-config-dialog-content" style="overflow-y: auto;max-height: 100%;">
+                         <md-progress-circular ng-hide="spsFetched" class="md-accent" md-diameter="40" style= "margin: auto;"></md-progress-circular>
+                            <md-radio-group ng-model="selectedSPS"    ng-change="onSelectionChanged()">
+                                <md-radio-button value="{{sps.name}}"  ng-repeat="sps in existingSPS" ng-show="sps.name !== 'None' ">{{sps.name}}</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                        <md-divider></md-divider>
+
+                         <!-- <md-dialog-actions> -->
+                        <div layout="row">
+                            <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+                            <md-button ng-click="closeDialogWithAnswer(selectedNetworkID)" ng-disabled="!selectEnableState" class=" md-accent md-raised" style="color: #FFFFFF;">Assign</md-button>
+                        </div>
+                    </div>
+                    <div layout="column" flex="70"> 
+                        <div layout="row" class="md-toolbar-tools" style="padding-left: 24px; padding-right: 14px; padding-top:20px">
+                            <div style="font-family: Roboto;font-size: 20px;font-weight: 500; font-style: normal; font-stretch: normal;color: #000000;"><h2>Add Security Policy Set</h2></div>
+                        </div>
+                        <form name="addPolicyForm" novalidate="true" ng-show="showAddPolicy">
+                            <div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page admin-page">
+                                <div class="add-policy-set">
+                                    <md-content class="md-padding">
+                                        <div layout="column" ng-if="showAddPolicy">
+                                                <div ng-include="'core/components/administration/policy/add-policy-details-page.html'">
+                                                </div>
+                                        </div>
+                                    </md-content>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <!-- </md-dialog-actions> -->
+                </md-dialog-content>
+                
+            <!--</div>
+             <div layout="column" flex="80">
+                
+            </div> 
+        </div>-->
+        </div>        
+    </div>
+</md-dialog>

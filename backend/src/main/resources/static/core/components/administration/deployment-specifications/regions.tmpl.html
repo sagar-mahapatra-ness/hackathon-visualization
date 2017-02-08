@@ -1,0 +1,35 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+
+        <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>Designate Region</h3>
+            </div>
+            <div flex></div>
+            <div class="search-container-box" layout="row" layout-align="space-between center">
+                <div id="ip-config-dialog-network-count">{{regions.length}} Region(s)</div>
+                <!-- <md-input-container id="ip-config-dialog-search-input">
+                    <input ng-model="networkName" type="text">
+                </md-input-container>
+                <i class="material-icons dialog-search-icon">search</i>  -->
+                <div class="search-div">
+                    <search datalist='regions' searchconfig='{listname:"regions", searchkeylocale: "!", key: "name"}' showicon='true' ></search>
+                </div>
+
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" class="ip-config-dialog-content">
+
+            <md-radio-group ng-model="selectedRegionValue">
+                <md-radio-button value="{{item.id}}" ng-repeat="item in regions ">{{item.name}}</md-radio-button>
+            </md-radio-group>
+        </div>
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="space-around">
+        <span flex></span>
+        <md-button  ng-click="cancelDialogue()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+        <md-button ng-click="done()"  class=" md-accent md-raised" style="color: #FFFFFF;">{{ 'wizard.ippool.select' | translate }}</md-button>
+    </md-dialog-actions>
+</md-dialog>

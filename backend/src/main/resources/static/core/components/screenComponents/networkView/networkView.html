@@ -1,0 +1,69 @@
+<section ng-controller="networkViewCtr" id="network-screen">
+    <md-toolbar layout='column' class="nw-mon-toolbar">
+        <div class="top-tier" layout="row" layout-align="space-between center">
+            <div class="monitor-network-heading">{{monitor_network_heading}} {{monitor_network_heading_vc_name}} <i class="material-icons light-bulb" ng-click="helpButtonClicked('virtualchassis_vieweditaddisecgroup_wizard')">lightbulb_outline</i></div>      
+            <div layout="row" class="nw-legend">
+                <div class="secured" layout="row">
+                    <svg height="2" width="48">
+                    <line x1="0" y1="0" x2="48" y2="0" 
+                          stroke-width="4"
+                          stroke-dasharray="2,4"
+                          stroke="#ee1c25"/>
+                    </svg>
+                    <span>{{ 'wizard.networkmap.unsecured' | translate }}</span>
+                </div>
+                <div class="unsecured" layout="row">
+                    <svg height="2" width="48">
+                    <line x1="0" y1="0" x2="48" y2="0" 
+                          stroke-width="4"                                    
+                          stroke="#01bcb1"/>
+                    </svg>
+                    <span>{{ 'wizard.networkmap.secured' | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div layout="row" layout-align="start none" class="filter-group">
+            <md-checkbox aria-label="Select All"
+                         ng-show='!selectAllDisabled'
+                         ng-checked="isChecked()"
+                         md-indeterminate="isIndeterminate()"
+                         ng-click="toggleAll()"> Select All
+            </md-checkbox>
+            <span style="margin: 5px 0 0 24px;" ng-show='!selectAllDisabled'>{{selected.length}} Selected</span>
+
+            <span flex></span>
+            <span style="margin: 5px 0 0 24px; padding-right: 20px;" class="vs-tenant-fields">
+                <md-icon class="light-bulb" ng-click=" helpButtonClicked('virtualchassis_secgrouptenant_wizard')">lightbulb_outline</md-icon> 
+                <a  class='view-link' ng-click="showTentantPopup($event)"> Tenant:  {{activeTenant.name}} </a>
+            </span>
+            <div class="nw-filters">
+                <span style="opacity: 0.6;">View: </span>
+                <a class='view-link view-all' ng-click="showAll()">All ({{masterList.length}})</a>
+                <a class='view-link view-grouped' ng-click="showGrouped()">Grouped ({{groupedElemsCount}})</a>
+                <a class='view-link view-ungrouped active-link' ng-click="showUnGrouped()"> Ungrouped ({{unGroupedElemsCount}}) </a>                        
+            </div>
+            <search datalist='items' searchconfig='{listname:"items", searchkeylocale: "!", key: "name", customTooltip: "Search Networks"}' showicon='true'></search>                                   
+        </div>                
+    </md-toolbar> 
+
+    <md-divider></md-divider>
+
+    <section layout="row">            
+        <md-content class="left-panel content-height-fixer-manage-top" flex>
+            <section class="content-height-fixer-manage-network" >
+            <div ng-hide="networkFetched" layout="column" layout-align="center center" class="content-height-fixer">
+                <div style="margin-top:30px"><md-progress-circular class="md-accent" md-diameter="60"></md-progress-circular></div>
+            </div>
+                <network ng-show="networkFetched" netinfo="items" selectednetworks="selected"  on-toggle="toggleNetwork(networkval)" />
+            </section>
+        </md-content>
+        <md-content class="right-panel monitor-network-only" flex="25" layout-align="start none" >
+            <div ng-include="'core/components/screenComponents/networkView/monitor-networks-right-panel.html'" layout="row"></div>
+            <!--<div class="apply-button disabled">Apply</div> -->
+        </md-content>
+         <helpcontainer contentid="active_help_id" excesscomponent="5.8"  ></helpcontainer>
+    </section>
+</section>
+

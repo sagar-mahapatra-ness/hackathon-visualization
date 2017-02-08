@@ -1,0 +1,61 @@
+<md-dialog aria-label="ACL update policy" ng-cloak class="fullscreen-dialog add-new-policy  admin-page">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" ng-click="cancelNewPolicyDialogue()">
+                <md-icon aria-label="Close dialog">clear</md-icon>
+            </md-button>
+            <h2>Add Access Control Policy</h2>
+            <span flex></span>
+            <md-button class="md-accent md-raised modal-done-button" ng-disabled="!accessPolicyForm.$dirty || accessPolicyForm.$invalid || !tenantselected" ng-click="callUpdatePolicyData(accessPolicyForm)">
+                Add
+            </md-button>
+        </div>
+    </md-toolbar>
+    <section layout="row" flex style="margin: 24px; margin-top:0;">
+        <!--<section class="elem-width-large" layout="column" style="margin: 0 auto;">-->
+        <md-content flex layout="column" layout-align="start none" class="content-height-fixer">
+            <md-toolbar layout="row" layout-align="start center" class="admin-toolbar"  style="padding:0;">
+                <div class="new-policy-header">
+                    <span class="policy-title" style="cursor:pointer;" ui-sref="home.policy.policylist.accesscontrol" ng-click="cancelNewPolicyDialogue();"> {{ 'admin.policy.accessPolicy.heading' | translate}}  </span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> {{'admin.policy.addNewAcessPolicy.heading' | translate }}
+                </div>
+            </md-toolbar>
+            <form name="accessPolicyForm" novalidate="true" class="malware-form">
+                <section layout="column">
+                    <div>
+                        <span class="new-policy-heading"> 1. Name your policy</span>
+                        <md-input-container class="md-block elem-width-medium" style="margin-bottom:64px;">
+                            <label>Name</label>
+                            <input  md-maxlength="100" name='acessPolicyName' id="accessPolicy" ng-model="policyname" ng-pattern="/^[a-zA-Z0-9 _.-]*$/" required>
+                            <div ng-messages="accessPolicyForm.acessPolicyName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div style="margin-bottom:64px;">
+                        <span class="new-policy-heading">2. Select a tenant</span>
+                        <!--  <md-input-container class="md-block elem-width-medium"> -->
+                        <section layout="column" class="select-tenant" ng-show="!tenantselected">
+                            <!-- <label>Tenant </label> -->
+                            <md-button class="select-tenant-button" ng-click="callpopupTenats($event)" style="margin-bottom:0;">
+                                <span>Select</span>
+                            </md-button>
+                        </section>
+                        <section layout="column" class="select-tenant" ng-show="tenantselected">
+                            <!-- <label>Tenant </label> -->
+                            <span class="selected-tenant-name"> {{selectedTenantObj.name}} <md-icon class="material-icons icon-18"><span  ng-click="callpopupTenats($event)" style="cursor: pointer;">edit</span></md-icon>
+                            </span>
+                        </section>
+                        <!--    </md-input-container> -->
+                    </div>
+                    <div>
+                        <acl-policy-table content="aclPolicyData" totaldata="promise" mode="modeValue"></acl-policy-table>
+                    </div>
+                </section>
+            </form>
+        </md-content>
+    </section>
+    <!--  <div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page  admin-page">
+    </div> -->
+</md-dialog>

@@ -1,0 +1,27 @@
+<md-content flex layout-padding>
+<div layout="row" layout-align="space-between center">
+    <section>
+        <md-button ng-class="md-accent" ng-click="getPrevPage()" ng-show="showPrev()" class="stepper-back" ng-disabled="!prevEnableState">
+        {{ back }}
+        </md-button>
+    </section>
+    <section>
+        <md-button class="md-accent md-raised qs-next" ng-click="clickNextButton($event)" ng-show="showNext()" ng-disabled="!nextEnableState" >
+        {{ next }}
+        </md-button>
+        <section class="qs-progress" style="display:none;">
+            <md-progress-circular class="md-accent" md-diameter="20"></md-progress-circular> 
+            <span style="display: block; margin: 2px 0 0 32px; font-size: 14px; color: #6d6e71;">Loading... </span>
+        </section>
+        <md-button class="md-accent md-raised qs-next" ng-show="showCommit()" ng-click="clickNextButton($event)" ng-disabled="!nextEnableState">
+        {{ commit }}
+            <md-progress-circular  
+                ng-show="showVchassisCreationInProgress"  
+                class="md-hue-4" 
+                md-diameter="15px"
+                style="padding-left:10px"></md-progress-circular>
+        </md-button>
+    </section>
+</div>
+
+</md-content>

@@ -1,0 +1,79 @@
+<!--SCREEN FOR ADDING DEPLOY SPEC-->
+<md-dialog aria-label="Add Data Plane"  ng-cloak class="fullscreen-dialog">
+  <form name='virtualChassisForm'>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog">clear</md-icon>
+        </md-button>
+        <h2>{{'wizardinfrastucture.virtual_chassis.edit_networks.heading' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-accent md-raised modal-done-button" 
+                   ng-click = "submitNetworksInResourceGroups(); disableDone=true" 
+                   ng-disabled="formInProgress || disableDone" 
+                   ng-show="showNetworks">
+            Done
+         </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+          <div layout="column">
+            <md-content class="left-panel" flex  ng-show="showNetworks && !noNetworkData">
+                    <div layout="row" layout-align="start none" class="filter-group">
+                        <md-checkbox aria-label="Select All"
+                                     ng-checked="isChecked()"
+                                     md-indeterminate="isIndeterminate()"
+                                     ng-click="toggleAll()">
+                                     Select All
+                        </md-checkbox>
+                        <span flex></span>
+                        <a class='view-link active-link' ng-class='viewall' ng-click="showAll()"> View All </a>
+
+                        <!-- <md-input-container>
+                            <md-select name='filterViewType' ng-model="filterView.type">
+                                <md-option ng-repeat="type in infra.types" value="{{type.name}}">
+                                    {{type.name}}
+                                </md-option>
+                            </md-select>
+                            <div ng-messages="infrastructureForm.infraType.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container> -->
+
+                        <a class='view-link' ng-class='viewselected' ng-click="showSelected()"> View Monitored </a>
+                        <div layout='row'>
+                            <md-input-container id="ip-config-dialog-search-input">
+                                <input aria-label="networkName" ng-model="networkName" type="text">
+                            </md-input-container>
+                            <i class="material-icons" >search</i>
+                        </div>
+
+                    </div>
+                    <md-divider></md-divider>
+                    <section class="content-height-fixer" style="overflow-y: auto;">
+                        <network>
+                        </network>
+                    </section>
+                </md-content>
+            </div>
+      </div>
+      <!--<div flex="auto"></div>-->
+<!--        <md-toolbar style="position: absolute; bottom: 0px; left: 0px;">
+            <div class="md-toolbar-tools">
+                <md-button class="md-accent" 
+                           ng-click = "showNetworks=false" ng-show="showNetworks" >
+                    Back
+                </md-button>
+                <span flex></span>
+                <md-button class="md-accent md-raised modal-done-button" 
+                           ng-show="!showNetworks"
+                           ng-click = "showNetworks=true" 
+                           ng-disabled="!enableNextNetworkButton" >
+                    Next
+                </md-button>
+            </div>
+        </md-toolbar>-->
+    </md-dialog-content>
+  </form>
+</md-dialog>

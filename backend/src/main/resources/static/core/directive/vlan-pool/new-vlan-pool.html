@@ -1,0 +1,27 @@
+<section  layout="column" >
+   <form name="vlanForm" layout="column"  class="elem-width-medium">
+   <md-input-container class="md-block" elem-width-small>
+        <label>Name this pool</label>
+        <input required name="name" ng-keydown="valueChanged($event,'name')" customautofocus id="rangeNameField" md-maxlength="20" ng-model="vlanval.name" ng-pattern="/^[a-zA-Z0-9.-]*$/"/>
+        <div ng-messages="vlanForm.name.$error" role="alert">
+            <div ng-message-exp="['required']"> This is required. </div>
+            <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+            <div ng-message="pattern" class="error-style" >Only alphanumeric are allowed.</div>
+        </div>
+    </md-input-container> 
+    <!--
+    <md-input-container class="md-block" elem-width-small>
+        <label>Description</label>
+        <input required name="description" md-maxlength="20" ng-model="vlanval.discription" ng-pattern="/^[0-9.]*$/" />
+        <div ng-messages="vlanForm.description.$error" role="alert">
+            <div ng-message-exp="['required']"> This is required. </div>
+            <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+            <div ng-message="pattern" class="error-style" >Only numbers and "." are allowed.</div>
+        </div>
+    </md-input-container>
+    --> 
+   </form>
+   <vlanranges ranges="vlanval.ranges" added="onRangeAdded(ranges)" deleted="onRangeDeleted(ranges)" ></vlanranges>
+</section>
+
+

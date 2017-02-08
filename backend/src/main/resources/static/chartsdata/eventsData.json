@@ -1,0 +1,23 @@
+[{
+	"criticality" : "1",
+	"date" : "2016-11-03",
+	"time" : "18:32:21",
+	"attacking_object" : "OE_WEB_PROD_1E88",
+	"attacking_app_server": "NGINX",
+	"target_object" : "OE_DB_PROD_3251",
+	"target_app_server" : "Oracle Database Server",
+	"attack_method" : "ODS RDBMS Vulnerability",
+	"category" : "Exploit",
+	"outcome" : "blocked"
+},{
+	"criticality" : "1",
+	"date" : "2016-11-03",
+	"time" : "18:32:21",
+	"attacking_object" : "OE_WEB_PROD_1E88",
+	"attacking_app_server": "NGINX",
+	"target_object" : "OE_DB_PROD_3251",
+	"target_app_server" : "Oracle Database Server",
+	"attack_method" : "ODS RDBMS Vulnerability",
+	"category" : "Exploit",
+	"outcome" : "blocked"
+}]

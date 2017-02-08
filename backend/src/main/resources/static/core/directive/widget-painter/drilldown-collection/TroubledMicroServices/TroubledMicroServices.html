@@ -1,0 +1,58 @@
+
+<div layout="column" layout-align="start stretch" class="content-height-fixer  widget-page"  ng-controller="TroubledMicroServicesCtr">
+		<md-table-container>
+			<table md-table md-row-select ng-model="selected"   md-progress="promise">
+				<thead md-head>
+					<tr md-row>
+						<th md-column ng-repeat="header in tableData.headers">{{header.title}}</th>
+						<!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN HEADERS -->
+						<!-- END -->
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr class="searchbar">
+						<td></td>
+						<td><search datalist='ipPoolsRows' searchconfig='{listname:"ipPoolsRows", searchkeylocale: "!", key: "infraName"}' showicon='false'></search></td>
+						<td> <md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="response" multiple md-selected-text="getSelectedText(response,3)">
+                                <md-optgroup >
+                                    <md-option ng-repeat="(index,item) in ['Block', 'Alert','Log'] track by $index"  class="policy-table-option" value="{{item}}-true" ng-selected="true">
+                                        {{item}}
+                                    </md-option>
+                                </md-optgroup>
+                            </md-select>
+
+                        </md-input-container></td>
+                        <td><md-input-container class="filterdropdownstyle">
+                            <md-select ng-model="response" multiple md-selected-text="getSelectedText(response,3)">
+                                <md-optgroup >
+                                    <md-option ng-repeat="(index,item) in ['Block', 'Alert','Log'] track by $index"  class="policy-table-option" value="{{item}}-true" ng-selected="true">
+                                        {{item}}
+                                    </md-option>
+                                </md-optgroup>
+                            </md-select>
+
+                        </md-input-container></search></td>
+                        <td><search datalist='ipPoolsRows' searchconfig='{listname:"ipPoolsRows", searchkeylocale: "!", key: "infraName"}' showicon='false'></search></td>
+                        <td><search datalist='ipPoolsRows' searchconfig='{listname:"ipPoolsRows", searchkeylocale: "!", key: "infraName"}' showicon='false'></search></td>
+					</tr>
+					<tr md-row md-auto-select md-select="data" md-select-id="name" ng-repeat="data in tableData.rowData| limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false"  ng-class="{highlighted : data.active}">
+						<td md-cell class="button-cluster" >
+							{{data.val1}}
+						</td>
+						<td md-cell><span>{{data.val2}}</span></td>
+						<td md-cell><span>{{data.val3}}</span></td>
+						<td md-cell><span>{{data.val4}}</span></td>
+						<td md-cell><span>{{data.val5}}</span></td>
+						<td md-cell><span></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+		<div>
+			<md-content layout="row" layout-align="space-between none" class="admin-footer">
+				<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(infrastructureConnections.length)? infrastructureConnections.length : 0 }}" md-page-select>
+				</md-table-pagination>
+			</md-content>
+		</div>
+</div>

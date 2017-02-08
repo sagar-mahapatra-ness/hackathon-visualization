@@ -1,0 +1,27 @@
+<md-content flex layout-padding>
+<div layout="row" layout-align="space-between center">
+    
+    <section class="quick-setup-steper">
+        <!-- <div class="mask left-mask" style="visibility: hidden"></div> -->
+        <!-- <div class="content-mask"> -->
+            <div ng-repeat="crumb in breadcrumbs" class='steper-tab {{(isCurrentPage(crumb.url)) ? "currentPage" : ""}}'>
+                <!--<span class="step-left-i">{{$index}}</span>-->
+                <span class="step-left-i {{(isCurrentPage(crumb.url)) ? 'step-left-bg-act show' : 'hide'}}">
+                    {{$index+1}}
+                </span>
+                
+                <span class="step-left-i {{(isPreviousPage($index)) ? 'step-left-bg-pre' : 'step-left-bg'}} {{(isCurrentPage(crumb.url)) ? 'hide' : ''}}">
+                   <span class="{{(isPreviousPage($index)) ? 'hide' : 'show'}}">{{$index+1}}</span>
+                   <i class="material-icons {{(isPreviousPage($index)) ? 'show' : 'hide'}}">check circle</i>
+                </span>
+                
+                <span class="text">{{crumb.text}}</span>  
+                
+            </div>
+        <!-- </div> -->
+        <!-- <div class="mask right-mask" style="{{getPos()}}"></div> -->
+    </section>
+    
+</div>
+
+</md-content>

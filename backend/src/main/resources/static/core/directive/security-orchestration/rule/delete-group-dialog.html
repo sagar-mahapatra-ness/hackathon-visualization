@@ -1,0 +1,21 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+
+        <div layout="column" style="margin: 20px;">
+            <div layout="row">
+                <h3>Delete security group?</h3>
+            </div>
+            <div flex></div>
+            <div layout="row" layout-align="space-between center">
+                Are you sure you want to delete {{ruleref}} security group?
+            </div>
+        </div>
+        
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div layout="row">
+            <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">CANCEL</md-button>
+            <md-button   ng-click="closeDialogWithAnswer()"  class=" md-accent md-raised" style="color: #FFFFFF;">DELETE</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

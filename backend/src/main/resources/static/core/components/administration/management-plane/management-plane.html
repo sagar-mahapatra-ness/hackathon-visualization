@@ -1,0 +1,83 @@
+<section layout="row" flex>
+<div layout="column" layout-align="start center" class="content-height-fixer management-plane" style="width:100%; overflow-y:auto;">
+
+    <div class="management-plane-component-header">
+        Management Plane<md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_deploy_components_add_mgmt_plane_help')" style="margin-right:0px;margin-left:10px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div>
+
+    <section layout="column" class="single-col-component elem-width-large" ng-if="is_controlplane_read">
+        <!--
+        <div class="admin-page-panel-settings" ng-if="is_controlplane_read">
+            Management Plane Settings
+        </div>
+        -->
+        <form name='updateMgmtPlaneSettingsForm' id="updateMgmtPlaneSettingsForm">
+
+            <section layout="row" layout-align="space-between stretch">
+                <md-input-container class="elem-width-large">
+                    <label>Infrastructure Connector</label>
+                    <md-select name='infrastructure' ng-model="infrastructureId" 
+                               style="margin-right:8px;"
+                               ng-change="showDeploymentSpecOptions(infrastructureId)" required>
+                        <md-option ng-repeat="cloud in clouds" value="{{cloud.id}}" >
+                            {{cloud.name}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="updateMgmtPlaneSettingsForm.infrastructure.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+            </section>
+
+            <section layout="row" layout-align="space-between stretch">
+                <md-input-container class="elem-width-large">
+                    <label>Deployment Specification</label>
+                    <md-select name='deploySpec' ng-model="deploymentSpecId"
+                               ng-disabled="deploymentSpecDataNotAvailable"
+                               ng-change="enableNext = true" 
+                               style="margin-right:8px;"
+                               required>
+                        <md-option ng-repeat="spec in deploymentSpecList" value="{{spec.id}}">
+                            {{spec.name}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="updateMgmtPlaneSettingsForm.deploySpec.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+            </section>
+
+            <section layout="row" layout-align="space-between stretch">
+                <md-input-container class="elem-width-large">
+                    <label>Scale Policy</label>
+                    <md-select name='scalePolicy' ng-model="scalePolicy" 
+                               style="margin-right:8px;"
+                               ng-disabled="true"
+                               required>
+                        <md-option selected>
+                            Default
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="updateMgmtPlaneSettingsForm.scalePolicy.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+            </section>
+
+            <section layout="row" layout-align="space-between stretch">
+                <label>&nbsp;</label>
+                <md-button ng-if="is_controlplane_update" class="md-accent md-raised modal-done-button md-button md-ink-ripple" 
+                           ng-click = "updateControlPlaneSetting(infrastructureId,deploymentSpecId)" 
+                           style="float:right;"
+                           ng-disabled="!enableNext">
+                    Update 
+                </md-button>
+            </section>
+
+        </form>
+
+    </section>
+
+</div>
+<helpcontainer contentid="active_help_id" ></helpcontainer>
+</section>

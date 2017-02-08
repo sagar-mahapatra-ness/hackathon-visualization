@@ -1,0 +1,21 @@
+<md-dialog aria-label="More Data PopUp List" class="ip-host-dialog">
+    <md-dialog-content  layout="column"  >
+     <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>List of {{showMoreDataName}}</h3>
+            </div>
+      </div>
+      <md-divider></md-divider>
+      <div layout="column" class="ip-config-dialog-content">
+            <div class="demo-select-all-checkboxes"  ng-repeat="item in showmoreData track by $index">
+               {{ item }}
+            </div>
+        </div>
+       <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" >
+        <div layout="row" layout-align="end end">
+            <md-button class="md-accent button"  ng-click="cancel()">Cancel</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

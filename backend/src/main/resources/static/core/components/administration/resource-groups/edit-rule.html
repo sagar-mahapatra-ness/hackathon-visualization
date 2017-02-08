@@ -1,0 +1,28 @@
+
+
+
+ <md-dialog aria-label="Add Resource group " ng-cloak class="fullscreen-dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <md-icon aria-label="Close dialog">clear</md-icon>
+            </md-button>
+            <h2>{{'admin.editResourceGroup.title'| translate}}</h2>
+            <span flex></span>
+<!--             <md-button class="md-accent md-raised modal-done-button" ng-click="addNewGroup()" ng-disabled="!isFormValid()">
+                Add
+            </md-button> -->
+        </div>
+    </md-toolbar>
+    <md-dialog-content style="padding:0px;">
+        <section layout="row" flex >
+           <md-content flex layout-padding layout="column" layout-align="start" class="content-height-fixer">
+                <securityorchestration cloudid="cloudId" fixheight="160" rules="resourceGroupArray" configinfo="OSRuleConfig">
+                </securityorchestration>
+           </md-content>
+            <!-- help panels [start] -->
+            <!-- <helpcontainer contentid="active_help_id" excesscomponent="1.1"></helpcontainer> -->
+            <!-- help panels [end] -->
+        </section>
+    </md-dialog-content>
+</md-dialog>

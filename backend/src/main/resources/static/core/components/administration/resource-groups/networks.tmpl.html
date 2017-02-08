@@ -1,0 +1,42 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+
+        <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>Edit Networks</h3>
+            </div>
+            <div flex></div>
+            <div class="search-container-box" layout="row" layout-align="space-between center">
+                <div id="ip-config-dialog-network-count">
+                <div class='fullCheck' >
+                    <md-checkbox aria-label="Select All"
+                                 ng-checked="isChecked()"
+                                 md-indeterminate="isIndeterminate()"
+                                 ng-click="toggleAll()">
+                        Select All <span ng-show='no_of_networks'>({{no_of_networks}})<span>
+                    </md-checkbox>
+                </div>
+                </div>
+                <div class="search-div">
+                    <search datalist='items' searchconfig='{listname:"items", searchkeylocale: "!", key: "label"}' showicon='true'></search>
+                </div>
+                
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" class="ip-config-dialog-content">
+           <div class="demo-select-all-checkboxes" ng-repeat="item in items | filter: {name : networkname}">
+                    <md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                        {{ item.name}}
+                    </md-checkbox>
+           </div>
+        </div>
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div layout="row">
+            <md-button  ng-click="cancelDialogue()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+            <md-button ng-click="done()" class=" md-accent md-raised" style="color: #FFFFFF;">{{ 'wizard.ippool.select' | translate }}</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

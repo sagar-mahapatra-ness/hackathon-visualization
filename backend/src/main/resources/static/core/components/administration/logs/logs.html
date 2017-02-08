@@ -1,0 +1,37 @@
+<section layout="row" flex flex-offset="10">
+    <div layout="column" layout-align="start center" class="content-height-fixer" style="width:100%;">
+    <div class="admin-page-component-header elem-width-large" layout="row" layout-align="start center" style="height: 64px;
+    padding-left: 30px;">
+        Logs<md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_system_logs_help')" style="margin-right:0px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div>
+    <md-divider class="elem-width-large"></md-divider>
+    <section layout="column" class="existing-ip-row-header  elem-width-large">
+        <section layout="row" layout-align="space-between stretch">
+            <label class="ip-address-screen-management-network">
+                Logs
+            </label>
+            <md-button ng-if = "is_log_update" class="md-accent md-raised qs-next" 
+                       ng-click = "callUploadLogs(); disablelogsUpload = true;"
+                       ng-disabled="disablelogsUpload">
+                Upload Logs
+            </md-button>
+        </section>
+    </section>
+    <md-divider class="elem-width-large" ></md-divider>
+    <section layout="column" class="existing-ip-row-header  elem-width-large">
+        <section layout="row" layout-align="space-between stretch">
+            <label class="ip-address-screen-management-network">
+                Event Logs
+            </label>
+            <md-button ng-if = "is_log_update" class="md-accent md-raised qs-next" 
+                       ng-click = "callDownloadEventLogs()"
+                       ng-disabled="disableSaveLogs">
+                Download Event Logs
+            </md-button>
+        </section>
+        <iframe id="my_iframe" style="display:none;"></iframe>
+    </section>
+    <md-divider class="elem-width-large"></md-divider>
+</div>
+<helpcontainer contentid="active_help_id" ></helpcontainer>
+</section>  

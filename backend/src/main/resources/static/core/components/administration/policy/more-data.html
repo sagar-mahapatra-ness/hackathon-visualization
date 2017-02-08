@@ -1,0 +1,35 @@
+<!-- more-data-list-details -->
+<md-dialog aria-label="More Data PopUp List" class="ip-host-dialog">
+    <md-dialog-content  layout="column"  >
+      <!--  <md-toolbar layout="row" layout-align="space-between none" class="admin-toolbar">
+            <div>
+                List of {{showMoreDataName}}
+            </div>
+     </md-toolbar> -->
+      <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>List of {{showMoreDataName}}</h3>
+            </div>
+      </div>
+       <md-divider></md-divider>
+        <div layout="column" class="ip-config-dialog-content">
+            <!-- <div layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular ng-hide="!resPromiseComplited" class="md-accent" md-diameter="40"></md-progress-circular>
+            </div> -->
+            <div class="demo-select-all-checkboxes"  ng-repeat="item in showmorePopUpData track by $index">
+              <!-- <md-checkbox ng-checked="exists(item, selectedGroupList)" ng-click="toggle(item, selectedGroupList)"> -->
+               {{ item }}
+             <!--  </md-checkbox> -->
+            </div>
+        </div>
+
+         <md-divider></md-divider>
+     <!-- <div>{{showmorePopUpData}}</div> -->
+   
+    </md-dialog-content>
+    <md-dialog-actions layout="row" >
+        <div layout="row" layout-align="end end">
+            <md-button class="md-accent button"  ng-click="cancelShowMoreDataPopup()">Cancel</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

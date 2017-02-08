@@ -1,0 +1,274 @@
+<div layout="column" layout-align="center start" 
+     style="margin-top:25px; width: 100%; border-bottom:1px solid rgba(109, 110, 113, 0.2); 
+     opacity:{{ruleref.deleted ? '0.2' : '1'}}"
+     >
+    <div layout="row" layout-align="start center" style="margin-left:20px">
+        <div style="padding-right:20px" layout="column" layout-align="center center">
+            <div class="arrowup" ng-class="{invisible: !$parent.sandboxMode || ruleref.precedence <= 1 || ruleref.deleted }" ng-click="reorder(ruleref,1)">
+                <md-icon>
+                    <md-tooltip md-delay="0" md-direction="top">
+                        Rule Precedence
+                    </md-tooltip>
+                    keyboard_arrow_up
+                </md-icon></div>
+            <div>{{ruleref.precedence}}</div>
+            <div class="arrowdown" ng-class="{invisible: !$parent.sandboxMode || ruleref.precedence === lastindex || ruleref.deleted}" ng-click="reorder(ruleref,2)">
+                <md-icon>
+                    <md-tooltip md-delay="0" md-direction="top">
+                        Rule Precedence
+                    </md-tooltip>
+                    keyboard_arrow_down
+                </md-icon></div>
+        </div>
+        <div layout="column" layout-align="start start">
+            <div layout="row" layout-align="start center">
+                <div>
+                    <md-tooltip md-delay="0" md-direction="top">
+                        Group
+                    </md-tooltip>
+                    <md-icon style="font-size: 18px; height: 18px; width: 18px; min-height: 18px; min-width: 18px;" class="material-icons">group_work</md-icon>
+                </div>
+                <div style="padding-left:18px; font-size: 16px; font-weight: bold; line-height: 1.25;">
+                    {{ruleref.groupInfo.name}}
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" style="margin-top: 10px;">
+<!--                <div>
+                    <md-icon style="font-size: 16px; margin-top:10px;">
+                        <md-tooltip md-delay="0" md-direction="top">
+                            Network
+                        </md-tooltip>
+                        share</md-icon>
+                </div>
+                <div style="padding-left:18px">
+                    <md-icon style="font-size: 16px; margin-top:10px;">
+                        <md-tooltip md-delay="0" md-direction="top">
+                            Equals
+                        </md-tooltip>
+                        drag_handle
+                    </md-icon>
+                </div>-->
+                <div ng-show="ruleDesc.length < 4">
+                    <div style="font-size: 14px;" class="active-link" ng-repeat="rule in ruleDesc">
+                        <md-icon style="font-size: 18px; height: 18px; width: 18px; min-height: 18px; min-width: 18px;" md-svg-src="{{rule.ruleImg}}">
+                            <md-tooltip md-delay="0" md-direction="top">
+                                {{rule.ruleTooltip}}
+                            </md-tooltip>
+                        </md-icon>
+                        <md-icon style="padding-left:12px;font-size: 18px; height: 18px; width: 18px; min-height: 18px; min-width: 18px;" md-svg-src="{{rule.matchingCriteriaImg}}">
+                            <md-tooltip md-delay="0" md-direction="top">
+                                {{rule.matchingCriteriaTooltip}}
+                            </md-tooltip>
+                        </md-icon>
+                        <span>
+                        {{rule.networkSpec}} 
+                        </span>
+                    </div>
+                </div>
+                <div ng-show="ruleDesc.length > 3">
+                    <div style="font-size: 14px;" class="active-link" ng-repeat="rule in ruleDesc |  limitTo:3">
+                        <md-icon style="font-size: 16px;" md-svg-src="{{rule.ruleImg}}">
+                            <md-tooltip md-delay="0" md-direction="top">
+                                {{rule.ruleTooltip}}
+                            </md-tooltip>
+                        </md-icon>
+                        <md-icon style="padding-left:18px; font-size: 16px;" md-svg-src="{{rule.matchingCriteriaImg}}">
+                            <md-tooltip md-delay="0" md-direction="top">
+                                {{rule.matchingCriteriaTooltip}}
+                            </md-tooltip>
+                        </md-icon>
+                        <span>
+                        {{rule.networkSpec}} 
+                        </span>
+                    </div>
+                    <div ng-click="showStaticPopup($event,ruleDesc,'Selected Rules');" style="cursor:pointer;" class="active-link">+ {{ruleDesc.length - 3}} More</div>
+                </div>
+            </div>
+<!--            <div layout="row" ng-hide="containsRule(ruleDesc,2)" layout-align="start center">
+                <div>
+                    <md-icon style="font-size: 16px; margin-top:10px;">share</md-icon>
+                </div>
+                <div style="padding-left:18px">
+                    <md-icon style="font-size: 16px; margin-top:10px;">center_focus_strong</md-icon>
+                </div>
+                 <div>
+                    <span style="font-size: 16px;" class="active-link" ng-repeat="rule in ruleDesc | filter: matchingCritaria == '2' ">{{rule.networkSpec}}</span>
+                </div> 
+                <div ng-show="filteredcontains.length < 4">
+                    <div style="font-size: 16px;" class="active-link" ng-repeat="rule in filteredcontains = (ruleDesc | filter: {matchingCritaria : '2'}) ">{{rule.networkSpec}}</div>
+                </div>
+                <div ng-show="filteredcontains.length > 3">
+                    <div style="font-size: 16px;" class="active-link" ng-repeat="rule in ruleDesc | filter: {matchingCritaria : '2'} | limitTo:3">{{rule.networkSpec}} </div>
+                    <div ng-click="showStaticPopup($event,filteredcontains,'Selected Rules');" style="cursor:pointer;">+ {{filteredcontains.length - 3}} More</div>
+                </div>
+            </div>
+            <div layout="row" ng-hide="containsRule(ruleDesc,3)" layout-align="start center">
+                <div>
+                    <md-icon style="font-size: 16px; margin-top:10px;">share</md-icon>
+                </div>
+                <div style="padding-left:18px">
+                     <md-icon style="font-size: 16px; margin-top:10px;">center_focus_strong</md-icon> 
+                    - -
+                </div>
+                 <div>
+                    <span style="font-size: 16px;" class="active-link" ng-repeat="rule in ruleDesc | filter: matchingCritaria == '3' ">{{rule.networkSpec}}</span>
+                </div> 
+                <div ng-show="filteredbegins.length < 4">
+                    <div style="font-size: 16px;" class="active-link" ng-repeat="rule in filteredbegins = (ruleDesc | filter: {matchingCritaria : '3'}) ">{{rule.networkSpec}}</div>
+                </div>
+                <div ng-show="filteredbegins.length > 3">
+                    <div style="font-size: 16px;" class="active-link" ng-repeat="rule in ruleDesc | filter: {matchingCritaria : '3'} | limitTo:3">{{rule.networkSpec}} </div>
+                    <div ng-click="showStaticPopup($event,filteredbegins,'Selected Rules');" style="cursor:pointer;">+ {{filteredbegins.length - 3}} More</div>
+                </div>
+            </div>-->
+            <div layout="row" layout-align="start center" style="margin-top: 10px;">
+                <div>
+                    <md-tooltip md-delay="0" md-direction="top">
+                        Security Policy Set
+                    </md-tooltip>
+                    <md-icon style="font-size: 18px; height: 18px; width: 18px; min-height: 18px; min-width: 18px;" class="material-icons">security</md-icon>
+                </div>
+                <div ng-class = "{'active-link': ruleref.aspInfo.name !== 'None'}" style="padding-left:18px; font-size:14px;">
+                    {{ruleref.aspInfo.name}}
+                    <md-icon 
+                        style="font-size: 18px; margin-top: 4px; margin-left: 8px; color: rgb(109, 110, 113);"
+                        ng-show="ruleref.inline">
+                        <md-tooltip md-delay="0" md-direction="top">
+                            Inline
+                        </md-tooltip>
+                        gps_fixed
+                    </md-icon>
+                </div>
+                 <div ng-show="ruleref.aspInfo.name === 'None' " class="not-inserted-text-bulb" layout="row">
+                    <h4 style="color:#6d6e71;"class="not-instered-text"> No SI Inserted</h4>         
+                    <div class="light-bulb" ng-click="helpButtonClicked('virtualchassis_not_insrted_wizard')"> <img style="cursor:pointer; width: 18px; height: 18px;"src="images/Bulp.svg" alt="group"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="width:95%">
+        <md-button class="md-accent md-raised md-button md-ink-ripple wl-count workloadCounter" ng-class="{'unsecuredWL' : ruleref.aspInfo.name === 'None' }" 
+                   style="font-weight: bold; height: 32px; border-radius: 32px; 
+                    color: #fff;cursor: default;">
+            <md-tooltip md-delay="0" md-direction="top">
+                Secured (user) Workloads/VMs
+            </md-tooltip>
+          <md-icon md-svg-src="images/ic_layers_white.svg" style="
+                 height: 18px;
+                 width: 18px;
+                 min-height: 18px;
+                 min-width: 18px;
+                 font-size: 18px !important;"></md-icon>
+          {{(ruleref.workloadsSecured) ? (ruleref.workloadsSecured) : 0}}
+        </md-button>
+        <md-icon ng-click="showResourceGroup($event, ruleref,'add'); show[key].value = true;" 
+                 ng-show="!show[key].value"
+                 style="cursor:pointer;
+                 margin-left: 8px;
+                 margin-top: 23px;
+                 height: 18px;
+                 width: 18px;
+                 min-height: 18px;
+                 min-width: 18px;
+                 font-size: 18px !important;
+                 color: #6d6e71;opacity: 0.6;" >
+            <md-tooltip md-delay="0" md-direction="top">
+                Highlight Objects
+            </md-tooltip>
+            search
+        </md-icon>
+        <md-icon ng-click="showResourceGroup($event,ruleref,'remove'); show[key].value = false;" 
+                 ng-show="show[key].value"
+                 style="
+                     cursor: pointer;
+                     margin-left: 8px;
+                     margin-top: 23px;
+                     background-color: rgb(74, 144, 226);
+                     height: 18px;
+                     width: 18px;
+                     min-height: 18px;
+                     min-width: 18px;
+                     font-size: 18px !important;
+                     border-radius: 12px;
+                     color: white;
+                     padding: 2px;" >
+            <md-tooltip md-delay="0" md-direction="top">
+                Highlight Objects
+            </md-tooltip>
+            search
+        </md-icon>
+
+<!--        <div ng-show="sandboxMode ? true : false" class="rule-state">
+            <md-switch ng-disabled="sandboxMode ? false : true" aria-label="Disabled switch">
+            </md-switch>
+        </div>-->
+      <!--   <md-icon  class="delete"  ng-show="$parent.sandboxMode" 
+                  style="cursor:pointer; 
+                  padding-right: 20px;
+                  padding-top: 20px;
+                  font-size: 24px !important;
+                  color:  #6d6e71;
+                  float: right;" 
+                  ng-click="deleteRuleClicked(ruleref,$event)">
+            <md-tooltip md-delay="0" md-direction="top">
+                Delete
+            </md-tooltip>
+            delete
+        </md-icon> -->
+        <md-icon  class="edit"  ng-show="$parent.sandboxMode" 
+                  style="cursor:pointer; 
+                  margin-right: 20px;
+                  margin-top: 23px;
+                  font-size: 18px !important;
+                  color:  #6d6e71;
+                  float: right;" 
+                  ng-click="editRuleClicked(ruleref)">
+            <md-tooltip md-delay="0" md-direction="top">
+                Edit
+            </md-tooltip>
+            edit
+        </md-icon>
+        <md-button ng-show="ruleref.groupInfo.id == '-1'"
+            class="md-accent md-raised md-button md-ink-ripple" 
+                   style="font-weight: bold;
+    height: 32px;
+    background-color: rgba(255, 249, 219, 0.4);
+    color: rgb(74, 144, 226);
+    border: 1px solid;
+    border-radius: 2px;
+    cursor: default;
+    font-size: 10px;
+    padding: 0;
+    margin-top: 23px;
+    min-width: 32px;
+    min-height: 18px;
+    width: 32px;
+    height: 18px;
+    line-height: 1;
+    float:right;
+    text-transform: none;
+    margin-right:16px">
+          New
+        </md-button>
+    </div>
+    <style type="text/css">
+  .invisible{
+    visibility:hidden;
+  }
+  .arrowdown , .arrowup{cursor: pointer;}
+  .rule-state {
+      float: right;
+  }
+  .wl-count {
+      margin:16px 0px 16px 35px;
+      float: left;
+  }
+   .md-button.md-accent.md-raised.workloadCounter,.md-button.md-accent.md-raised.workloadCounter:hover{
+    background-color: #13ce66;
+  }
+   .md-button.md-accent.md-raised.workloadCounter.unsecuredWL{
+    background-color: #ffc030;
+  }
+</style>
+</div>

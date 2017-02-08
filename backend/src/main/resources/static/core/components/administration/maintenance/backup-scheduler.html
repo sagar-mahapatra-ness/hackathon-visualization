@@ -1,0 +1,74 @@
+<div layout="column" layout-align="start center" class="content-height-fixer backup-restore">
+    <div class="admin-page-component-header">
+        Automated Backup <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_system_maintenance_help')" style="margin-right:0px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div> 
+    <form name='backupSchedulerForm' class="backup-restore-form">
+
+        <!-- div layout="column" class="section-existing-ip-pools"--> 
+        <section layout="row" layout-align="space-between stretch">         
+        <md-content class="single-col-component elem-width-large">                              
+            <label>{{backupscheduler_enable}}</label>                                                    
+            <md-radio-group class="radio-selection-grp" ng-model="backupscheduler.enable" layout="row" ng-click="radioClicked()">
+                <md-radio-button value=1>Yes</md-radio-button>
+                <md-radio-button value=0>No</md-radio-button>
+            </md-radio-group>                 
+        </md-content>        
+        </section>
+        
+        <div ng-if="backupscheduler.enable && backupscheduler.enable" class="animate-if elem-width-large">
+            <!--
+            <md-input-container class="md-block">
+                <label>{{backupscheduler_defdirloc}}</label>
+                <input name='defdirloc' ng-model="backupscheduler.defdirloc" ng-disabled=true>
+            </md-input-container>                
+            -->
+
+            <md-input-container class="md-block">
+                <label>Type</label>
+                <md-select name='backupdataforType' ng-model="backupscheduler.type" required>
+                    <md-option ng-repeat="type in backuptypes.types" value="{{type.value}}">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+                <div ng-messages="backupSchedulerForm.backupdataforType.$error" role="alert">
+                    <div ng-message="required">This is required.</div>
+                </div>
+            </md-input-container>
+                           
+            <md-content class="md-block">
+                <div layout="column">
+                <label>{{backupscheduler_frequency}}</label>  
+                <md-checkbox 
+                    ng-model="backupscheduler.daily"
+                    aria-label="daily">
+                    Daily
+                </md-checkbox>                    
+                </div>
+            </md-content>
+            <md-input-container class="md-block">
+                <label>{{backupscheduler_starttime}}:&nbsp;</label>
+                <mdp-time-picker name="scheduletime" mdp-format="HH:mm A" ng-model="backupscheduler.time" required>
+                    <div ng-messages="backupSchedulerForm.scheduletime.$error">
+                        <div ng-message="required">This is required</div>
+                        <div ng-message="format">Invalid format</div>
+                    </div>
+                </mdp-time-picker>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>{{backupscheduler_targetdirloc}}</label>
+                <input name='altdirloc' ng-model="backupscheduler.targetdirloc">
+            </md-input-container>
+
+            <section layout="row" layout-align="space-between stretch">
+                <label>&nbsp;</label>
+                <md-button ng-if="is_update_maintenance" class="md-accent backup-restore-buttom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                           ng-click = "scheduleBackup()"
+                           ng-disabled = "!backupscheduler.daily">
+                    Save
+                </md-button>
+            </section>
+        </div>
+
+    </form>            
+ </div>

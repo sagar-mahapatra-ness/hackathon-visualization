@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.ness.hackathon</groupId>
+    <artifactId>shieldx-visualization</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>frontend</artifactId>
+   <build>
+	  <resources>
+		  <resource>
+			    <directory>out</directory>
+		  </resource>
+	 </resources>
+	   <plugins>
+		  <plugin>
+             <groupId>com.github.eirslett</groupId>
+             <artifactId>frontend-maven-plugin</artifactId>
+             <executions>
+                <!--  <execution>
+                     <id>install node and npm</id>
+                     <goals>
+                         <goal>install-node-and-npm</goal>
+                     </goals>
+                     <phase>generate-resources</phase>
+                     <configuration>
+                         <nodeVersion>v5.3.0</nodeVersion>
+                         <npmVersion>3.3.12</npmVersion>
+                     </configuration>
+                </execution>
+                <execution>
+                     <id>sudo npm install</id>
+                     <goals>
+                        <goal>npm</goal>
+                     </goals>
+                     <phase>generate-resources</phase>
+                </execution>
+				 <execution>
+                     <id>bower install material-design-icons</id>
+                     <goals>
+                        <goal>bower</goal>
+                     </goals>
+					 <configuration>
+                        <arguments>install material-design-icons</arguments>
+                     </configuration>
+                     <phase>process-resources</phase>
+                </execution>
+                <execution>
+                     <id>bower install</id>
+                     <goals>
+                        <goal>bower</goal>
+                     </goals>
+                     <configuration>
+                        <arguments>install</arguments>
+                     </configuration>
+					 <phase>process-resources</phase>
+                </execution>  
+                <execution>
+                     <id>gulp build</id>
+                     <goals>
+                         <goal>gulp</goal>
+                     </goals>
+                     <phase>compile</phase>
+                </execution> -->
+            </executions>
+         </plugin> 
+     </plugins> 
+</build>
+</project>
