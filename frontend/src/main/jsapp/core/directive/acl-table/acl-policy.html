@@ -1,0 +1,322 @@
+<md-dialog aria-label="Acl policy New Rule Details" ng-cloak class="fullscreen-dialog admin-page acl-policy-new-rule-details">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" ng-click="cancelAddRuleDialogue()">
+                <md-icon aria-label="Close dialog">clear</md-icon>
+            </md-button>
+            <h2 ng-if="mode === 'edit_mode' ">Edit Access Control Policy</h2>
+            <h2 ng-if="mode === 'add_mode' ">Add Access Control Policy</h2>
+            <span flex></span>
+            <!-- ng-disabled="saveupdatepolicyAdd" -->
+            <md-button class="md-accent md-raised modal-done-button" type="submit" ng-click="updateAddRuleToAcl()" ng-disabled="!aclnewRForm.$dirty || aclnewRForm.$invalid">
+                Add
+            </md-button>
+        </div>
+    </md-toolbar>
+    <section layout="row" flex>
+        <!--<section class="elem-width-large" layout="column" style="margin: 0 auto;">-->
+        <md-content flex layout="column" layout-align="start none" class="content-height-fixer">
+            <md-toolbar layout="row" layout-align="start center" class="admin-toolbar">
+                <div class="add-new-policy-header">
+                    <span class="add-rule-title" style="cursor:pointer;" ui-sref="home.policy.policylist.accesscontrol"  ng-click="cancelAddRuleDialogue();"> {{ 'admin.policy.accessPolicy.heading' | translate}}  </span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> <span ng-if="mode === 'add_mode' "> Add Rule</span> <span ng-if="mode === 'edit_mode' ">Edit Rule </span>
+                </div>
+            </md-toolbar>
+            <section layout="row">
+                <form name="aclnewRForm" novalidate="true" class="acl-new-rule-form">
+                    <section layout="column">
+                        <span class="new-policy-heading"> 1. Name and describe your rule</span>
+                        <md-input-container class="md-block elem-width-medium">
+                            <label>Name</label>
+                            <input md-maxlength="100" name='aclruleName' id="aclrulename" ng-model="aclrulename" ng-pattern="/^[a-zA-Z0-9 _.-]*$/" required>
+                            <div ng-messages="aclnewRForm.aclruleName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-block elem-width-medium">
+                            <label>Description</label>
+                            <input md-maxlength="100" name='aclruledesc' id="aclruledesc" ng-model="aclruledes" ng-pattern="/^[a-zA-Z0-9 _.-]*$/">
+                            <div ng-messages="aclnewRForm.aclruledesc.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                            </div>
+                        </md-input-container>
+                    </section>
+                    <section layout="column">
+                        <div layout="row">
+                            <span class="new-policy-heading"> 2. Which <span class="policy-name-color"> Resource Groups </span> do you want to permit/block?</span>
+                            <div class="buttons-edit" ng-show="!RemoveExistingData">
+                                <md-button  ng-show="ResGroupRadioSelected" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click='callResourceGroupList($event,"Server Objects")'>
+                                    <md-tooltip md-delay="250" md-direction="bottom">Edit Data
+                                    </md-tooltip>
+                                    <md-icon class="icon-18">edit</md-icon>
+                                </md-button> 
+                                <md-button ng-show="ResGroupRadioSelected || cidrList[0].value !== '' || cidrList.length > 1" class="md-icon-button" ng-click="cancelDataForTheExisting(selectedprotocolCidr)" >
+                                    <md-tooltip md-delay="250" md-direction="bottom">clear Data
+                                    </md-tooltip>
+                                    <md-icon  class="icon-18" aria-label="Close dialog">clear</md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <md-radio-group ng-model="selectedprotocolCidr" ng-change="onSelectProtocolCidrsChanged(selectedprotocolCidr)" layout="row">
+                                <md-radio-button value="{{item}}" ng-repeat="item in ['Server Objects','CIDRs']" aria-label="{{item}}">{{item}}</md-radio-button>
+                            </md-radio-group>
+                        </div> 
+                        <div ng-show="RemoveExistingData" style='margin-top: 25px;'>
+                            <div ng-show="selectedprotocolCidr === 'CIDRs'" layout="column">
+                                <span>To create CIDRs you must first clear Server Objects  </span>
+                                <md-button class="md-primary md-hue-3 clear-icon-on-rule" ng-click="cancelDataForTheExisting('Server Objects')">CLEAR Server Objects
+                                </md-button>
+                            </div>
+                            <div layout="column" ng-show="selectedprotocolCidr === 'Server Objects'">
+                                <span>To create Server Objects you must first clear CIDRs  </span>
+                                <md-button class="md-primary md-hue-3 clear-icon-on-rule" ng-click="cancelDataForTheExisting('CIDRs')">CLEAR CIDRs
+                                </md-button>
+                            </div>
+                        </div>-->
+                        <div ng-show="!RemoveExistingData" style='margin-top: 25px;'>
+                            <div ng-show="selectedprotocolCidr === 'Server Objects' ">
+                                <md-progress-circular ng-hide="!resPromiseComplited" class="md-accent" md-diameter="40"></md-progress-circular>
+                                <div ng-if="!ResGroupRadioSelected" layout="column">
+                                    <md-button class="md-primarymd-hue-3 select-add-rule-button" ng-click="callResourceGroupList($event)" ng-show="!resPromiseComplited">
+                                        <span>Select</span>
+                                    </md-button>
+                                </div>
+                                <div ng-show="ResGroupRadioSelected" layout="column">
+                                    <md-table-container>
+                                        <table md-table md-row-select ng-model="rsGroupselectedValues"  >
+                                            <thead md-head>
+                                                <tr md-row>
+                                                    <th md-column>Name</th>
+                                                    <th md-column><span >Created By</span></th>
+                                                    <th md-column><span>Last Updated</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody md-body>
+                                                <tr md-row md-auto-select md-select="item" md-select-id="name" ng-repeat="item in selectedCopyResList " ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-show="$index < 3 || showMoreResGruops">
+                                                    <td md-cell>{{item.name}}</td>
+                                                    <td md-cell>-</td>
+                                                    <td md-cell>-</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </md-table-container>
+                                   <!--  <span ng-repeat="item in selectedResGroupObj track by $index" ng-show="$index < 3 || showMoreResGruops">{{item}}</span> -->
+                                   <span ng-show="selectedCopyResList.length > 3" class="policy-title" ng-click="showMoreResGruops = !showMoreResGruops">
+                                <span ng-show="!showMoreResGruops"> + {{selectedCopyResList.length - 3}}more </span>
+                                    <span ng-show="showMoreResGruops">Show less</span>
+                                    </span>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </section>
+                    <section layout="column">
+                        <div layout="row">
+                            <span class="new-policy-heading"> 3. Which  <span class="policy-name-color"> AppIDs </span>or <span class="policy-name-color"> L4 Protocols </span>do you want this rule to delete/block?
+                            </span>
+                            <div class="buttons-edit" ng-show="!RemoveExistingDataForAPPProto">
+                                <md-button  ng-show="appIDSelected || protocolSelected" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click='callToOpenPopUpForProtocolAppId($event,selectedAppIDProtocol)'>
+                                    <md-tooltip md-delay="250" md-direction="bottom">Edit Data
+                                    </md-tooltip>
+                                    <md-icon class="icon-18">edit</md-icon>
+                                </md-button> 
+                                <md-button ng-show="appIDSelected || protocolSelected" class="md-icon-button" ng-click="cancelDataForTheExisting(selectedAppIDProtocol)" >
+                                    <md-tooltip md-delay="250" md-direction="bottom">clear Data
+                                    </md-tooltip>
+                                    <md-icon class="icon-18" aria-label="Close dialog">clear</md-icon>
+                                </md-button>
+                            </div>
+                        </div>
+                        <div>
+                            <md-radio-group ng-model="selectedAppIDProtocol" ng-change="onSelectProtocolCidrsChanged(selectedAppIDProtocol)" layout="row">
+                                <md-radio-button value="{{item}}" ng-repeat="item in ['AppIDs','L4 Protocols']" aria-label="{{item}}">{{item}}</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                        <div ng-show="RemoveExistingDataForAPPProto" style='margin-top: 25px;'>
+                            <div ng-show="selectedAppIDProtocol === 'AppIDs'" layout="column">
+                                <span>To create AppIDs you must first clear L4 Protocols  </span>
+                                <md-button class="md-primary md-hue-3 clear-icon-on-rule" ng-click="cancelDataForTheExisting('L4 Protocols')">CLEAR L4 Protocols
+                                </md-button>
+                            </div>
+                            <div layout="column" ng-show="selectedAppIDProtocol === 'L4 Protocols'">
+                                <span>To create L4 Protocols you must first clear AppIDs  </span>
+                                <md-button class="md-primary md-hue-3 clear-icon-on-rule" ng-click="cancelDataForTheExisting('AppIDs')">CLEAR AppIDs
+                                </md-button>
+                            </div>
+                        </div>
+                        <div ng-show="!RemoveExistingDataForAPPProto" style='margin-top: 25px;'>
+                            <div ng-show="selectedAppIDProtocol === 'AppIDs' ">
+                                <!-- <label>AppIDs to Monitor </label> -->
+                                <!-- {{list_app_activated}} -->
+                                 <md-progress-circular ng-hide="!list_app_activated" class="md-accent" md-diameter="40"></md-progress-circular>
+                                <md-button class="md-primarymd-hue-3 select-add-rule-button" ng-click="callgetListPopUp($event,'AppId')" ng-show="!appIDSelected && !list_app_activated">
+                                    <span>Select</span>
+                                </md-button>
+                                <div ng-show="appIDSelected" layout="column">
+                                    <!--    <span ng-repeat="(key,item) in selectedAPPIDObj">{{item}} </span> -->
+                                    <span ng-repeat="item in selectedAPPIDObj track by $index" ng-show="$index < 3 || showMoreAppIds">{{item}}</span><span ng-show="selectedAPPIDObj.length > 3" class="policy-title" ng-click="showMoreAppIds = !showMoreAppIds">
+                                <span ng-show="!showMoreAppIds"> + {{selectedAPPIDObj.length - 3}}more </span>
+                                    <span ng-show="showMoreAppIds">Show less</span>
+                                    </span>
+                                    <!--   <md-icon class="material-icons" ng-click="callgetListPopUp($event,'AppId')">edit</md-icon> -->
+                                </div>
+                            </div>
+                            <div ng-show="selectedAppIDProtocol === 'L4 Protocols' ">
+                                <!-- <label>L4 Protocols to Monitor </label> -->
+                                <md-button class="md-primarymd-hue-3 select-add-rule-button" ng-click="callgetprotocolListPopUp($event,'Protocols')" ng-show="!protocolSelected">
+                                    <span>Select</span>
+                                </md-button>
+                                <span ng-show="protocolSelected" ng-model="aclnewRForm.protocolName" value="{{protocolSelectedValue.protocolName}}">{{protocolSelectedValue.protocolName}} <!-- <md-icon class="material-icons" ng-click="callgetprotocolListPopUp($event,'Protocols')">edit</md-icon> --></span>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <section layout="column">
+                        <span class="new-policy-heading"> 4. L4 Protocols to Monitor</span>
+                        <label>L4 Protocols to Monitor </label>
+                        <md-button class="md-primarymd-hue-3 select-add-rule-button" ng-click="callgetprotocolListPopUp($event,'Protocols')" ng-show="!protocolSelected">
+                            <span>Select</span>
+                        </md-button>
+                        <span ng-show="protocolSelected" ng-model="aclnewRForm.protocolName" value="{{protocolSelectedValue.protocolName}}">{{protocolSelectedValue.protocolName}} <md-icon class="material-icons" ng-click="callgetprotocolListPopUp($event,'Protocols')">edit</md-icon></span>
+                    </section> -->
+                    <section layout="column" class="input-ranges">
+                        <span class="new-policy-heading" style="margin-bottom:0;margin-top:0;"> 4. Enter Port Number or Port Range</span>
+                        <div style='margin-top: 12px;' ng-repeat="(key ,range) in rangesList" layout='column'>
+                            <md-content layout="row" style="padding-top: 14px;">
+                                <!-- ng-keydown="endRangeKeyDown($event,range)"  -->
+                                <md-input-container class="md-block elem-width-medium">
+                                    <label>Port Number</label>
+                                    <input portnumbervalidation type="text" name='portnumber{{key}}' aria-label="portnumber{{key}}" ng-model="range.portnumber" ng-pattern="/^[0-9]*$/" value={ {range.portnumber}} ng-disabled="!range.PortnumberEnableState" ng-change="endRangeKeyDown($event,range)">
+                                    <!-- createPortMessage(aclnewRForm, key)" -->
+                                    <div class="errors" ng-messages=" aclnewRForm['portnumber'+key].$error">
+                                        <div ng-message="required ">This is required.</div>
+                                        <div ng-message="invalidrange " style="opacity: 1; margin-top: 0px; "> Invalid Portnuber.Portnumber should be between 0 to 65535
+                                        </div>
+                                        <div ng-message="pattern ">Only numeric values are allowed.</div>
+                                    </div>
+                                </md-input-container>
+                                <span style="margin-top:18px;margin-left:16px;">or</span>
+                                <!-- ng-keydown="endRangeKeyDown($event,range) "  -->
+                                <md-input-container>
+                                    <label>Range Start</label>
+                                    <input rangevalidation ng-pattern="/^[0-9]*$/ " name='startrange{{key}}' aria-label="startrange{{key}} " ng-model="range.start " rangecomp="{{range.end}} " rangetype="start " ng-disabled="!range.rangeEndEnableState " ng-change="endRangeKeyDown($event,range) " endeange="65535">
+                                    <!-- {{aclnewRForm['startrange'+key].$error}} -->
+                                    <div class="errors " ng-messages="aclnewRForm['startrange'+key].$error ">
+                                        <div ng-message="required ">This is required.</div>
+                                        <div ng-message="pattern ">Only numbers are allowed.</div>
+                                        <div ng-message="invalidrange " style="opacity: 1; margin-top: 0px; "> Invalid range. Start range should be less than end range and value should be between 0 to 65535
+                                        </div>
+                                    </div>
+                                </md-input-container>
+                                &nbsp; &nbsp;
+                                <span style="margin-top:18px;margin-left:16px;">-</span>
+                                <!-- ng-keydown="endRangeKeyDown($event,range) "  -->
+                                <md-input-container>
+                                    <label>Range End</label>
+                                    <input rangevalidation ng-pattern="/^[0-9]*$/ " name='endrange{{key}}' aria-label="endrange{{key}} " min='{{range.start + 1 }}' ng-model="range.end " rangecomp="{{range.start}} " rangetype="end " ng-disabled="!range.rangeEndEnableState " ng-change="endRangeKeyDown($event,range) " endeange="65535">
+                                    <!-- createACLRangeEndMessage(aclnewRForm, key)  -->
+                                    <div class="errors " ng-messages="aclnewRForm['endrange'+key].$error">
+                                        <div ng-message="invalidrange " style="opacity: 1; margin-top: 0px; "> Invalid range. Start range should be less than end range and value should be between 0 to 65535
+                                        </div>
+                                        <div ng-message="required ">This is required.</div>
+                                        <div ng-message="min ">The value should be greater than start value.</div>
+                                        <div ng-message="pattern ">Only numbers are allowed.</div>
+                                    </div>
+                                </md-input-container>
+                                &nbsp;&nbsp;
+                                <md-button ng-hide="rangesList.length===1 && rangesAvaliable === false " class="md-icon-button md-primary md-hue-3 " aria-label="Delete range list " ng-click="deleterange(range, vlanPoolObject) ">
+                                    <md-tooltip md-delay="250" md-direction="bottom ">
+                                        Delete range
+                                    </md-tooltip>
+                                    <md-icon class="icon-18">delete</md-icon>
+                                </md-button>
+                            </md-content>
+                        </div>
+                        <div class="add-anthor-range ">
+                            <md-icon class="material-icons icon-18">add_circle_outline</md-icon><span ng-click="addAnthorRange()" style="font-size:14px;cursor: pointer;">Add another Port Number or Port Range</span>
+                        </div>
+                    </section>
+                    <!-- <section layout="column " class="select-dropdown ">
+                        <span class="new-policy-heading "> 6. Select Record in Log</span>
+                        <md-input-container>
+                            <label>Record in Log </label>
+                            <md-select ng-model="aclnewRForm.log ">
+                                <md-option ng-repeat="value in [ 'Dafault', 'No', 'Yes'] " ng-value="value ">
+                                    <span> {{value}}</span>
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </section> -->
+                    <section layout="column" class="select-dropdown ">
+                        <span class="new-policy-heading "> 5. Which <span class="policy-name-color">action</span> do you want to ShieldX to take with this rule?</span>
+                        <md-input-container>
+                            <label>Action </label>
+                            <md-select ng-model="actionValue " style="width: 130px; ">
+                                <md-option ng-repeat="(key,value) in actionList " ng-value="value ">
+                                    <span>{{value}}</span>
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </section>
+                    <section layout="column" >
+                        <span class="new-policy-heading "> 6. Set Rule Status (Enabled by default)</span>
+                        <div layout="row ">
+                            <md-checkbox id="enable " name="enable " ng-model="enableButtonChecked " aria-label="Enable "></md-checkbox>
+                            <span>Enable</span>
+                        </div>
+                    </section>
+                    <section ng-show="actionValue==='PERMIT'" layout="column" >
+                        <span class="new-policy-heading "> 7. TLS Inspection (Enabled by default)</span>
+                        <div layout="row ">
+                            <md-checkbox id="enableTLS " name="enableTLS " ng-model="enableTLSInspection" aria-label="Enable "></md-checkbox>
+                            <span>Enable</span>
+                        </div>
+                    </section>
+                    <!--                     <section layout="row ">
+                        <md-button class="md-accent md-raised modal-done-button " ng-click="callUpdatePolicyData() ">
+                            CANCEL
+                        </md-button>
+                        <md-button class="md-accent md-raised modal-done-button " type="submit ">
+                            ADD
+                        </md-button>
+                    </section> -->
+                </form>
+            </section>
+        </md-content>
+    </section>
+</md-dialog>
+
+  <!-- <div ng-show="selectedprotocolCidr === 'CIDRs'">
+                                <div style='margin-top: 25px;' ng-repeat="(key ,cidr) in cidrList" layout='column'>
+                                    <div layout="row">
+                                        <md-input-container class="md-block elem-width-small">
+                                            <label>{{ 'wizard.ippool.cidr' | translate }}</label>
+                                            <input name="cidrValue{{key}}" md-maxlength="20" ng-model="cidr.value" aria-label="cidrValue{{key}}" ng-pattern="/^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$/" />
+                                            
+                                            <div class="errors" ng-messages="aclnewRForm['cidrValue'+key].$error">
+                                                <div ng-message="invalidcidr">Invalid CIDR format</div>
+                                              
+                                                <div ng-message-exp="max-length"> The end range has to be less than 20 characters long.</div>
+                                                <div ng-message="pattern">Not a valid CIDR format</div>
+                                            </div>
+                                        </md-input-container>
+                                        &nbsp;&nbsp;
+                            
+                                    </div>
+                                </div>
+                             
+                            </div> -->
+                            <!-- createCidrMessage(aclnewRForm, key) -->
+                              <!-- <div ng-message-exp="['required']"> This is required. </div> -->
+                               <!-- <div class="add-anthor-range ">
+                                 <md-icon class="material-icons ">add_circle_outline</md-icon><span ng-click="addAnthorCidr() " style="cursor: pointer;">Add another CIDR</span>
+                            </div> -->
+                                       <!--  <md-button ng-hide="cidrList.length===1 " class="md-icon-button md-primary md-hue-3 " aria-label="Delete range list " ng-click="deleteCidr(cidr, cidrList) ">
+                                            <md-tooltip md-delay="250" md-direction="bottom ">
+                                                Delete CIDR
+                                            </md-tooltip>
+                                            <md-icon>delete</md-icon>
+                                        </md-button> -->

@@ -1,0 +1,235 @@
+<div ui-view id="admin-user" class="admin-page" layout='row' layout-align="start stretch">
+    <div class="left-panel content-height-fixer" flex layout="column" layout-align="space-between none" style="margin:0 24px;">
+        <md-toolbar layout="row" layout-align="space-between center" class="admin-toolbar" style="padding:0;">
+            <div>
+                {{ 'admin.user.heading' | translate}}
+            </div>
+            <div class="control-tray" layout="row">
+                <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click="clearUserListFromSession()">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Refresh Data
+                    </md-tooltip>
+                    <md-icon>cached</md-icon>
+                </md-button>
+                <md-button ng-if="is_create_user" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="add" ng-click='callpopupToAddUser()'>
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Add New
+                    </md-tooltip>
+                    <md-icon>add_circle_outline</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Search
+                    </md-tooltip>
+                    <md-icon>search</md-icon>
+                </md-button>
+
+
+            </div>
+
+        </md-toolbar>
+
+        <md-table-container>
+            <table md-table md-row-select ng-model="selected"   md-progress="promise">
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column></th>
+                        <!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN HEADERS -->
+                        <!--<th md-column><span>Status</span></th>   //COMMENTING AS PER SUGGESTED BY MANOJ -->
+                        <th md-column><span>Login</span></th>
+                        <th md-column><span>Name</span></th>
+                        <th md-column><span>Authentication Type</span></th>
+                        <th md-column><span>Role</span></th>
+                        <!-- END -->
+                    </tr>
+                </thead>
+                <tbody md-body ng-show="usersAvailable">
+                    <tr class="searchbar" ng-show="isSearchBarOpen">
+                        <td></td>
+                        <td><search datalist='users' searchconfig='{listname:"users", searchkeylocale: "!", key:"login"}' showicon='false'></search></td>
+                        <td><search datalist='users' searchconfig='{listname:"users", searchkeylocale: "!", key:"name"}' showicon='false'></search></td>
+                        <td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='users' searchconfig='{listname:"users", searchkeylocale: "!", key:"authType"}' showicon='false'></search></td>
+                        <td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='users' searchconfig='{listname:"users", searchkeylocale: "!", key:"role"}' showicon='false'></search></td>
+                    </tr>
+                    <tr md-row md-auto-select md-select="user" md-select-id="name" ng-repeat="user in users | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                        <td md-cell class="button-cluster" ng-class="{show : hover}">
+                            <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="info" ng-click="updateAdornmentPanel($event,user)">
+                                <md-tooltip md-delay="250" md-direction="bottom">
+                                    Information
+                                </md-tooltip>
+                                <md-icon class="icon-18">info_outline</md-icon>
+                            </md-button>
+                            <md-button ng-if="is_delete_user" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="delete" ng-click='deleteUser(user)'>
+                                <md-tooltip md-delay="250" md-direction="bottom">
+                                    Delete User
+                                </md-tooltip>
+                                <md-icon  class="icon-18">delete</md-icon>
+                            </md-button>
+                        </td>
+                        <td md-cell><span>{{user.login}}</span></td>
+                        <td md-cell><span>{{user.name}}</span></td>  
+                        <td md-cell><span>{{user.authType}}</span></td> 
+                        <td md-cell><span>{{user.role}}</span></td>  
+                        <!-- END -->        
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+
+        <div flex></div>
+        <md-content layout="row" layout-align="space-between none" class="admin-footer">
+           <!--  <section class="download-file" ><md-icon class="md-18">file_download</md-icon>Download Import Template</section> -->
+            <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(users.length)? users.length : 0 }}" md-page-select>
+            </md-table-pagination>
+        </md-content>
+    </div>
+    <div class="adornment-panel" flex="25" ng-show="isAdornmentPanelOpen">
+        <md-toolbar layout='row' class="md-primary md-hue-3">
+            <md-button class="md-icon-button md-primary md-hue-2" aria-label="close" ng-click="toggleAdornmentPanel()">
+                <md-icon>close</md-icon>
+            </md-button>
+            <span>Information</span>
+        </md-toolbar>
+            <section>
+                <md-subheader class="sub-header">
+                    Details
+
+                    <md-icon  ng-show="!editMiscState && is_update_user" class="edit" ng-click="editMiscUserData()">edit</md-icon>
+                    <md-button class="md-icon-button apply" 
+                               aria-label="edit" 
+                               ng-show="editMiscState" 
+                               ng-click="updateUserData()"
+                               style='float:right;  margin-top: -12px;'>
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Apply
+                        </md-tooltip>
+                        <md-icon class="md-icon-button" 
+                               ng-if="userFormValid"
+                                 style='float:right;'>
+                            done
+                        </md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" 
+                               aria-label="discard" 
+                               ng-show="editMiscState"
+                               style='float:right; margin-top: -12px;' 
+                               ng-click="discardMiscChanges()">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Discard Changes
+                        </md-tooltip>
+                        <md-icon>clear</md-icon>
+                    </md-button> 
+                </md-subheader>
+                <md-content class="content" layout="column" ng-hide="editMiscState">
+                    <span class="section-header">Login</span>
+                    <span class="section-text">{{adornmentData.login}}</span>
+                    <span class="section-header">Name</span>
+                    <span class="section-text">{{adornmentData.name}}</span>
+                    <span class="section-header">Authentication Type</span>
+                    <span class="section-text">{{adornmentData.authType}}</span> 
+                    <span ng-if="adornmentData.authType === 'LDAP'" class="section-header">User DN</span>
+                    <span ng-if="adornmentData.authType === 'LDAP'" class="section-text">{{adornmentData.userDN}}</span>  
+                    <span class="section-header">Role</span>
+                    <span class="section-text">{{adornmentData.role}}</span>          
+                    <span class="section-header">Password</span>
+                    <span class="section-text">******</span>
+                </md-content>
+                <md-content class="content" layout="column" ng-hide="!editMiscState">
+                    <form name='userForm' novalidate="true">
+                        <md-input-container>
+                            <label>Login</label>
+                            <input 
+                                md-maxlength="40"
+                                name='Login' 
+                                ng-model="tempUserData.login" 
+                                ng-pattern="/^[a-zA-Z0-9.-\s]*$/"
+                                ng-change="validateUserForm()"
+                                required>
+                            <div ng-messages="userForm.Login.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The login has to be less than 40 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-", " " are allowed.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Name</label>
+                            <input 
+                                md-maxlength="40"
+                                name='Name' 
+                                ng-model="tempUserData.name" 
+                                ng-pattern="/^[a-zA-Z0-9.-\s]*$/"
+                                ng-change="validateUserForm()"
+                                required>
+                            <div ng-messages="userForm.Name.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than 40 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-", " " are allowed.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Authentication Type</label>
+                            <input 
+                                name='authType' 
+                                ng-model="tempUserData.authType" 
+                                ng-change="validateUserForm()"
+                                ng-disabled="true"
+                                required>
+                            <div ng-messages="userForm.authType.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Role</label>
+                             <md-select name='role' ng-model="tempUserData.role" ng-change="validateUserForm()" required>
+                                    <md-option ng-repeat="type in role.types" value="{{type.value}}">
+                                                {{type.name}}
+                                    </md-option>
+                            </md-select>
+                            <div ng-messages="userForm.role.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container ng-if="tempUserData.authType === 'LDAP'">
+                            <label>User DN</label>
+                            <input 
+                                name='userDN' 
+                                ng-model="tempUserData.userDN" 
+                                ng-change="validateUserForm()"
+                                required>
+                            <div ng-messages="userForm.userDN.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container layout="row" layout-align="space-around start">
+                            <div>
+                                <label>Password</label>
+                                <input type='{{pwdType}}' 
+                                       name='password' 
+                                       ng-model="tempUserData.password" 
+                                       ng-change="validateUserForm()" 
+                                       required >
+                                <div ng-messages="userForm.password.$error" role="alert">
+                                    <div ng-message='required'>
+                                        This is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <md-icon 
+                                    ng-click='togglePasswordType()' 
+                                    ng-show="pwdType==='password'" 
+                                    class="show-key">visibility</md-icon>
+                                <md-icon 
+                                    ng-click='togglePasswordType()' 
+                                    ng-show="pwdType==='text'" 
+                                    class="show-key">visibility_off</md-icon>
+                            </div>
+                        </md-input-container>
+                    </form>
+                </md-content>
+            </section>
+        <div flex></div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<md-dialog aria-label="List dialog" class="ip-config-dialog">
+    <md-dialog-content>
+             <section>
+             	term message
+             </section>
+    </md-dialog-content>
+    <md-dialog-actions>
+        <div layout="row">
+            <md-button  ng-click="closeDialog()" class=" md-accent md-hue-3">{{ 'wizard.ippool.cancel' | translate }}</md-button>
+            <md-button ng-click="closeDialogWithAnswer(selectedNetworkID)" ng-disabled="!selectEnableState" class=" md-accent md-raised" style="color: #FFFFFF;">{{ 'wizard.ippool.select' | translate }}</md-button>
+        </div>
+    </md-dialog-actions>
+</md-dialog>

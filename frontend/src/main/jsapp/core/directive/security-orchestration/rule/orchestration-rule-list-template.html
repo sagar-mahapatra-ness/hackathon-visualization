@@ -1,0 +1,79 @@
+<section style="width:100%" id="dragAndDropContainer">
+    <section  id="{{rule.id}}" style="width:100%"  ng-repeat="(key, rule) in rules| orderBy:'precedence' " ng-show="sandboxMode">
+        <orchestrationrulestrip configinfo="configinfo" ruleref="rule" lastindex = "rules.length"  broadcastevent="broadcastListSOREvents(event,args)" totalrules="rules"></orchestrationrulestrip>
+    </section>
+        <section  id="{{rule.id}}" style="width:100%"  ng-repeat="(key, rule) in activeRules | orderBy:'precedence' " ng-show="!sandboxMode">
+        <orchestrationrulestrip configinfo="configinfo" ruleref="rule" lastindex = "activeRules.length"  broadcastevent="broadcastListSOREvents(event,args)" totalrules="rules"></orchestrationrulestrip>
+    </section>
+<!--    <section  id="a{{rule.id}}" style="width:100%"  ng-repeat="(key, rule) in activeRules |  orderBy:'precedence' " ng-show="!sandboxMode && activeRules.length > 0">
+        <orchestrationrulestrip configinfo="configinfo" ruleref="rule" lastindex = "activeRules.length"  broadcastevent="broadcastListSOREvents(event,args)" totalrules="activeRules"></orchestrationrulestrip>-->
+    <section ng-show="!sandboxMode && activeRules.length === 0">
+                    <div id="help-instruction" 
+                     layout="column" layout-align="end center"
+                     style="padding:24px;">
+                    <div style="margin-bottom:16px;"><img src="images/Bulp.svg" alt="group"></div>
+                    <div style="text-align: center; color: rgba(0,0,0,.4);margin-bottom:32px;">
+                        To secure your <span class="active-link">workloads</span>, 'Create New Rules' and ShieldX will guide you in adding and testing rules for grouping applying security policies to the workloads and <span class="active-link">networks</span> in your data plane.
+                    </div>
+                    <div style="margin-bottom:32px;width:32px;">
+                        <md-icon style="font-size: 32px;">arrow_downward</md-icon>
+                    </div>
+                    <!-- <div> -->
+                        <!-- <md-button ng-hide="configinfo.mode === 'edit_rc' " class="md-accent md-raised tomato-button begin-setup-button md-button md-ink-ripple" ng-click="onCreateNewRuleClicked()" style="font-weight: bold;height: 42px;">CREATE NEW RULE</md-button> -->
+                        <div class="rule-button-set">
+                            <md-button ng-hide="configinfo.mode === 'edit_rc' " class="md-accent md-raised tomato-button begin-setup-button md-button md-ink-ripple" ng-click="onCreateNewRuleClicked()" style="box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.26); font-weight: bold;max-height: 36px;padding: 5px 36px !important;line-height: 0;"> CREATE RULE
+                            </md-button>
+                        </div>
+                    <!-- </div> -->
+                </div>
+        </section>
+<!--    <div layout="column" layout-align="center start" style="margin-top:25px; width: 100%; border-bottom:1px solid rgba(109, 110, 113, 0.2);padding-bottom:24px;">
+        <div layout="row" layout-align="start center" style="margin-left:20px">
+            <div style="padding-right:20px" layout="column" layout-align="center center">
+                <div class="arrowup" >&nbsp;</div>
+                <div>--</div>
+                <div class="arrowdown">&nbsp;</div>
+            </div>
+            <div layout="column" layout-align="start start">
+                <div layout="row" layout-align="start center">
+                    <div><img src="images/group.png"/></div>
+                    <div style="padding-left:18px; font-size: 16px; font-weight: bold; line-height: 1.25;">
+                        Secured by ShieldX (Default)
+                    </div>
+                </div>
+                <div layout="row" layout-align="start center">
+                    <div>
+                        <md-icon style="font-size: 16px; margin-top:10px;">share</md-icon>
+                    </div>
+                    <div style="padding-left:18px">
+                        <md-icon style="font-size: 16px; margin-top:10px;">drag_handle</md-icon>
+                    </div>
+                    <div>
+                        <span style="font-size: 16px;" class="active-link">???</span>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start center">
+                    <div>
+                        <img src="images/sps.png"/>
+                    </div>
+                    <div class='active-link' style="padding-left:18px">
+                        SPS-Default
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:95%">
+            <md-button class="md-accent md-raised md-button md-ink-ripple wl-count" 
+                       style="font-weight: bold; height: 32px; border-radius: 32px; margin-left: 35px;
+                       background-color: #ffc030; color: #fff;">
+                <md-icon md-svg-src="images/ic_layers_white.svg"></md-icon>
+                9876543
+            </md-button>
+            <div ng-show="sandboxMode ? true : false" class="rule-state">
+                <md-switch ng-disabled="sandboxMode ? false : true" aria-label="Disabled switch">
+                </md-switch>
+            </div>
+        </div>
+    </div>-->
+    <md-divider> </md-divider>
+</section>

@@ -1,0 +1,56 @@
+{
+	"appName" : "shieldxApp",
+	"paths": {
+		"destinationDir": "out",
+		"sourceDir": "src/main/jsapp",
+		"devDir": "dev",
+		"helpDir":"help",
+		"vendorJs": [
+			"bower_components/angular/angular.min.js",
+			"bower_components/angular-mocks/angular-mocks.js",
+			"bower_components/angular-ui-router/release/angular-ui-router.min.js",
+			"bower_components/angular-animate/angular-animate.min.js",
+			"bower_components/angular-aria/angular-aria.min.js",
+			"bower_components/angular-messages/angular-messages.min.js",
+			"bower_components/angular-material/angular-material.min.js",
+			"bower_components/angular-translate/angular-translate.min.js",
+			"bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js",
+            "bower_components/lodash/lodash.js",
+            "bower_components/restangular/dist/restangular.js",
+			"bower_components/d3/d3.min.js",
+			"bower_components/d3-tip/index.js",
+			"bower_components/angular-material-data-table/dist/md-data-table.min.js",
+			"bower_components/v-accordion/dist/v-accordion.js",
+            "bower_components/ngstorage/ngStorage.js",
+            "bower_components/angular-aria/angular-aria.min.js",
+            "bower_components/javascript-detect-element-resize/detect-element-resize.js",
+            "bower_components/dragular/dist/dragular.js",
+            "bower_components/angular-gridster/dist/angular-gridster.min.js",
+            "bower_components/modernizr/src/Modernizr.js",
+            "bower_components/threejs/build/three.min.js",
+            "bower_components/threejs/examples/js/renderers/CSS3DRenderer.js",
+            "bower_components/threejs/examples/js/controls/TrackballControls.js",
+            "bower_components/threejs/examples/js/controls/OrbitControls.js",
+            "bower_components/threejs/examples/js/libs/tween.min.js",
+            "bower_components/moment/min/moment.min.js",
+            "bower_components/mdPickers/dist/mdPickers.js",
+            "bower_components/gsap/src/minified/TweenMax.min.js",
+            "bower_components/angular-sanitize/angular-sanitize.min.js",
+            "bower_components/ng-csv/build/ng-csv.min.js",
+			"bower_components/ng-webworker/src/ng-webworker.js"
+			
+			
+		],
+		"vendorCss": [
+			"bower_components/angular-material/angular-material.css",
+			"bower_components/v-accordion/dist/v-accordion.css",
+			"bower_components/angular-gridster/dist/angular-gridster.min.css",
+			"bower_components/angular-material-data-table/dist/md-data-table.min.css",
+			"bower_components/material-design-icons/iconfont/MaterialIcons-Regular.ttf",
+			"bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff",
+			"bower_components/material-design-icons/iconfont/MaterialIcons-Regular.woff2",
+			"bower_components/dragular/dist/dragular.css",
+			"bower_components/mdPickers/dist/mdPickers.css"
+		]
+	}
+}

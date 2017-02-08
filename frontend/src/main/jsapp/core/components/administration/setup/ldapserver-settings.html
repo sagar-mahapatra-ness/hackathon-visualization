@@ -1,0 +1,89 @@
+<div layout="column" layout-align="start center" class="content-height-fixer smb-server">
+    <div class="smb-config-component-header">
+        LDAP Server Settings<md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_system_setup_configs_help')" style="margin-right:0px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div> 
+    <form name='ldapConfigForm' class="smb-config-form">
+
+        <section layout="column" layout-align="space-between stretch">
+            <md-input-container class="single-col-component elem-width-large">
+                <label>Server Name</label>
+                <input name='servername' md-autofocus ng-model="ldapserver.name"  
+                       ng-pattern="/^[a-zA-Z0-9.-]*$/"
+                       md-maxlength="50"
+                       >
+                <div ng-messages="ldapConfigForm.servername.$error" role="alert">                    
+                    <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                    <div ng-message="md-maxlength">
+                        Server name must be between 1 and 50 characters long.
+                    </div>
+                </div>
+            </md-input-container>
+
+            <div class="ip-or-name-style"> or </div>
+
+            <md-input-container class="md-block">
+                <label>{{smbserver_ipaddress_fqdn}}</label>
+                <input name='ldapIpFqdn' ng-model="ldapserver.ip">
+                <!--
+                <input name='smbIpFqdn'  ng-model="smbserver.ip" required >
+                <div ng-messages="smbConfigForm.smbIpFqdn.$error">
+                    <div ng-message="required">This is required.</div>
+                </div>
+                -->
+            </md-input-container>            
+        </section>
+
+        <md-input-container class="md-block" >
+            <label>Port Number</label>
+            <input name='port' ng-model="ldapserver.port"
+                ng-pattern="/^[0-9]*$/"
+                 required >
+            <div ng-messages="ldapConfigForm.port.$error" role="alert">
+                <div ng-message-exp="['required']">
+                    This is required
+                </div>
+            </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" >
+            <label>{{smbserver_login}}</label>
+            <input name='username' ng-model="ldapserver.username" required >
+            <div ng-messages="ldapConfigForm.username.$error" role="alert">
+                <div ng-message-exp="['required']">
+                    This is required
+                </div>
+            </div>
+        </md-input-container>
+
+        <section layout="row">
+            <md-input-container class="md-block" >
+                <label>{{smbserver_password}}</label>
+                <input type='{{pwdType}}' name='password' ng-model="ldapserver.password" required >
+                <div ng-messages="ldapConfigForm.password.$error" role="alert">
+                    <div ng-message='required'>
+                        This is required.
+                    </div>
+                </div>                                  
+            </md-input-container>
+            <md-icon ng-click='togglePasswordType()' ng-show="pwdType==='password'" class="show-key">visibility</md-icon>
+            <md-icon ng-click='togglePasswordType()' ng-show="pwdType === 'text'" class="show-key">visibility_off</md-icon>
+        </section>
+                
+        <section layout="row" layout-align="space-between stretch">
+            <label>&nbsp;</label>
+            <md-button class="md-accent smb-config-bottom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                       ng-click = "testConnection()"
+                       ng-disabled = "!((ldapserver.ip || ldapserver.name) && ldapserver.username && ldapserver.password && ldapserver.port)">
+                Test
+            </md-button>
+            <label>&nbsp;</label>
+            <md-button class="md-accent smb-config-bottom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                       ng-click = "saveSettings()"
+                       ng-disabled = "!((ldapserver.ip || ldapserver.name) && ldapserver.username && ldapserver.password && ldapserver.port)">
+                Save
+            </md-button>
+        </section>
+        
+        <div flex></div>
+    </form>            
+ </div>

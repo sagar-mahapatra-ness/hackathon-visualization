@@ -1,0 +1,23 @@
+<div ui-view> 
+    <form name="addPolicyForm" ng-controller="addPolicyCtr" novalidate="true">
+        <div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page admin-page">
+            <div class="add-policy-set">
+                <md-content>
+                    <md-toolbar layout="row" layout-align="space-between none" class="admin-toolbar">
+                        <div style="font-size: 16px;">
+                            <span class="policy-set-title-prev link"
+                                  ui-sref="home.policy.policylist.securitypolicyset"
+                                   style="cursor:pointer;">{{ 'admin.policysets.heading' | translate}}</span>
+                            <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon>
+                            <span class="policy-set-title-curr">{{ 'admin.addpolicyset.heading' | translate}}</span>
+                        </div>
+                    </md-toolbar>
+                    <div layout="column" style="margin-top:24px;">
+                        <div ng-include="'core/components/administration/policy/add-policy-details-page.html'">
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+    </form>
+</div>

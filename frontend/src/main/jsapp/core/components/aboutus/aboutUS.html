@@ -1,0 +1,68 @@
+<div ui-view class="aboutUs">
+    <div class="aboutUsHeader">
+        <button class="topicBtn"
+            ng-class = "{'selected' : (filterByTopic == topic)}"
+            ng-click="selectTopic(topic)"
+            ng-repeat="topic in allTopics">{{topic}}</button>
+        <input class="searchbox" 
+            type="text" 
+            ng-change="change()"
+            ng-show = "openSearchBox" 
+            placeholder="Search Videos" ng-model="query">
+        <md-icon class = "material-icons searchicon"
+            ng-click = "openSearchBox = openSearchBox ? false: true;"> search </md-icon>
+    </div>
+    <div ng-if="filterByTopic == null && !query">
+        <div class="topicSelected">Featured </div>
+        <div style="display:flex; padding: 16px 0;">
+            <div class="featuredVideo">
+                <video id="featureMovie" width="672" height="378" preload controls onclick="this.paused?this.play():this.pause();this.nextSibling.style.display='none';">
+                    <source src="{{featured.src}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                </video><md-icon ng-hide="isFireFox()" onclick="this.previousSibling.play();this.style.display='none';">play_circle_outline</md-icon>
+            </div>
+            <div class="featuredVideo-info">
+                <div class="f-vtitle">{{featured.title}}</div>
+                <div class="f-vdetails">{{featured.details}}</div>
+                <div class="f-vtopic" ng-repeat="vtopic in featured.topics">
+                    <span>{{vtopic}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="topicSelected">Gallery</div>
+        <div class="item" ng-repeat="vid in videos">
+            <div class="">
+                <div class="video">
+                    <video id="movie" width="312" height="175" preload controls onclick="this.paused?this.play():this.pause();this.nextSibling.style.display='none';">
+                        <source src="{{vid.src}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                    </video><md-icon ng-hide="isFireFox()" onclick="this.previousSibling.play();this.style.display='none';">play_circle_outline</md-icon>
+                </div>
+                <div style="padding-top:18px;">
+                    <div class="vtitle">{{vid.title}}</div>
+                    <!-- <div class="vdetails">{{vid.details}}</div> -->
+                    <div class="vtopic" ng-repeat="vtopic in vid.topics">
+                        <span>{{vtopic}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="aboutUsContent" ng-if="filterByTopic !== null">
+        <div class="topicSelected">{{filterByTopic}}</div>
+        <div class="item" ng-repeat="vid in videos | filter: { topics: filterByTopic, title: query }">
+            <div class="">
+                <div class="video" style="position:relative;">
+                    <video id="movie" width="312" height="175" preload controls onclick="this.paused?this.play():this.pause();this.nextSibling.style.display='none';">
+                        <source src="{{vid.src}}" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                    </video><md-icon ng-hide="isFireFox()" onclick="this.previousSibling.play();this.style.display='none';">play_circle_outline</md-icon>
+                </div>
+                <div style="padding-top:18px;">
+                    <div class="vtitle">{{vid.title}}</div>
+                    <!-- <div class="vdetails">{{vid.details}}</div> -->
+                    <div class="vtopic" ng-repeat="vtopic in vid.topics">
+                        <span>{{vtopic}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

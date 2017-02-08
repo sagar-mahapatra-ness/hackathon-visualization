@@ -1,0 +1,22 @@
+<section ng-controller="NewRuleInfraCtr" style="width:100%;height:100%">
+    <div layout="row" style="width:100%;height:100%">
+        <div style="" flex-offset="10" flex>
+            <md-content flex layout-padding layout="column" layout-align="center start">
+                <md-input-container class="elem-width-medium vs-add-new" ng-show="!showNetworks && !(cloudData.comingFrom === 'ADMINEDIT')">
+                    <label>Infrastructure Connector</label>
+                    <md-select name='infrastructure' ng-model="infrastructureId" ng-change="showInfraOptionSelected()" required>
+                        <md-option ng-repeat="cloud in clouds" value="{{cloud.id}}">
+                            {{cloud.name}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="virtualChassisForm.infrastructure.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+<!--                    <md-icon class="light-bulb" ng-click=" helpButtonClicked('infra_type_help_wizard')">lightbulb_outline</md-icon>-->
+                </md-input-container>
+                <md-button class="md-accent md-raised groups-button" aria-label="add" ng-click='onGoToNewRulePageClicked($event, infrastructureId)' ng-disabled="goToRulePageDisabled" style="width:250px;"> Go To Create Rule Page</md-button>
+            </md-content>
+        </div>
+        <!--<helpcontainer contentid="active_help_id" excesscomponent="1.1" ng-show="showHelp"></helpcontainer>-->
+    </div>
+</section>

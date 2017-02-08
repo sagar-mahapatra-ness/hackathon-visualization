@@ -1,0 +1,65 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer  widget-page"  ng-controller="TopNDetectedAppsCtr" style="height: 100%;">
+		<div class="drilldown-title" layout="row" layout-align="space-between none">
+			<span>{{title}}</span>
+			<md-button class="md-icon-button md-primary md-hue-3 export" aria-label="export"  ng-csv="tableData.rowData"  csv-header="['Application Name', 'Protocol Name', 'Source IP','Source Port','Destination IP','Destination Port']" filename="totalData.csv" field-separator="," decimal-separator=",">
+	            <md-tooltip md-delay="250" md-direction="bottom">
+	                Export
+	            </md-tooltip>
+	            <md-icon>system_update_alt</md-icon>
+	        </md-button>
+		</div>
+		<div class="select-interval-drildown" layout="row">
+			<md-input-container>
+	            <label>Time Interval</label>
+	            <md-select ng-model="timeInterval" >
+	                <md-option ng-repeat="opt in intervalOptions" ng-value="opt.value">
+	                    <span>{{opt.text}}</span>
+	                </md-option>
+	            </md-select>
+	        </md-input-container>
+	        <div>
+	        <md-button class="md-raised set-dridown-interval" ng-click="updateDirllDownInterval(timeInterval)">Set</md-button>
+	        </div>
+		</div>
+		<div layout="column" layout-padding>
+	<!-- 		<button class="btn btn-default"
+              ng-csv="tableData.rowData" csv-header="['Application Name', 'Protocol Name', 'Source IP','Source Port','Destination IP','Destination Port']"  filename="totalData.csv" field-separator="," decimal-separator=","
+              >Export to CSV</button> -->
+		<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head md-order="query.order" md-on-reorder="onReorder">
+					<tr md-row>
+						<th md-column ng-repeat="(key ,header) in tableData.headers" md-order-by="val{{key+1}}">{{header.title}}</th>				
+					</tr>
+				</thead>
+				<tbody md-body>
+				<tr >
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val1"}' showicon='false' ></td>
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val2"}' showicon='false' ></td>
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val3"}' showicon='false' ></td>
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val4"}' showicon='false' ></td>
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val5"}' showicon='false' ></td>
+						<td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val6"}' showicon='false' ></td>
+						<!-- <td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val7"}' showicon='false' ></td> -->
+					</tr>
+				<tr md-row md-auto-select md-select="items" md-select-id="name" ng-repeat="items in tableData.rowData | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false"  ng-class="{highlighted : data.active}">
+					<!-- <tr md-row md-select="items" md-select-id="name" md-auto-select ng-repeat="items in tableData.rowData"> -->
+						<td md-cell>{{items.val1}}</td>
+						<td md-cell>{{items.val2}}</td>
+						<td md-cell>{{items.val3}}</td>
+						<td md-cell>{{items.val4}}</td>
+						<td md-cell>{{items.val5}}</td>
+						<td md-cell>{{items.val6}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+	</div>
+	<div flex> </div>
+		<div>
+			<md-content layout="column" layout-align="start stretch" class="widget-footer">
+				<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(tableData.rowData.length)? tableData.rowData.length : 0 }}" md-page-select>
+				</md-table-pagination>
+			</md-content>
+		</div>
+</div>

@@ -1,0 +1,384 @@
+<div ui-view id="admin-infra-connector" class="admin-page" layout='row' layout-align="start stretch">
+    <div class="left-panel content-height-fixer" flex layout="column" layout-align="space-between none"
+    style="margin: 0 24px;">
+        <md-toolbar layout="row" layout-align="space-between center" class="admin-toolbar" style="padding:0;">
+            <div>
+                {{ 'admin.infrastructureConnector.heading' | translate}}
+            </div>
+            <div class="control-tray" layout="row">
+                <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click="clearInfraListFromSession()" id="aicRefreshButton">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Refresh Data
+                    </md-tooltip>
+                    <md-icon>cached</md-icon>
+                </md-button>
+                <md-button ng-if="is_create_infra" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="add" ng-click='callpopupToAddInfra()'>
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Add New
+                    </md-tooltip>
+                    <md-icon>add_circle_outline</md-icon>
+                </md-button>
+              <!--   <md-button class="md-icon-button md-primary md-hue-3 import" aria-label="import"  ng-disabled="true">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Import
+                    </md-tooltip>
+                    <md-icon>system_update_alt</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary md-hue-3 export" aria-label="export"  ng-disabled="true">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Export
+                    </md-tooltip>
+                    <md-icon>system_update_alt</md-icon>
+                </md-button> -->
+                <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                    <md-tooltip md-delay="250" md-direction="bottom">
+                        Search
+                    </md-tooltip>
+                    <md-icon>search</md-icon>
+                </md-button>
+
+
+            </div>
+
+        </md-toolbar>
+        <md-table-container>
+            <table md-table md-row-select ng-model="selected"   md-progress="promise">
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column></th>
+                        <!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN HEADERS -->
+                        <!--<th md-column><span>Status</span></th>   //COMMENTING AS PER SUGGESTED BY MANOJ -->
+                        <th md-column><span>Name</span></th>
+                        <th md-column><span>Type</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>IP Address</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Domain Name</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Enable HTTPS</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Login</span></th>
+						<!-- END -->
+					</tr>
+				</thead>
+				<tbody md-body ng-show="infrasAvailable">
+					<tr class="searchbar" ng-show="isSearchBarOpen">
+						<td></td>
+						<td><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"name"}' showicon='false'></search></td>
+						<td><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"type"}' showicon='false'></search></td>
+						<td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"ip"}' showicon='false'></search></td>
+						<td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"domain"}' showicon='false'></search></td>
+						<td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"https", alternative:"yes"}' showicon='false'></search></td>
+						<td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='infrastructureConnections' searchconfig='{listname:"infrastructureConnections", searchkeylocale: "!.cloud_data", key:"username"}' showicon='false'></search></td>
+					</tr>
+					<tr md-row md-auto-select md-select="connection" md-select-id="name" ng-repeat="(key,connection) in infrastructureConnections | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+						<td md-cell class="button-cluster" ng-class="{show : hover}" style="min-width: 110px;">
+							<md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="info" ng-click="updateAdornmentPanel($event,connection,key)">
+								<md-tooltip md-delay="250" md-direction="bottom">
+									Information
+								</md-tooltip>
+								<md-icon class="icon-18">info_outline</md-icon>
+							</md-button>
+							<md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click='discoverInfraStructure(connection)'>
+								<md-tooltip md-delay="250" md-direction="bottom">connection
+									Reload
+								</md-tooltip>
+								<md-icon class="icon-18">refresh</md-icon>
+							</md-button>
+							<md-button ng-disabled="promiseCompleted" ng-if="is_delete_infra" class="md-icon-button md-primary md-hue-3" aria-label="delete" ng-click='deleteInfraStructure(connection)'>
+								<md-tooltip md-delay="250" md-direction="bottom">
+									Delete Connection
+								</md-tooltip>
+								<md-icon class="icon-18">delete</md-icon>
+							</md-button>
+						</td>
+						<!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN CELLS -->
+						<!--<td md-cell>
+							<span ng-show="showStatus(connection.status,'Online')">
+								<svg height="8" width="8"><circle cx="4" cy="4" r="4" fill="#01bcb1" /></svg>
+							</span>
+							<span ng-show="showStatus(connection.status,'Offline')">
+								<svg height="8" width="8"><circle cx="4" cy="4" r="4" fill="#dd2c3c" /></svg>
+							</span>
+							<span ng-show="showStatus(connection.status,'Refreshing')">
+								<md-icon>refresh</md-icon>
+							</md-button>
+							</span>
+							<span style="margin: 0px 0 0 6px;">{{connection.status}}</span>
+						</td>    //COMMENTING AS PER SUGGESTED BY MANOJ -->
+						<td md-cell><span>{{connection.cloud_data.name}}</span></td>
+						<td md-cell><span>{{connection.cloud_data.type}}</span></td>
+						<td md-cell ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{connection.cloud_data.ip}}</span></td>
+                                                <td md-cell ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{connection.cloud_data.domain}}</span></td>
+						<td md-cell ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{(connection.cloud_data.type === 'OPENSTACK') ? (connection.cloud_data.https) ? 'Yes' : 'No' : ''}}</span></td>	
+						<td md-cell ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{connection.cloud_data.username}}</span></td>	
+						<!-- END -->		
+					</tr>
+				</tbody>
+                                <tbody md-body ng-show="!infrasAvailable">
+                                    <tr md-row md-auto-select >
+                                        <td colspan="100%" md-cell class="add-a-new-infra-msg">
+                                        <span ng-if="is_create_infra"><a ng-click='callpopupToAddInfra()' ><md-icon class="icon-18">add_circle_outline</md-icon> Add </a>a new infrastructure or go to <a href="#/quickSetup/quickSetup-begin">Quick Setup</a></span></td>
+                                    </tr>
+                                </tbody>
+			</table>
+		</md-table-container>
+		<div flex></div>
+		<md-content layout="row" layout-align="space-between none" class="admin-footer">
+			<!-- <section class="download-file" ><md-icon class="md-18">file_download</md-icon>Download Import Template</section> -->
+			<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(infrastructureConnections.length)? infrastructureConnections.length : 0 }}" md-page-select>
+			</md-table-pagination>
+		</md-content>
+	</div>
+	<div class="adornment-panel" flex="25" ng-show="isAdornmentPanelOpen">
+		<md-toolbar layout='row' class="md-primary md-hue-3">
+			<md-button class="md-icon-button md-primary md-hue-2" aria-label="close" ng-click="toggleAdornmentPanel()">
+				<md-icon>close</md-icon>
+			</md-button>
+			<span>Information</span>
+		</md-toolbar>
+            <section>
+                <md-subheader class="sub-header" id="aicEditDetails">
+                    Details
+
+                  <md-icon  ng-show="!editMiscState && is_update_infra" class="edit" ng-click="editMiscInfraData()" id="aicEditIcon">edit</md-icon>
+                    <md-button class="md-icon-button apply" 
+                               aria-label="edit" 
+                               ng-show="editMiscState" 
+                               ng-click="updateInfraData()"
+                               style='float:right;  margin-top: -12px;' id="aicEditApply">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Apply
+                        </md-tooltip>
+                        <md-icon class="md-icon-button" 
+                               ng-show="infraFormValid"
+                                 style='float:right;'>
+                            done
+                        </md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" 
+                               aria-label="discard" 
+                               ng-show="editMiscState"
+                               style='float:right; margin-top: -12px;' 
+                               ng-click="discardMiscChanges()" id="aicEditDiscard">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Discard Changes
+                        </md-tooltip>
+                        <md-icon>clear</md-icon>
+                    </md-button> 
+                </md-subheader>
+                <md-content class="content" layout="column" ng-hide="editMiscState">
+                    <span class="section-header">Name</span>
+                    <span class="section-text">{{adornmentData.cloud_data.name}}</span>
+                    <section ng-show="adornmentData.cloud_data.type !== 'AWS'">
+                        <span class="section-header">IP Address</span>
+                        <span class="section-text">{{adornmentData.cloud_data.ip}}</span>
+                    </section>
+                    <section ng-show="adornmentData.cloud_data.type === 'OPENSTACK'">
+                        <span class="section-header">Domain Name</span>
+                        <span class="section-text">{{adornmentData.cloud_data.domain}}</span>
+                        <span class="section-header">Enable HTTPS</span>
+                        <span class="section-text">{{adornmentData.cloud_data.https ? 'Yes' : 'No'}}</span>
+                    </section>
+                    <section ng-show="adornmentData.cloud_data.type === 'AWS'">
+                        <span class="section-header">Access Key ID</span>
+                        <span class="section-text">{{adornmentData.cloud_data.accessKeyId}}</span>
+                        <span class="section-header">Secret Access Key</span>
+                        <span class="section-text">******</span>
+                    </section>
+                    <section ng-show="adornmentData.cloud_data.type !== 'AWS'">
+                        <span class="section-header">Login</span>
+                        <span class="section-text">{{adornmentData.cloud_data.username}}</span>
+                        <span class="section-header">Password</span>
+                        <span class="section-text">******</span>
+                    </section>
+                </md-content>
+                <md-content class="content" layout="column" ng-hide="!editMiscState">
+                    <form name='infraForm' novalidate="true">
+                        <md-input-container>
+                            <label>Name</label>
+                            <input 
+                                md-maxlength="40"
+                                name='InfraName' 
+                                ng-model="tempInfraData.name" 
+                                ng-pattern="/^[a-zA-Z0-9.-\s]*$/"
+                                ng-change="validateInfraForm()"
+                                required>
+                            <div ng-messages="infraForm.InfraName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The name has to be less than 40 characters long.</div>
+                                <div ng-message="pattern">Only alphanumeric, ".", "-", " " are allowed.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container ng-if="tempInfraData.type !== 'AWS'">
+                            <label>IP Address</label>
+                            <input 
+                                name='ip' 
+                                ng-model="tempInfraData.ip" 
+                                ng-change="validateInfraForm()"
+                                required id="adminInfraIpFqdn">
+                            <div ng-messages="infraForm.ip.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container ng-if="tempInfraData.type !== 'AWS'">
+                            <label>Login</label>
+                            <input 
+                                md-maxlength="40"
+                                name='login' 
+                                ng-model="tempInfraData.username" 
+                                ng-change="validateInfraForm()"
+                                required>
+                            <div ng-messages="infraForm.login.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container ng-if="tempInfraData.type === 'OPENSTACK'">
+                            <label>Domain</label>
+                            <input 
+                                name='domain' 
+                                ng-model="tempInfraData.domain" 
+                                ng-change="validateInfraForm()"
+                                required>
+                            <div ng-messages="infraForm.domain.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container ng-if="tempInfraData.type === 'OPENSTACK'">
+                            <md-checkbox 
+                                ng-model="tempInfraData.https"
+                                aria-label="Enable HTTPS">
+                                Enable HTTPS
+                            </md-checkbox>
+                        </md-input-container>
+                        <md-input-container layout="row" layout-align="space-around start" ng-if="tempInfraData.type !== 'AWS'">
+                            <div>
+                                <label>Password</label>
+                                <input type='{{pwdType}}' 
+                                       name='infraPassword' 
+                                       ng-model="tempInfraData.password" 
+                                       ng-change="validateInfraForm()" 
+                                       required >
+                                <div ng-messages="infraForm.infraPassword.$error" role="alert">
+                                    <div ng-message='required'>
+                                        This is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <md-icon 
+                                    ng-click='togglePasswordType()' 
+                                    ng-show="pwdType==='password'" 
+                                    class="show-key">visibility</md-icon>
+                                <md-icon 
+                                    ng-click='togglePasswordType()' 
+                                    ng-show="pwdType==='text'" 
+                                    class="show-key">visibility_off</md-icon>
+                            </div>
+                        </md-input-container>
+                        <section ng-show="tempInfraData.type === 'AWS'">
+                            <md-input-container>
+                                <label>Access Key ID</label>
+                                <input
+                                        name='accessKeyId'
+                                        ng-model="tempInfraData.accessKeyId"
+                                        ng-change="validateInfraForm()"
+                                        required>
+                                <div ng-messages="infraForm.accessKeyId.$error">
+                                    <div ng-message="required">This is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container layout="row" layout-align="space-around start">
+                                <div>
+                                    <label>Secret Access Key</label>
+                                    <input type='{{pwdType}}'
+                                           name='secretAccessKey'
+                                           ng-model="tempInfraData.secretAccessKey"
+                                           ng-change="validateInfraForm()"
+                                           required >
+                                    <div ng-messages="infraForm.secretAccessKey.$error" role="alert">
+                                        <div ng-message='required'>
+                                            This is required.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <md-icon
+                                            ng-click='togglePasswordType()'
+                                            ng-show="pwdType==='password'"
+                                            class="show-key">visibility</md-icon>
+                                    <md-icon
+                                            ng-click='togglePasswordType()'
+                                            ng-show="pwdType==='text'"
+                                            class="show-key">visibility_off</md-icon>
+                                </div>
+                            </md-input-container>
+                        </section>
+                    </form>
+                </md-content>
+            </section>
+		<section>
+			<md-subheader class="sub-header">Components</md-subheader>
+             <!-- <md-progress-circular ng-show="loadingRelatedData" class="md-accent" md-diameter="40"></md-progress-circular> -->
+           <!--   {{isippoolsDataPresent}}
+             {{isresgroupDataPresent}} 
+             {{isvlanPoolDataPresent}}
+             {{isdeploymentDataPresent}} -->
+             <md-content class="content" layout="column">
+            <div>
+                <span class="section-header">IP Pools</span>
+                    <div ng-if="isippoolsDataPresent" ng-repeat="network in initialadorementDataForObj.pool_data" ng-hide="initialadorementDataForObj.cloud_data.type === 'OPENSTACK'">
+                        <a ui-sref="home.ipPoolId({poolId: network.id})" class="link-to">
+                            <div layout="row" layout-align="space-between none">
+                                <span>{{network.name}}</span>
+                                <md-icon>keyboard_arrow_right</md-icon>
+                            </div>
+                        </a>
+                    </div>
+                    <div ng-show="initialadorementDataForObj.cloud_data.type === 'OPENSTACK'">
+                        <a class="link-to">
+                            <div layout="row" layout-align="space-between none">
+                                <span>DHCP</span>
+                            </div>
+                        </a>
+                    </div>
+            </div>
+			<div > 
+				<span class="section-header">Deployment Specification</span>
+                <div ng-if="isdeploymentDataPresent" ng-repeat="spec in initialadorementDataForObj.deploy_spec_data" class="list">
+                    <a ui-sref="home.deploymentSpecificationById({deploySpecId: spec.id})" class="link-to">
+                        <div layout="row" layout-align="space-between none">
+                            <span> {{spec.name}} </span>
+                            <md-icon>keyboard_arrow_right</md-icon>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div >
+                <span class="section-header">VLAN Pools</span>
+                <div ng-if="isvlanPoolDataPresent" ng-repeat="vlan in initialadorementDataForObj.vlan_data" class="list">
+                    <a ui-sref="home.vlanPoolId({vlanId: vlan.id})" class="link-to">
+                        <div layout="row" layout-align="space-between none">
+                            <span> {{vlan.name}} </span>
+                            <md-icon>keyboard_arrow_right</md-icon>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div >
+                 <span class="section-header" ng-show="initialadorementDataForObj.group_data.length > 0">Groups</span>
+                <div ng-if="isresgroupDataPresent" ng-repeat="group in initialadorementDataForObj.group_data" class="list">
+                   <!--  <a  class="link-to" ui-sref="home.resourceGroupById({rgId: group.id})"> -->
+                        <div layout="row" layout-align="space-between none">
+                            <span > {{group.name}} </span> 
+                            <span>
+                                <span style="font-weight: bold; color: #13ce66; padding-right: 10px;"> {{group.memberList.length}} </span>
+                               <!--  <md-icon>keyboard_arrow_right</md-icon> -->
+                            </span>
+                        </div>
+                   <!--  </a> -->
+                </div>
+
+            </div>              
+            </md-content>
+		</section>
+        <div flex></div>
+    </div>
+</div>

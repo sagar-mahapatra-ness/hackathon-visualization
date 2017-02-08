@@ -1,0 +1,67 @@
+{
+  "name": "shieldx-visualization",
+  "description": "hackathon demo",
+  "main": "index.js",
+  "authors": [
+    "sagar mahapatro"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "visualization"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ] ,
+  "dependencies": {
+    "angular": "1.5.5",
+    "angular-animate": "1.5.5",
+    "angular-messages": "1.5.5",
+    "angular-ui-router": "~0.2.18",
+    "angular-material": "1.1.0-rc.5",
+    "bootstrap": "3.3.6",
+    "angular-material-data-table": "0.10.9",
+    "angular-aria": "1.5.5",
+    "svg-assets-cache.js": "svg-assets-cache#*",
+    "angular-file-model": "0.3.1",
+    "ng-file-upload": "12.2.11",
+    "angular-gridster": "0.13.14",
+    "javascript-detect-element-resize": "~0.5.1",
+    "d3-tip": "0.6.7",
+    "mdPickers": "0.7.5",
+    "gsap": "^1.19.0",
+    "ng-webworker": "^0.2.3"
+  },
+  "devDependencies": {
+   "angular": "1.5.5",
+    "angular-animate": "1.5.5",
+    "angular-messages": "1.5.5",
+    "angular-mocks": "1.5.5",
+    "angular-ui-router": "~0.2.18",
+    "bootstrap": "3.3.6",
+    "angular-material": "1.1.0-rc.5",
+    "d3": "3.5.5",
+    "angular-translate": "2.11.0",
+    "angular-translate-loader-url": "2.11.0",
+    "angular-translate-loader-static-files": "2.11.0",
+    "restangular": "1.5.2",
+    "v-accordion": "1.5.2",
+    "angular-material-data-table": "0.10.9",
+    "ngstorage": "0.3.10",
+    "dragular": "4.2.3",
+    "modernizr": "3.3.1",
+    "tweenjs": "16.3.5",
+    "threejs": "latest",
+    "angular-sanitize": "^1.6.1",
+    "ng-csv": "^0.3.6"
+  },
+  "resolutions": {
+    "angular": "1.5.5",
+    "d3": "3.5.5",
+    "angular-material": "1.1.0-rc.5"
+  }
+}

@@ -1,0 +1,190 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer admin-page" >
+<div class="policy-table-page">
+    <div class="admin-page-policies-header">
+         <md-toolbar layout="row" layout-align="start center" class="admin-policy-table-toolbar">
+            <div style="font-size: 16px;">
+                <span class="policy-title" ui-sref="home.policy.policylist.threatdetection">Threat Prevention Policies</span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> Policy Details
+            </div>
+        </md-toolbar>
+        <md-table-container>
+        <section class="topinfowrapper" layout="row" layout-align="start end">
+            <form name="policyDetailForm" novalidate="true">
+                <md-input-container class="threatinputdata">                        
+                    <label >Policy Name</label>
+                    <span ng-show="!editpolicyname">
+                        <span class="displayText">{{policyDetails.name}}</span>
+                        <md-button ng-show="is_update_policy" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="edit" ng-click='editpolicyname = true;' id="editPolicyNameIcon" >
+                            <md-tooltip md-delay="0" md-direction="bottom">
+                                Edit
+                            </md-tooltip>
+                            <md-icon class="icon-18" style="cursor:pointer;opacity: 0.6;">edit</md-icon>
+                        </md-button>
+                    </span>
+                    <input name='policyname' ng-show="editpolicyname"  ng-model="policyDetails.name" required md-maxlength="100" ng-pattern="/^[a-zA-Z0-9 _.-]*$/">
+                    <div ng-messages="policyDetailForm.policyname.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                        <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                    </div>
+                    <span ng-show="editpolicyname" style="float: right;margin-top: -24px;">
+                        <md-icon style="cursor:pointer;opacity:0.6;" ng-click="editpolicyname=false;" role="button" tabindex="0" class="icon-18 material-icons">close</md-icon>
+                        <md-icon style="cursor:pointer;color:#4a90e2;" ng-click="editpolicyname=false;" role="button" tabindex="0" class="icon-18 material-icons">done</md-icon>
+                    </span>
+                </md-input-container>
+                <md-input-container class="threatinputdata">                        
+                    <label style="transform: translate3d(0, 6px, 0) scale(0.81);">Tenant</label>
+                    <span ng-show="!edittenant">
+                        <span class="displayText">{{selectedTenantObj.name + " (" + selectedTenantObj.cloudName + ")"}}</span>
+                        <md-button ng-show="is_update_policy"  ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="edit" ng-click='callpopupTenats($event)' id="threatTenantEdit">
+                            <md-tooltip md-delay="250" md-direction="bottom">
+                                Edit
+                            </md-tooltip>
+                            <md-icon class="icon-18" style="cursor:pointer;opacity: 0.6;">edit</md-icon>
+                        </md-button>
+                    </span>
+                    <input name='tenantname' ng-show="edittenant"  ng-model="selectedTenantObj.name" required  >
+                </md-input-container>
+               <!--  <md-input-container class="threatinputdata">                        
+                    <label >Created By</label>
+                    <input disabled="true" value="James Lee" class="disabledData bluecolor">
+                </md-input-container> -->
+                <md-input-container class="threatinputdata">                        
+                    <label >Last Updated</label>
+                    <input disabled="true" value="{{policyDetails.lastModified | date:'MM/dd/yyyy'}}" class="disabledData">
+                </md-input-container>
+            </form>
+        </section>
+        <md-divider style="margin:8px 0 24px 0"></md-divider>
+        <!-- <md-toolbar layout="row" layout-align="space-between none" class="admin-policy-table-toolbar" >
+            <div>
+                <h3 class="namedTitle">{{policyDetails.name}} Rules</h3>
+            </div>
+            <div class="control-tray" layout="row">
+            <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                <md-tooltip md-delay="250" md-direction="bottom">
+                    Search
+                </md-tooltip>
+                <md-icon>search</md-icon>
+            </md-button>
+            <md-button ng-show="is_update_policy" ng-disabled="promiseCompleted" class="md-primary md-hue-3 addNewTypePolicy" style="width:auto;" aria-label="add" ng-click="addthreatRule();">
+                <!--     <md-tooltip md-delay="250" md-direction="bottom">
+                                        Add New
+                                    </md-tooltip> -->
+                <!--<md-icon>add_circle_outline</md-icon> Add Rule
+            </md-button>
+        </div>
+        </md-toolbar> -->
+        <section layout="row"  layout-align="start center" class="threatlist-topbar">
+            <div style="width:50%;">
+                <h3>Threat Prevention Rule Set</h3>
+            </div>
+            <div style="width:50%;" layout="row"  layout-align="end center">
+                <div>
+                    <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                        <md-tooltip md-delay="0" md-direction="bottom">
+                            Search
+                        </md-tooltip>
+                        <md-icon>search</md-icon>
+                    </md-button>
+                </div>
+                <div>
+                    <md-button ng-show="is_update_policy" ng-disabled="promiseCompleted" class="md-primary md-hue-3 addnewrule" style="width:auto;" aria-label="add" ng-click="addthreatRule();">
+                        <md-icon class="icon-18">add_circle_outline</md-icon> Add Rule
+                    </md-button>
+                </div>
+                <div>
+                    <md-button class="md-raised md-accent md-button" aria-label="threat" style="color:white;padding:0px 20px;" ng-click="showAllThreats()"> COMBINED THREATS
+                        <span class="badge bg-info">{{policyDetails.allthreatCounter}}</span>
+                        <md-icon style="color:white;" class="dp16">arrow_forward</md-icon>
+                    </md-button>
+                </div>
+            </div>
+        </section>
+            <table md-table md-row-select ng-model="selected"   md-progress="promise">
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column><span style="margin-left: 124px;">Name</span></th>
+                        <th md-column><span>Applications/Protocols</span></th>
+                        <th md-column><span>OS</span></th>
+                        <th md-column><span>Severity</span></th>
+                        <th md-column><span>Target</span></th>
+                        <th md-column><span>Specific Threats</span></th>
+
+                        <!-- END -->
+                    </tr>
+                </thead>
+                <tbody md-body>
+              
+                    <tr class="searchbar" ng-show="isSearchBarOpen">
+                        <td><search datalist='policyDetails.rules' searchconfig='{listname:"policyDetails.rules", searchkeylocale: "!", key: "name"}' showicon='false'></search></td>
+                    </tr>
+                    <tr md-row md-auto-select md-select="singleRule" md-select-id="name" ng-repeat="singleRule in policyDetails.rules  | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-class="{highlighted : singleRule.active}">
+
+                        <td md-cell class="policy-name-header" >
+                            <md-button ng-class="{show : hover}" ng-show="is_update_policy" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="delete" ng-click='deleteRule(singleRule)'>
+                                <md-tooltip md-delay="0" md-direction="bottom">
+                                    Delete
+                                </md-tooltip>
+                                <md-icon class="icon-18">delete</md-icon>
+                            </md-button>
+                            <md-button ng-class="{show : hover}" ng-show="is_update_policy" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="edit" ng-click='editRule(singleRule)'>
+                                <md-tooltip md-delay="0" md-direction="bottom">
+                                    Edit
+                                </md-tooltip>
+                                <md-icon class="icon-18">edit</md-icon>
+                            </md-button>
+                            <span style="margin-left: 56px;">{{singleRule.name}}</span>
+                        </td>
+                        <td md-cell>
+                        <span ng-show="singleRule.appNames !== '' " ng-repeat="(key,dataapp) in singleRule.appNames  | limitTo: 2">{{dataapp}}<span ng-hide="key === singleRule.appNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.appNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.appNames,'Applications/Protocols')">+{{singleRule.appNames.length-2}}</span>
+                         <!-- </span> -->
+                        <span ng-show="singleRule.protocolNames !== '' " ng-repeat="(key,data) in singleRule.protocolNames  | limitTo: 2">{{data}}<span ng-hide="key === singleRule.protocolNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.protocolNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.protocolNames,'  Applications/Protocols')">+{{singleRule.protocolNames.length-2}}</span>
+                        <!-- <span>{{getStringData(singleRule.appNames,singleRule.protocolNames)}}</span> --></td>
+                        <td md-cell><span ng-show="singleRule.osNames !== '' " ng-repeat="(key,dataos) in singleRule.osNames  | limitTo: 2">{{dataos}}<span ng-hide="key === singleRule.osNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.osNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.osNames,'OS')">+{{singleRule.osNames.length-2}}</span>
+                        <!-- <span>{{singleRule.osNames.join()}}</span> --></td>
+                        <td md-cell><span>{{singleRule.severities.join()}}</span></td>
+                        <td md-cell><span>{{singleRule.protectionType}}</span></td>
+                        <td md-cell>
+                            <span ng-show="singleRule.specificThreats.length && !singleRule.isdirty" style="color:#4a90e2;cursor:pointer;" ng-click="openSpecificThreatPopup($event,singleRule.specificThreats)">View({{singleRule.specificThreats.length}})
+                            </span>
+                            <span ng-show="!singleRule.specificThreats.length && !singleRule.isdirty">
+                            &nbsp;
+                            </span>
+                            <span ng-show="singleRule.specificThreats.length && singleRule.isdirty">
+                                Save to refresh Specific threats list
+                            </span>
+                        </td>
+                    <!-- END -->        
+                    </tr>
+                </tbody>
+                <tbody md-body ng-show='policyDetails.rules.length <= 0'>
+                    <tr md-row md-auto-select >
+                        <td colspan="100%" md-cell class="add-a-new-infra-msg">
+                            No Threats available.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <md-divider></md-divider>
+            <div layout="row" layout-align="space-between center">
+                <section>
+                    <md-button class="md-accent md-hue-3 md-button md-ink-ripple" class="stepper-back" ng-click="cancelNewThreat();">
+                        CANCEL
+                    </md-button>
+                    <md-button ng-show="is_update_policy" class="md-accent md-raised modal-done-button" ng-click="updateThreat();" ng-disabled="policyDetailForm.$invalid">
+                        SAVE
+                    </md-button>
+                </section>
+                <section>
+                </section>
+            </div>
+        </md-table-container>
+        <div flex></div>
+    </div> 
+    </div>   
+</div>
+<style type="text/css">
+.md-errors-spacer{
+    display: none;
+}
+</style>

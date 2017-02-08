@@ -1,0 +1,149 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer  widget-page" ng-controller="TopNTalkersbyResourceGroupCtr" style="height: 100%;">
+    <div ng-show="drillDownDataPresent" style="height: 100%;">
+        <div class="drilldown-title" layout="row" layout-align="space-between none">
+            <span>{{title}}</span>
+            <md-button class="md-icon-button md-primary md-hue-3 export" aria-label="export" ng-csv="tableData.rowData" csv-header="['Source Machine Name', 'Source IP', 'Source ResourceGroup','Destination Machine Name','Destination IP','Destination ResourceGroup']" filename="totalData.csv" field-separator="," decimal-separator=",">
+                <md-tooltip md-delay="250" md-direction="bottom">
+                    Export
+                </md-tooltip>
+                <md-icon>system_update_alt</md-icon>
+            </md-button>
+        </div>
+        <div>
+           <!--  <md-input-container>
+                <label>Select Interval </label>
+                <md-select ng-model="timeInterval" ng-change="updateDirllDownInterval(timeInterval)">
+                    <md-option ng-repeat="opt in intervalOptions" ng-value="opt.value">
+                        <span>{{opt.text}}</span>
+                    </md-option>
+                </md-select>
+            </md-input-container> -->
+            <!-- <md-input-container>
+                <label>Select RG Name </label>
+                <md-select ng-model="selectedRG" ng-change="rgSelecttionChanged()">
+                   
+                    <md-option ng-repeat="fillterrg in filterData" ng-value="fillterrg">
+                        <span>{{fillterrg.name}}</span>
+                    </md-option>
+                </md-select>
+            </md-input-container> -->
+            <md-button class="md-raised set-dridown-interval" ng-click="updateDirllDownInterval('showMainData')">Back</md-button>
+        </div>
+        <div style="height: 82%;">
+            <md-content layout="column" layout-padding >
+                <md-table-container>
+                    <table md-table md-row-select multiple ng-model="selected">
+                        <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                            <tr md-row>
+                                <th md-column ng-repeat="(key ,header) in tableData.headers" md-order-by="val{{key+1}}">{{header.title}}</th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val1"}' showicon='false'>
+                                </td>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val2"}' showicon='false'>
+                                </td>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val3"}' showicon='false'>
+                                </td>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val4"}' showicon='false'>
+                                </td>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val5"}' showicon='false'>
+                                </td>
+                                <td>
+                                    <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val6"}' showicon='false'>
+                                </td>
+                                <!-- <td> <search datalist='tableData.rowData' searchconfig='{listname:"tableData.rowData", searchkeylocale: "!", key:"val7"}' showicon='false' ></td> -->
+                            </tr>
+                            <!-- <tr md-row md-select="items" md-select-id="name" md-auto-select ng-repeat="items in tableData.rowData"> -->
+                            <tr md-row md-auto-select md-select="items" md-select-id="name" ng-repeat="items in tableData.rowData | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-class="{highlighted : items.active}">
+                                <td md-cell>{{items.val1}}</td>
+                                <td md-cell>{{items.val2}}</td>
+                                <td md-cell>{{items.val3}}</td>
+                                <td md-cell>{{items.val4}}</td>
+                                <td md-cell>{{items.val5}}</td>
+                                <td md-cell>{{items.val6}}</td>
+                                <!-- <td md-cell>{{items.val7}}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+            </md-content>
+        </div>
+        <div flex> </div>
+        <div>
+            <md-content layout="column" layout-align="start stretch" class="widget-footer">
+                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(tableData.rowData.length)? tableData.rowData.length : 0 }}" md-page-select>
+                </md-table-pagination>
+            </md-content>
+        </div>
+    </div>
+    <div ng-show="mainCerticicatesAvaliable" style="height: 100%;">
+        <div class="drilldown-title">{{title}}</div>
+        <div class="select-interval-drildown" layout="row">
+            <md-input-container>
+                <label>Time Interval</label>
+                <md-select ng-model="timeInterval">
+                    <md-option ng-repeat="opt in intervalOptions" ng-value="opt.value">
+                        <span>{{opt.text}}</span>
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <div class="n-value-to-select-drilldown" layout="row" layout-align="start center">
+                <label class="n-value-label">N</label>
+                <md-input-container>
+                    <input type="text" name="naval" ng-model="nValue" ng-maxlength="2" ng-pattern="/^[0-9]*$/" aria-label="N value" class="n-value-drill-dwon" />
+                    <div ng-messages="nvalueForm.naval.$error" role="alert">
+                        <div ng-message="pattern">Only numerics are allowed.</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div>
+                <md-button class="md-raised set-dridown-interval " ng-click="updateDirllDownInterval(timeInterval,nValue)">Set</md-button>
+            </div>
+        </div>
+        <md-content layout="column" layout-padding style="height: 80%;">
+            <md-table-container>
+                <table md-table md-row-select multiple ng-model="selected">
+                    <thead md-head md-order="query.order" md-on-reorder="onMainReorder">
+                        <tr md-row>
+                            <th md-column md-order-by="source">Source</th>
+                            <th md-column md-order-by="victim">Victim</th>
+                            <th md-column md-order-by="Freq">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr>
+                            <td>
+                                <search datalist='mainQueryData' searchconfig='{listname:"mainQueryData", searchkeylocale: "!", key:"source"}' showicon='false'>
+                            </td>
+                            <td>
+                                <search datalist='mainQueryData' searchconfig='{listname:"mainQueryData", searchkeylocale: "!", key:"victim"}' showicon='false'>
+                            </td>
+                            <td>
+                                <search datalist='mainQueryData' searchconfig='{listname:"mainQueryData", searchkeylocale: "!", key:"Freq"}' showicon='false'>
+                            </td>
+                        </tr>
+                        <tr md-row md-auto-select md-select="items" md-select-id="name" ng-repeat="items in mainQueryData | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-class="{highlighted : data.active}">
+                            <td md-cell ng-click="getListBasedOnCertficate(items)">{{items.source}}</td>
+                            <td md-cell>{{items.victim}}</td>
+                            <td md-cell>{{items.Freq}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-content>
+        <div flex> </div>
+        <div>
+            <md-content layout="column" layout-align="start stretch" class="widget-footer">
+                <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(mainQueryData.length)? mainQueryData.length : 0 }}" md-page-select>
+                </md-table-pagination>
+            </md-content>
+        </div>
+    </div>
+</div>

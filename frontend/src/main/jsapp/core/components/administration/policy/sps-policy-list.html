@@ -1,0 +1,83 @@
+<div layout="column" layout-align="start stretch" flex class="policy-details-page admin-page " >
+    <div class="policy-desciption-content policy-table-page" flex >
+    <md-toolbar layout="row" layout-align="space-between none" class="admin-toolbar">
+        <div style="line-height: 2;">
+            {{ 'admin.policysets.heading' | translate}}
+        </div>
+        <div class="control-tray" layout="row">
+            <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                <md-tooltip md-delay="250" md-direction="bottom">
+                    Search
+                </md-tooltip>
+                <md-icon style="margin-top: 12px;">search</md-icon>
+            </md-button>
+            <md-button ng-show="is_create_policy" ng-disabled="promiseInProgress" class="md-primary md-hue-3 addNewTypePolicy" aria-label="add" ui-sref="home.policy.addpolicydetail">
+                <md-icon class="icon-18">add_circle_outline</md-icon> Add
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-table-container>
+        <table md-table md-row-select ng-model="policyselected" md-progress="promise">
+            <thead md-head>
+                <tr md-row>
+                    <th md-column><span style="margin-left: 124px;">Policy</span></th>
+                    <th md-column><span>Tenant</span></th>
+                    <th md-column><span>Assigment Count (Groups)</span></th>
+                    <th md-column><span>Last Updated</span></th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr class="searchbar" ng-show="isSearchBarOpen">
+                    <td class="search-name-padding">
+                        <search 
+                            datalist='policyList' 
+                            searchconfig='{listname:"policyList", searchkeylocale: "!", key: "name"}' 
+                            showicon='false'></search>
+                    </td>
+            </tr>
+            <tr md-row md-auto-select 
+                md-select="policy"
+                md-select-id="name" 
+                ng-repeat="policy in policyList| limitTo: query.limit: (query.page - 1) * query.limit"
+                ng-mouseenter="hover = true" 
+                ng-mouseleave="hover = false"
+                ng-class="{highlighted : policy.active}">
+
+                <td md-cell style="cursor: pointer;"
+                    class="policy-name-header"
+                    
+                    >
+                    <md-button ng-show="is_delete_policy"
+                        class="md-icon-button md-primary md-hue-3"
+                        ng-class="{show : hover}"
+                        aria-label="delete" 
+                        ng-click="deletePolicy(policy)">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Delete
+                        </md-tooltip>
+                        <md-icon class="icon-18">delete</md-icon>
+                    </md-button>
+                    <md-button ng-if="is_create_policy" ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" ng-class="{show : hover}" aria-label="refresh" ng-click='callpopupDuplicatePolicy(policy)'>
+                        <md-tooltip md-direction="bottom">Duplicate
+                        </md-tooltip>
+                        <md-icon class="icon-18">content_copy</md-icon>
+                    </md-button>
+                    <span class="policy-name" ui-sref="home.policy.policydetail({policyId: policy.id})">{{policy.name}}</span>
+                </td>
+                <td md-cell><span>{{policy.tenantName}}</span></td>
+                <td md-cell><span >{{policy.assignmentData.assignedRGIDs.length}}</span></td>
+                <!-- ng-click="showAssignmentCountPopUp($event,policy.name)" class="policy-title" -->
+                <td md-cell><span>{{policy.lastModified | date:'MM/dd/yyyy'}}<!-- {{policy.modifiedDate}} --></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    </div>
+    <div flex></div>
+    <div class="policy-page-footer">
+     <md-content layout="row" layout-align="start center" class="admin-footer">
+                        <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(policyList.length) ? policyList.length : 0 }}" md-page-select>
+                        </md-table-pagination>
+    </md-content>
+    </div>
+</div>

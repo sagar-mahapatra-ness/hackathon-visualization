@@ -1,0 +1,119 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page  admin-page" style="height: 880px;">
+    <div class="admin-page-policies-header">
+         <md-toolbar layout="row" layout-align="start center" class="admin-policy-table-toolbar">
+            <div style="font-size: 16px;">
+                <span class="policy-title" ui-sref="home.policy.policylist.threatdetection">Threat Prevention Policies</span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> Add Threat Detection Policy
+            </div>
+        </md-toolbar>
+        <md-table-container>
+        <section layout="row">
+            <form name="policyDetailForm" novalidate="true">
+                <h3 class="titleHeading" style="padding-bottom: 24px;">1. Name your Policy</h3>                     
+                <md-input-container class="md-block">
+                <label style="color:#4a90e2;font-size: 16px;">Policy Name</label>
+                    <input name='policyname'  ng-model="policyDetails.name" required autofocus md-maxlength="100" ng-pattern="/^[a-zA-Z0-9 _.-]*$/" style="font-size: 16px;">
+                    <div ng-messages="policyDetailForm.policyname.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                        <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                    </div>
+                </md-input-container>
+                <h3 class="titleHeading" style="margin-top: 64px;">2. Select a Tenant</h3>                     
+                    <md-button ng-show="!tenantSelected" class="md-primary md-hue-3 addNewTypePolicy" style="width:auto;margin-left: 0px !important;" aria-label="select" ng-click="callpopupTenats($event)" id="threatPreventionTenantSelect">
+                    <span>SELECT</span>
+                    </md-button>
+                    <span ng-show="tenantSelected" class="selected-tenant-name"> {{selectedTenantObj.name}} <md-icon class="material-icons icon-18"><span  ng-click="callpopupTenats($event)">edit</span></md-icon>
+                    </span>
+            </form>
+        </section>
+        <md-toolbar layout="row" layout-align="space-between none" class="admin-policy-table-toolbar" style="margin-top: 48px;">
+            <h3 class="titleHeading">3. Add Rules</h3>
+            <div class="control-tray" layout="row">
+            <md-button class="md-primary md-hue-3 addNewTypePolicy" style="width:auto;" aria-label="add" ng-click="addthreatRule();">
+                <!--     <md-tooltip md-delay="250" md-direction="bottom">
+                                        Add New
+                                    </md-tooltip> -->
+                <md-icon class="icon-18">add_circle_outline</md-icon> Add Rule
+            </md-button>
+        </div>
+        </md-toolbar>
+            <table md-table md-row-select ng-model="selected">
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column></th>
+                        <th md-column><span>Rule Name</span></th>
+                        <th md-column><span>Applications/Protocols</span></th>
+                        <th md-column><span>OS</span></th>
+                        <th md-column><span>Severity</span></th>
+                        <th md-column><span>Target</span></th>
+                        <th md-column><span>Specific Threats</span></th>
+
+                        <!-- END -->
+                    </tr>
+                </thead>
+                <tbody md-body>
+              
+                    <tr class="searchbar" ng-show="isSearchBarOpen">
+                        <td></td>
+                        <td><search datalist='policyDetails.rules' searchconfig='{listname:"policyDetails.rules", searchkeylocale: "!", key: "name"}' showicon='false'></search></td>
+                    </tr>
+                    <tr md-row md-auto-select md-select="singleRule" md-select-id="name" ng-repeat="singleRule in policyDetails.rules  | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false" ng-class="{highlighted : singleRule.active}">
+                        <td md-cell class="button-cluster" ng-class="{show : hover}">
+                            <md-button class="md-icon-button md-primary md-hue-3" aria-label="delete" ng-click='deleteGroup(singleRule)'>
+                                <md-tooltip md-delay="250" md-direction="bottom">
+                                    Delete
+                                </md-tooltip>
+                                <md-icon>delete</md-icon>
+                            </md-button>
+                            <md-button class="md-icon-button md-primary md-hue-3" aria-label="edit" ng-click='editRule(singleRule)'>
+                                <md-tooltip md-delay="250" md-direction="bottom">
+                                    Edit
+                                </md-tooltip>
+                                <md-icon>edit</md-icon>
+                            </md-button>
+                        </td>
+                        <td md-cell><span>{{singleRule.name}}</span></td>
+                        <!-- <td md-cell><span>{{getStringData(singleRule.appNames,singleRule.protocolNames)}}</span></td>
+                        <td md-cell><span>{{singleRule.osNames.join()}}</span></td> -->
+                        <td md-cell>
+                        <span ng-show="singleRule.appNames !== '' " ng-repeat="(key,dataapp) in singleRule.appNames  | limitTo: 2">{{dataapp}}<span ng-hide="key === singleRule.appNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.appNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.appNames,'Applications/Protocols')">+{{singleRule.appNames.length-2}}</span>
+                         <!-- </span> -->
+                        <span ng-show="singleRule.protocolNames !== '' " ng-repeat="(key,data) in singleRule.protocolNames  | limitTo: 2">{{data}}<span ng-hide="key === singleRule.protocolNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.protocolNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.protocolNames,'  Applications/Protocols')">+{{singleRule.protocolNames.length-2}}</span>
+                        <!-- <span>{{getStringData(singleRule.appNames,singleRule.protocolNames)}}</span> --></td>
+                        <td md-cell><span ng-show="singleRule.osNames !== '' " ng-repeat="(key,dataos) in singleRule.osNames  | limitTo: 2">{{dataos}}<span ng-hide="key === singleRule.osNames.length-1">,</span></span><span class="policy-title" ng-show="singleRule.osNames.length > 2" ng-click="showMoreItemPopUp($event,singleRule.osNames,'OS')">+{{singleRule.osNames.length-2}}</span>
+                        <!-- <span>{{singleRule.osNames.join()}}</span> --></td>
+                        <td md-cell><span>{{singleRule.severities.join()}}</span></td>
+                        <td md-cell><span>{{singleRule.protectionType}}</span></td>
+                        <td md-cell><span>{{singleRule.specificThreats.length}}</span></td>
+                    <!-- END -->        
+                    </tr>
+                </tbody>
+                <tbody md-body ng-show='policyDetails.rules.length == 0'>
+                    <tr md-row md-auto-select >
+                        <td colspan="100%" md-cell class="add-a-new-infra-msg">
+                            You don’t have any rules set up <span  style="cursor: pointer;color:#4a90e2;" ng-click="addthreatRule();">add a rule</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div layout="row" layout-align="space-between center">
+                <section>
+                    <md-button class="md-accent md-hue-3 md-button md-ink-ripple" class="stepper-back" ng-click="cancelNewThreat();">
+                        CANCEL
+                    </md-button>
+                    <md-button class="md-accent md-raised modal-done-button" ng-click="addNewThreat();" ng-disabled="{{ policyDetailForm.$invalid || !policyDetails.rules.length }}">
+                        ADD
+                    </md-button>
+                </section>
+                <section>
+                </section>
+            </div>
+        </md-table-container>
+        <div flex></div>
+    </div>    
+</div>
+<style type="text/css">
+    .titleHeading{
+        font-size: 20px;
+    }
+</style>

@@ -1,0 +1,92 @@
+.page-wrap {
+  position:fixed !important;
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background-color: #0000ff;
+  
+ }
+
+.left-section {
+    background-color: #f7f7f7;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 50%;
+    
+}
+.right-section {
+    background-color: #ffffff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: 0;
+    width: 50%;
+    
+    .login-details-form{
+      margin-top:24px;
+      
+      .md-input{
+        border-color:rgb(74,144,226);
+      }
+    }
+    
+}
+
+.logo{
+   position: absolute;
+   display:block;
+   margin:auto;
+   top:40%;
+   left: 25%;
+}
+.form{
+   position: absolute;
+   display:block;
+   margin:auto;
+   top:32%;
+   left: 15%;
+}
+
+.copyright{
+  position: absolute;
+  left:25%;
+  bottom: 25px;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0.5px;
+  color: #6d6e71;
+  color: var(--slate-grey);
+}
+
+.login_label{
+  font-size: 34px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #000000;
+  color: var(--black);
+}
+.passwordfield{
+  position:relative;
+}
+.show-password{
+  position: absolute;
+  right:10px;
+  top: 30px;
+  width:30px;
+  height:30px;
+}
+
+.login-error{
+  color: #ff0000;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

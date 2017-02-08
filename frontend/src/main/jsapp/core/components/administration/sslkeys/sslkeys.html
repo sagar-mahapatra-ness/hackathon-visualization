@@ -1,0 +1,162 @@
+ 
+<div ui-view class="admin-page" layout='row' layout-align="start stretch">
+    <div class="left-panel content-height-fixer policy-table-page" flex layout="column" layout-align="space-between none">
+    <!-- <div layout="column" layout-align="start stretch" class="content-height-fixer policy-table-page  admin-page" style="height: 725px;"> -->
+
+        <md-toolbar layout="row" layout-align="space-between none" class="admin-toolbar">
+            <div>
+                Inbound Web Server Certificates
+            </div>
+            <div class="control-tray" layout="row">
+                <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click="callCacheBurst()">
+                    <md-tooltip md-direction="bottom">
+                        Refresh Data
+                    </md-tooltip>
+                    <md-icon>cached</md-icon>
+                </md-button>            
+                <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="Import" ng-click="import()">
+                        <md-tooltip md-direction="bottom">
+                                Import Certificate
+                        </md-tooltip>
+                        <md-icon>system_update_alt</md-icon>
+                </md-button>              
+                <!--
+                <md-button class="md-icon-button md-primary md-hue-3" aria-label="search" ng-click="toggleSearchBar($event)">
+                    <md-tooltip md-direction="bottom">
+                        Search
+                    </md-tooltip>
+                    <md-icon>search</md-icon>
+                </md-button>               
+                -->
+            </div>
+        </md-toolbar>
+
+        <md-table-container>
+            <table md-table md-row-select ng-model="selected"   md-progress="promise">
+                <thead md-head>
+                    <tr md-row>
+                        <th md-column></th>
+                        <th md-column><span>Common Name</span></th>
+                        <th md-column><span>Issuer</span></th>
+                        <th md-column><span>Valid From</span></th>
+                        <th md-column><span>Valid Until</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Status</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Last Updated By</span></th>
+                        <th md-column ng-class="{hidecol : isAdornmentPanelOpen}"><span>Last Updated Time</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body ng-show="inboundKeysAvailable">                    
+                    <tr class="searchbar" ng-show="isSearchBarOpen">
+                        <td></td>
+                        <td><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key: "commonName"}' showicon='false'></search></td>
+                        <td><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key: "issuer"}' showicon='false'></search></td>
+                        <td><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key: "validFrom"}' showicon='false'></search></td>
+                        <td><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key: "validUntil"}' showicon='false'></search></td>
+                        <td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key:"status"}' showicon='false'></search></td>
+                        <td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key:"user"}' showicon='false'></search></td>                        
+                        <td ng-class="{hidecol : isAdornmentPanelOpen}"><search datalist='inboundKeys' searchconfig='{listname:"inboundKeys", searchkeylocale: "!", key:"lastUpdated"}' showicon='false'></search></td>
+                    </tr>                                        
+                    
+                    <tr md-row md-auto-select md-select="inboundcerts" md-select-id="name" ng-repeat="inboundcert in inboundKeys | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+                        <td md-cell class="button-cluster" ng-class="{show : hover}">
+                            <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="info" ng-click="updateAdornmentPanel($event,inboundcert)">
+                                <md-tooltip md-direction="bottom">
+                                    Information
+                                </md-tooltip>
+                                <md-icon class="icon-18">info_outline</md-icon>
+                            </md-button>
+                            <!--
+                            <md-button ng-disabled="promiseCompleted" class="md-icon-button md-primary md-hue-3" aria-label="refresh" ng-click=''>
+                                <md-tooltip md-direction="bottom">Delete</md-tooltip>
+                                <md-icon>delete</md-icon>
+                            </md-button>        
+                            -->
+                        </td>
+                        
+                        <td md-cell style="width:200px"><span>{{inboundcert.commonName}}</span></td>
+                        <td md-cell style="width:400px"><span>{{inboundcert.issuer}}</span></td>
+                        <td md-cell><span>{{inboundcert.validFrom | date:'yyyy-MM-dd HH:mm:ss Z'}}</span></td>
+                        <td md-cell><span>{{inboundcert.validUntil | date:'yyyy-MM-dd HH:mm:ss Z'}}</span></td>
+                        <td md-cell style="width:100px" ng-class="{hidecol : isAdornmentPanelOpen}">
+                            <span ng-show="inboundcert.status==='Valid'"><md-icon class="material-icons green">fiber_manual_record</md-icon>{{inboundcert.status}}</span>
+                            <span ng-show="inboundcert.status==='Expired'"><md-icon class="material-icons red">fiber_manual_record</md-icon>{{inboundcert.status}}</span>
+                        </td>
+                        <td md-cell style="width:75px" ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{inboundcert.user}}</span></td>
+                        <td md-cell style="width:100px" ng-class="{hidecol : isAdornmentPanelOpen}"><span>{{inboundcert.lastUpdated | date:'yyyy-MM-dd HH:mm:ss Z'}}</span></td>                                            
+                    </tr>                    
+                </tbody>
+
+            </table>
+
+            <div  ng-show="!inboundKeysAvailable"  layout="row" layout-align="center center" class="no-rule-strip">
+                <span>You don’t have any inbound keys set up, <span class="add-rule-text" ng-click='import()'>import a certificate</span></span>
+            </div>            
+        </md-table-container>
+
+        <div flex></div>
+
+        <md-content layout="column" layout-align="end end" class="admin-footer">    
+            <section class="download-file" ></section>        
+            <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(inboundKeys.length)? inboundKeys.length : 0 }}" md-page-select>
+            </md-table-pagination>
+        </md-content>
+    </div>
+
+    <div class="adornment-panel" flex="25" ng-show="isAdornmentPanelOpen">
+        <md-toolbar layout='row' class="md-primary md-hue-3">
+            <md-button class="md-icon-button md-primary md-hue-2" aria-label="close" ng-click="toggleAdornmentPanel()">
+                <md-icon>close</md-icon>
+            </md-button>
+            <span>Information</span>
+        </md-toolbar>
+        <section>
+            <md-subheader class="sub-header">
+                Details
+
+                <md-icon ng-show="!editMiscState" class="edit" ng-click="editMiscUserData()">edit</md-icon>
+                <md-button class="md-icon-button apply" 
+                           aria-label="edit" 
+                           ng-show="editMiscState" 
+                           ng-click="updateUserData()"
+                           style='float:right;  margin-top: -12px;'>
+                    <md-tooltip md-direction="bottom">
+                        Apply
+                    </md-tooltip>
+                    <md-icon class="md-icon-button" 
+                           ng-if="userFormValid"
+                             style='float:right;'>
+                        done
+                    </md-icon>
+                </md-button>
+                <md-button class="md-icon-button" 
+                           aria-label="discard" 
+                           ng-show="editMiscState"
+                           style='float:right; margin-top: -12px;' 
+                           ng-click="discardMiscChanges()">
+                    <md-tooltip md-direction="bottom">
+                        Discard Changes
+                    </md-tooltip>
+                    <md-icon>clear</md-icon>
+                </md-button> 
+            </md-subheader>
+            <md-content class="content" layout="column" ng-hide="editMiscState">
+                <span class="section-header">Common Name</span>
+                <span class="section-text">{{adornmentData.commonName}}</span>
+                <span class="section-header">Issuer</span>
+                <span class="section-text">{{adornmentData.issuer}}</span>
+                <span class="section-header">Valid From</span>
+                <span class="section-text">{{adornmentData.validFrom | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>          
+                <span class="section-header">Valid Until</span>
+                <span class="section-text">{{adornmentData.validUntil | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>          
+                <span class="section-header">Status</span>
+                <span class="section-text">{{adornmentData.status}}</span>
+                <span class="section-header">Last Updated By</span>
+                <span class="section-text">{{adornmentData.user}}</span>                          
+                <span class="section-header">Last Updated Time</span>
+                <span class="section-text">{{adornmentData.lastUpdated | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+            </md-content>
+        </section>
+        <div flex></div>
+    </div>
+
+</div>

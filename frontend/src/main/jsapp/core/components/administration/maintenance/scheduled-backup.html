@@ -1,0 +1,73 @@
+<div layout="column" layout-align="start center" class="content-height-fixer backup-restore">
+    <div class="admin-page-component-header">
+        Automated Backup
+    </div> 
+    <form name='backupRestoreForm' class="backup-restore-form">
+
+        <!-- div layout="column" class="section-existing-ip-pools"--> 
+        <section layout="row" layout-align="space-between stretch">         
+        <md-content class="single-col-component elem-width-large">                              
+            <label>{{backuprestore_enable}}</label>                                                    
+            <md-radio-group class="radio-selection-grp" ng-model="backuprestore.enable" layout="row" ng-click="radioClicked()">
+                <md-radio-button value="1">Yes</md-radio-button>
+                <md-radio-button value="0">No</md-radio-button>
+            </md-radio-group>                 
+        </md-content>        
+        </section>
+        
+        <div ng-if="backuprestore.enable && backuprestore.enable == '1'"" class="animate-if elem-width-large">        
+            <md-input-container class="md-block">
+                <label>{{backuprestore_defdirloc}}</label>
+                <input name='defdirloc' ng-model="backuprestore.defdirloc" ng-disabled=true>
+            </md-input-container>                
+                        
+            <md-input-container class="md-block">
+                <label>Type</label>
+                <md-select name='backupdataforType' ng-model="backuprestore.type" required>
+                    <md-option ng-repeat="type in backuptypes.types" value="{{type.value}}">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+                <div ng-messages="backupRestoreForm.backupdataforType.$error" role="alert">
+                    <div ng-message="required">This is required.</div>
+                </div>
+            </md-input-container>
+                           
+            <md-content class="md-block">
+                <div layout="column">
+                <label>{{backuprestore_frequency}}</label>  
+                <md-checkbox 
+                    ng-model="backuprestore.frequency"                        
+                    aria-label="daily">
+                    Daily
+                </md-checkbox>                    
+                </div>
+
+                <md-input-container class="md-block">
+                    <label>{{backuprestore_starttime}}:&nbsp;</label>
+                    <input mdc-datetime-picker="" name="starttime" date="false" time="true" type="text" id="time" short-time="true"
+                        placeholder="04:05" min-date="minDate" format="HH:MM a" ng-model="backuprestore.time" class="md-input" required>  
+                    <div ng-messages="backupRestoreForm.starttime.$error" role="alert">
+                        <div ng-message-exp="['required']">
+                            This is required
+                        </div>
+                    </div>                                  
+                </md-input-container>
+            </md-content>                
+
+            <md-input-container class="md-block">
+                <label>{{backuprestore_altdirloc}}</label>
+                <input name='altdirloc' ng-model="backuprestore.altdirloc">
+            </md-input-container>
+            <section layout="row" layout-align="space-between stretch">
+                <label>&nbsp;</label>
+                <md-button ng-if="is_update_maintenance" class="md-accent backup-restore-buttom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                           ng-click = "schedulebackup()"
+                           ng-disabled = "!backuprestore.frequency">
+                    Save
+                </md-button>
+            </section>
+        </div>
+
+    </form>            
+ </div>

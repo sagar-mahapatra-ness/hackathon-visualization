@@ -1,0 +1,28 @@
+<section layout="row" flex>
+<div layout="column" layout-align="start stretch" class="admin-page" style="width:100%;">
+    <div class="admin-page-policies-header">
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="currentTab">
+                <md-tab label="SMB Server" ui-sref="home.setup.settings.smbserver">
+                    <div ui-view="smbserversettings" style="height:100%;"></div>
+                </md-tab>
+                <md-tab label="Syslog" ui-sref="home.setup.settings.syslog">
+                    <div ui-view="syslogserversettings"></div>
+                </md-tab>      
+                <md-tab label="SMTP" ui-sref="home.setup.settings.emailserver">
+                    <div ui-view="emailserversettings" style="height:100%;"></div>
+                </md-tab>                           
+                <md-tab label="LDAP" ui-sref="home.setup.settings.ldapserver">
+                    <div ui-view="ldapserversettings"></div>
+                </md-tab>  
+                <!--             
+                <md-tab label="Radius" ui-sref="home.setup.settings.radius">
+                    <div ui-view="radius"></div>
+                </md-tab>               
+                -->
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+<helpcontainer contentid="active_help_id" ></helpcontainer>
+</section>

@@ -1,0 +1,835 @@
+.admin-page-policies-list {
+    md-pagination-wrapper {
+        margin-left: 24px;
+    }
+    md-tabs .md-tab {
+        color: #4a90e2 !important;
+    }
+    md-tabs{
+        height:100%;
+        md-tabs-content-wrapper{
+            height:100%;
+        }
+    }
+    md-tabs-content-wrapper{
+        md-tab-content{
+            > div{
+                height:100%;
+            }
+        }
+    }
+    .policy-view{
+        height:100%;
+    }
+    md-tabs.md-dynamic-height md-tab-content.md-active{
+        height:100%;
+    }
+}
+.policy-page-details-list{
+    overflow-y: auto;
+}
+.policy-details-page{
+    height:100%;
+    .policy-desciption-content{
+        height:87%;
+    }
+    md-chips{
+        input {
+            font-size: 14px;
+        }
+        md-chips-wrap {
+            padding: 0;
+        }
+        div {
+            margin: 0;
+        }
+    }
+    .policy-page-footer {
+        position: fixed;
+        width: 100%;
+        bottom: 56px;
+        height:56px;
+        overflow: hidden;
+        left: 0;
+    }
+}
+.res-group-type{
+    width:650px;
+    height:600px;
+    border-radius:2px;
+    .res-group-check{
+        ._md-label{
+            width:100px;
+        }
+    }  
+}
+
+.acl-page-detail-footer{
+    .md-button.md-raised[disabled]{
+        background-color: #4a90e2 !important;
+        opacity: 0.38;
+        color: #FFF !important;   
+    }
+}
+.assignment-group-type{
+    width: 768px;
+    height: 724px;
+    border-radius: 2px;
+    .table-description{
+        margin:24px;
+    }
+}
+.policy-table-page {
+    margin: 24px;
+    margin-top: 0;
+    .admin-toolbar {
+        padding: 16px 0px;
+    }
+    .new-policy-heading{
+        height: 24px;
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+    }
+    .new-policy-added{
+        width: 35px;
+        height: 18px;
+        border-radius: 2px;
+        background-color: rgba(73, 144, 226, 0.1);
+        color: #4a90e2;
+        margin-right: 24px;
+        padding: 4px 6px;
+        font-size:10px;
+    }
+    .policy-name{
+        margin-left: 56px;
+    }
+    .search-name-padding{ 
+        md-chips-wrap {
+            margin-left: 150px;
+        }
+    }
+    .edit-name-tenant{
+        height:80px;
+        .edit-heading{
+            height: 16px;
+            margin-top:16px;
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.23;
+            color: #6d6e71;
+            margin-bottom:12px;
+        }
+        .show-name-details{
+            word-wrap: break-word;
+        }
+    }
+    .policy-header-details{
+        width:25%;
+        md-input-container{
+            width:80%;
+            margin-bottom:0px;
+        }
+    }
+    .rule-divider{
+        margin-bottom:24px;
+        margin-top:14px;
+    }
+    .rules-heading{
+        height: 24px;
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+        margin-bottom:20px;
+    }
+    .admin-page-policies-header {
+
+        .admin-policy-table-toolbar {
+            height: 24px;
+            background: #FFFFFF;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.5;
+            color: #000000;
+            .toolbar-desc{
+                height: 24px;
+                font-family: Roboto;
+                font-size: 16px;
+                font-weight: 500;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: 1.5;
+                color: #000000;
+            }
+            .update-policy {
+                width: 69px;
+                height: 36px;
+                border-radius: 2px;
+                background-color: #4a90e2;
+                span {
+                    width: 37px;
+                    height: 16px;
+                    font-family: Roboto;
+                    font-size: 14px;
+                    font-weight: 500;
+                    font-style: normal;
+                    font-stretch: normal;
+                    letter-spacing: 0.5px;
+                    color: #ffffff
+                }
+            }
+            .update-policy[disabled] {
+                background-color: #4a90e2 !important;
+                opacity: 0.38;
+                color: #FFF !important;
+            }
+            .acl-policy-heading{
+                height: 24px;
+                font-family: Roboto;
+                font-size: 16px;
+                font-weight: normal;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: 1.5;
+                .details-title{
+                    width: 98px;
+                    height: 24px;
+                    font-family: Roboto;
+                    font-size: 16px;
+                    font-weight: 500;
+                    font-style: normal;
+                    font-stretch: normal;
+                    line-height: 1.5;
+                    color: #000000;
+                }
+            }
+
+        }
+    }
+    .addNewTypePolicy {
+        height: 36px;
+        border-radius: 2px;
+        border: solid 1px #4a90e2;
+        margin-left: 24px !important;
+        color:#4a90e2 !important;
+        .material-icons {
+            width: 18px;
+            height: 18px;
+            color: #4a90e2 !important;
+        }
+        span {
+            color: #4a90e2 !important;
+            height: 16px;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+    }
+    .policy-table-headings {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    .threatlist-topbar{
+        height:64px;
+        h3{
+            margin:0 0 0 4px;
+            font-size:20px;
+        }
+        .addnewrule{
+            @extend .addNewTypePolicy;
+            margin-left:0px !important;
+        }
+    }
+    .displayText{
+        font-size: 16px;
+    }
+    .namedTitle{
+        font-size: 20px;
+    }
+    .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 4px 4px;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 1;
+        color: #4a90e2;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+    .bg-info {
+        color: #4a90e2;
+        background-color: #fff;
+    }
+    .dp16{
+        font-size: 16px;
+        height: 16px;
+        width: 16px;
+        min-width: 16px;
+        min-height: 16px;
+    }
+}
+
+.add-new-policy {
+    .admin-toolbar {
+        padding: 4px 0px 20px 0px;
+        font-weight: normal;
+    }
+    .new-policy-heading {
+        height: 24px;
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+        display: block;
+        margin-bottom: 34px;
+    }
+    .new-policy-header{
+        height: 24px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        color: #000000;
+    }
+    .select-tenant {
+        label{
+            height: 16px;
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.23;
+            color: #6d6e71;
+            margin-bottom:8px;
+        }
+        .select-tenant-button {
+            width: 82px;
+            height: 36px;
+            border-radius: 2px;
+            border: solid 1px #4a90e2;
+            margin-bottom:64px;
+            span {
+                height: 24px;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 500;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: 1.71;
+                color: #4a90e2;
+            }
+        }
+        .selected-tenant-name {
+            margin-bottom:64px;
+            height: 16px;
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            color: #000000;
+        }
+    }
+}
+
+.policy-threshold-table {
+    md-checkbox {
+        margin-top: 17px;
+        ._md-container {
+            width: 24px;
+            height: 24px;
+        }
+    }
+    .info-file-type-button {
+        md-icon {
+            width: 13.3px;
+            font-size: 14px;
+            height: 13.3px;
+            min-width: 13.3px;
+            min-height: 13.3px;
+        }
+    }
+    md-select.md-default-theme ._md-select-value,
+    md-select ._md-select-value {
+        border: none !important;
+    }
+    md-checkbox {
+        margin-left: 10px !important;
+    }
+    md-select {
+        max-width: 125px;
+        ._md-text {
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            color: #000000;
+            text-transform: capitalize;
+            md-icon {
+                font-size: 8px;
+                width: 8px;
+                min-width: 8px;
+                min-height: 8px;
+                height: 8px;
+                margin-right: 8px;
+            }
+        }
+        ._md-select-icon{
+            margin-top:-10px;
+        }
+    }
+    .HIGH {
+        color: #ff4949;
+    }
+    .MEDIUM {
+        color: #ffc030;
+    }
+    .LOW {
+        color: #13ce66;
+    }
+    md-select:not([disabled]):focus ._md-select-value {
+        border: none;
+    }
+    .select-malware-action-list{
+        md-select {
+            md-select-value {
+                span {
+                    font-size:14px;
+                }
+            }
+        }
+    }
+}
+
+.policy-table-option {
+    .brightness {
+        font-size: 8px;
+        width: 8px;
+        min-width: 8px;
+        min-height: 8px;
+        height: 8px;
+        margin-right: 8px;
+    }
+    .HIGH {
+        color: #ff4949;
+    }
+    .MEDIUM {
+        color: #ffc030;
+    }
+    .LOW {
+        color: #13ce66;
+    }
+    ._md-text {
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        text-transform: capitalize;
+        color: #000000;
+        width: 100%;
+    }
+}
+
+.info-file-type{
+    padding:20px;
+    .info-policy-type-title{
+        height: 24px;
+        font-family: Roboto;
+        font-size: 20px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+        margin-bottom:20px;
+    }
+    .policy-type-info-details{
+        margin-bottom: 48px;
+        span{
+            margin-bottom:5px;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 2;
+            color: #6d6e71;
+        }
+    }
+}
+
+.policy-table-headings {
+    margin-bottom: 20px;
+    .malware-engine {
+        margin-left: 15%;
+        height: 15px;
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+    }
+    .action-threshold {
+        margin-left: 52%;
+        height: 15px;
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        color: #000000;
+    }
+}
+    .add-policy-set{
+        .policy-set-title-prev{
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+        }
+        .link{
+            color: #4a90e2;
+        }
+        .policy-set-title-curr{
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            color: #000000;
+        }
+
+        .head-label{
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 44px;
+        }
+        .sub-head-label{
+            font-size: 13px;
+            color: #6d6e71;
+            padding: 24px 0px 8px 0px;
+        }
+        .addNewTypePolicy{
+            border: solid 1px #4a90e2;
+            color: #4a90e2 !important;
+            font-size: 14px;
+        }
+        .button-cluster {
+                width: 150px;
+                visibility: hidden;
+        }
+        .show {
+            visibility: visible !important;
+        }
+    }
+
+.policy-title {
+    color: #4a90e2;
+    cursor: pointer;
+    outline: none;
+}
+.acl-policy-new-rule-details{
+    .add-new-policy-header{
+        height: 24px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.5;
+        color: #000000;
+        .add-rule-title{
+            color: #4a90e2;
+        }
+    }
+    .acl-new-rule-form {
+        margin-left:145px;
+        margin-top:24px;
+
+        input {
+            font-size:16px;
+        }
+        md-input-container {
+            margin: 8px 0;
+
+            label:not(.md-no-float):not(._md-container-ignore) {
+                font-size:16px;
+            }
+        }
+
+        section {
+        margin-bottom:64px;
+        }
+        .input-ranges{
+            md-input-container{
+                width: 192px;
+            }
+            span {
+                margin-right:17px;
+                margin-top:25px;
+            }
+        }
+        .policy-name-color{
+            color: #4a90e2;
+        }
+        .select-dropdown{
+            md-input-container{
+                width:85px;
+                span{
+                    width: 52px;
+                    height: 16px;
+                    font-family: Roboto;
+                    font-size: 16px;
+                    font-weight: normal;
+                    font-style: normal;
+                    font-stretch: normal;
+                    line-height: 1;
+                    color: #000000;
+                }
+                ._md-select-icon {
+                    color: #6d6e71;
+                }
+            }
+        }
+        .new-policy-heading{
+            height: 24px;
+            font-family: Roboto;
+            font-size: 20px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            color: #000000;
+            margin-bottom:24px;
+        }
+        .select-add-rule-button{
+            width: 82px;
+            height: 36px;
+            border-radius: 2px;
+            border: solid 1px #4a90e2;
+            span {
+                width: 50px;
+                height: 24px;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 500;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: 1.71;
+                color: #4a90e2;
+            }
+        }
+        .add-anthor-range{
+            color: #4a90e2;
+            md-icon {
+                width: 15px;
+                height: 15px;
+                color: #4a90e2;
+                margin-right:10px;
+            }
+        }
+        .buttons-edit{
+            margin-top:-10px;
+        }
+        .clear-icon-on-rule{
+            margin-top:16px;
+            width: 189px;
+            height: 36px;
+            border-radius: 2px;
+            border: solid 1px #4990e2;
+            span{
+                width: 157px;
+                height: 16px;
+                font-family: Roboto;
+                font-size: 14px;
+                font-weight: 500;
+                font-style: normal;
+                font-stretch: normal;
+                letter-spacing: 0.5px;
+                color: #4a90e2;
+            }
+        }
+    }
+
+
+}
+.no-rule-strip {
+    margin-top:32px;
+    .add-rule-text{
+        color: #4a90e2;
+        cursor:pointer;
+    }
+}
+.order-input-field{
+    md-input-container{
+        margin: 13px 0px 0px 0px;
+    input {
+            background: white;
+            height: 30px;
+            font-size: 14px;
+        }
+    .md-errors-spacer{
+        min-height:2px;
+        }
+    }
+}
+.prsedence-icon {
+    cursor: url(/../images/grab.cur),default;;
+    cursor:-moz-grabbing;
+    cursor:grab;
+    padding-left: 5px; 
+    cursor: -webkit-grabbing;    
+}
+md-input-container {
+     .md-input[disabled].disabledData{
+        border: none;
+        color: rgba(0,0,0,0.87);
+        font-size: 16px;
+    }
+    .md-input[disabled].disabledData.bluecolor{
+        color:$dark-sky-blue;
+    }
+}
+form[name='policyDetailForm']{
+    .threatinputdata{
+        width : 312px;
+        margin: 18px 48px 24px 0;
+    }
+}
+/* only for add new rule*/
+.dropdowntext ._md-select-value > span:not(._md-select-icon) {
+  font-size: 16px;
+  margin: 0 0 12px 0;
+}
+md-input-container.ruledropdown label:not(.md-no-float):not(._md-container-ignore), md-input-container ._md-placeholder{
+    font-size:13px;
+}
+.threats-seleted-gtc{
+    width:150px;
+}
+.reponse-action{
+    margin-left:25px;
+}
+.notify-by{
+    margin-left:73px;
+}
+.more-data-page {
+    min-width: 375px;
+    max-height: 536px;
+    max-width: 375px;
+    padding: 0px;
+}
+.server-objs-cidrs{
+    span{
+        white-space: pre-line;
+    }
+}
+.isdisabled{
+    md-checkbox{
+        display:none;
+    }
+}
+.addNewTypePolicy {
+        height: 36px;
+        border-radius: 2px;
+        border: solid 1px #4a90e2;
+        margin-left: 24px !important;
+        color:#4a90e2 !important;
+        .material-icons {
+            line-height:0.8;
+            width: 18px;
+            height: 18px;
+            color: #4a90e2 !important;
+        }
+        span {
+            color: #4a90e2 !important;
+            height: 16px;
+            font-family: Roboto;
+            font-size: 14px;
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+}
+.md-button:not([disabled]).select-add-rule-button:hover,
+.md-button:not([disabled]).addNewTypePolicy:hover {
+    background-color: transparent;
+}
+
+#aclPolicyName {
+    font-size: 16px;
+    padding:0;
+}
+
+.edit-name {
+    md-input-container {
+        width: 80%;
+        margin: 0;
+        height: 24px;
+        .md-input {
+            height: 24px;
+        }
+    }
+}
+
+.acces-control-form {
+    margin-top: 20px;
+}
+
+policy-acl-dir-table {
+    md-table-container {
+        tr:hover {
+            background-color: #f7f7f7;
+        }
+    }
+}
+
+.malware-form,
+.topinfowrapper {
+    margin-top:24px;
+
+    md-input-container .md-input,
+    md-input-container label:not(.md-no-float):not(._md-container-ignore) {
+        font-size: 16px;
+    }
+}
+.md-table-pagination {
+    -webkit-justify-content:flex-start;
+    justify-content:flex-start;
+    width: 100%;
+}
+.new-policy-added{
+    width: 35px;
+    height: 18px;
+    border-radius: 2px;
+    background-color: rgba(73, 144, 226, 0.1);
+    color: #4a90e2;
+    margin-right: 24px;
+    padding: 4px 6px;
+    font-size:10px;
+}

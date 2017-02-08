@@ -1,0 +1,24 @@
+<div class="error-popup">	
+    <md-dialog-content>
+		<div class="md-dialog-content">
+			<div layout="row" layout-align="space-between center" style="margin-bottom: 20px;">
+				<div class="titleText" style="color:#ff4949">
+					<md-icon style="color:#ff4949">warning</md-icon>
+					Internal Error
+				</div>
+				<div class="titleText">Code 500</div>
+			</div>
+			<div layout="row" layout-align="start center" class="error-description" style="margin-bottom:24px;">
+				This dashboard cannot be presented due to an internal operation error with one or more of its widgets.
+			</div>
+			<div layout="row" layout-align="start center" class="error-description" style="margin-bottom:74px;">
+				<div>
+					Try, more the "Configuration Menu" (cog), deleting one or more of its widgets.
+				</div>
+			</div>
+		</div>
+	</md-dialog-content>
+	<md-dialog-actions layout="row" layout-align="end end">
+		<md-button ng-click="hide();" style="color:#4a90e2;padding: 0;margin: 0;">CLOSE</md-button>
+	</md-dialog-actions>
+</div>

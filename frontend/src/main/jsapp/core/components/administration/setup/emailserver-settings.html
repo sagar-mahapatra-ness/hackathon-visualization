@@ -1,0 +1,102 @@
+<div layout="column" flex layout-align="start center" class="smb-server">
+    <div class="smb-config-component-header">
+        SMTP Server<md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_system_setup_configs_help')" style="margin-right:0px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div> 
+    <form name='emailConfigForm' class="email-config-form">
+
+        <md-input-container class="single-col-component elem-width-large">
+            <label>Sender Email Address</label>
+            <input name='sender' md-autofocus ng-model="emailserver.senderaddress"  
+                   ng-pattern="/^[a-zA-Z0-9.-@]*$/"
+                   md-maxlength="50"
+                   >
+            <div ng-messages="emailConfigForm.servername.$error" role="alert">                    
+                <div ng-message="pattern">Only alphanumeric, ".", "-", "_" are allowed.</div>
+                <div ng-message="md-maxlength">
+                    Server name must be between 1 and 50 characters long.
+                </div>
+            </div>
+        </md-input-container>        
+
+        <md-input-container class="md-block">
+            <label>{{emailserver_ipaddress_fqdn}}</label>
+            <input name='emailserverIpFqdn' ng-model="emailserver.ip" required>
+            <div ng-messages="emailConfigForm.emailserverIpFqdn.$error" role="alert">
+                <div ng-message-exp="['required']">
+                    This is required
+                </div>
+            </div>            
+        </md-input-container>
+
+        <md-input-container class="md-block">
+            <label>{{emailserver_port}}</label>
+            <input placeholder="25" md-maxlength="5" name='Port' id="port" ng-model="emailserver.port" ng-pattern="/^[0-9]*$/" required>
+            <div ng-messages="serverProfileForm.Port.$error">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="pattern">Only numeric values are allowed.</div>
+            </div>
+        </md-input-container>
+
+        <section layout="row" layout-align="space-between stretch">
+            <md-content>                              
+                <label>{{emailserver_auth_reqd}}</label>
+                <md-radio-group class="radio-selection-grp" layout="row" ng-model="emailserver.useauth" ng-click="radioClicked()">
+                    <md-radio-button value=1>Yes</md-radio-button>
+                    <md-radio-button value=0>No</md-radio-button>
+                </md-radio-group>                 
+            </md-content>        
+        </section>
+
+        <md-input-container class="md-block" >
+            <label>{{emailserver_login}}</label>
+            <input name='username' ng-model="emailserver.username" required >
+            <div ng-messages="emailConfigForm.username.$error" role="alert">
+                <div ng-message-exp="['required']">
+                    This is required
+                </div>
+            </div>
+        </md-input-container>
+
+        <section layout="row">
+            <md-input-container class="md-block" >
+                <label>{{emailserver_password}}</label>
+                <input type='{{pwdType}}' name='password' ng-model="emailserver.password" required>
+                <div ng-messages="emailConfigForm.password.$error" role="alert">
+                    <div ng-message='required'>
+                        This is required.
+                    </div>
+                </div>                                  
+            </md-input-container>
+            <md-icon ng-click='togglePasswordType()' ng-show="pwdType==='password'" class="show-key">visibility</md-icon>
+            <md-icon ng-click='togglePasswordType()' ng-show="pwdType === 'text'" class="show-key">visibility_off</md-icon>
+        </section>
+
+        <md-content class="md-block">
+            <div layout="column">
+                <md-checkbox
+                        ng-model="emailserver.usessl"
+                        aria-label="ssl">
+                    Use SSL/TLS
+                </md-checkbox>
+            </div>
+        </md-content>
+
+        <section layout="row" layout-align="end end">
+            <label>&nbsp;</label>
+            <!--
+            <md-button class="md-accent smb-test-botton md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                       ng-click = "testConnection()"
+                       ng-disabled = "!(emailserver.ip && emailserver.username && emailserver.password)">
+                Test Connection
+            </md-button>
+            -->
+            <md-button class="md-accent smb-config-botton md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                       ng-click = "saveEmailServerSettings()"
+                       ng-disabled = "!(emailserver.ip && emailserver.port && emailserver.username && emailserver.password)">
+                Save
+            </md-button>
+        </section>
+        
+        <div flex></div>
+    </form>            
+ </div>

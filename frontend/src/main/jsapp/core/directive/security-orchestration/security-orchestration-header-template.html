@@ -1,0 +1,136 @@
+<section layout="column">
+    <section layout="column">
+        <section layout="row" style="position: relative; height:64px; min-height:64px; padding-left: 24px;   padding-right: 24px;  padding-top: 20px;  padding-bottom: 20px;">
+            <label style=" width: 542px; font-family: Roboto; font-size: 20px;font-weight: normal;font-style: normal;font-stretch: normal; color: #000000;">This is a snapshot of the networks and workloads for Tenant:</label>
+            <form name='updateTenantForm' novalidate="true" class="updateTenantForm">
+                <md-select ng-model="selectedTenant" name="selectedTenant" md-container-class="policy-control" style="margin:0px;" >
+                    <md-option ng-selected="{{sc.id == activetenant.id}}" ng-disabled="vchassisid >= 0" ng-repeat="sc in tenants" ng-value="sc.id" style="border-bottom: rgba(109,110,113,0.1) solid 1px; font-family: Roboto;  font-size: 20px;  font-weight: bold;  font-style: normal;   font-stretch: normal;  line-height: 1;  color: #000000;">
+                        <div><span style="margin-right: 12px; color: #6d6e71;"></span><span style="font-size:20px; font-weight:bold;line-height: 1;">{{sc.name}}</span></div>
+                    </md-option>
+                </md-select>
+            </form>
+
+            <span ng-click="helpButtonClicked('virtualchassis_bindingseccontrols_wizard')" style="opacity: 0.6;cursor:pointer;"><img src="images/lightbulb-grey.svg"></span>
+
+            <span class="material-icons" style="position: absolute; right: 56px; opacity:0.6; cursor:pointer;color: #6d6e71;"
+                  ng-show="configinfo.mode === 'wizardMode'"
+                  ng-click="refreshNetworks()">refresh</span>
+            <span class="material-icons" style="position: absolute; right: 16px; opacity:0.6; cursor:pointer;color: #6d6e71;"
+                  ng-show="configinfo.mode === 'wizardMode' && !maximize"
+                  ng-click="fullscreen()">crop_free</span>
+            <span class="material-icons" style="position: absolute; right: 16px; opacity:0.6; cursor:pointer;color: #6d6e71;"
+                  ng-show="configinfo.mode === 'wizardMode' && maximize"
+                  ng-click="fullscreen()">fullscreen_exit</span>
+        </section>
+        <section layout="row" style="padding:0 16px 12px; max-height: 52px; border-bottom: solid 1px rgba(109, 110, 113, 0.2);">
+            <!--
+            <section layout="row" style="height: 36px;">
+
+                <span style=" border-radius: 2px; border: solid 1px #4a90e2; padding-left: 33px; padding-right: 33px;
+                      padding-top: 10px;  padding-bottom: 10px;">Networks</span>
+                <span style=" border-radius: 2px;   background-color: #4a90e2; padding-left: 40px; padding-right: 40px;
+                      padding-top: 10px;  padding-bottom: 10px;">Groups</span>
+            </section>
+            -->
+            <section layout="row" layout-align="start start">
+                <md-button  ng-click="onSelectNetworkClicked()" ng-class="(buttonSelected =='network') ? 'selected-group' : 'deselected-group'"  class="left-button">Networks <label style="opacity: 0.6;">{{masterList.length}}</label></md-button>
+                <md-button  ng-click="onSelectGroupClicked()"  class="right-button" ng-class="(buttonSelected == 'group' ) ? 'selected-group' : 'deselected-group'" >Groups <label style="opacity: 0.6;">{{(sandboxMode ? sandboxGroupCount : activeGroupCount)}}</label></md-button>
+            </section>
+
+            <section layout="row" layout-align="start start" style="height: 36px;">
+                <div class="nw-filters">
+                    <md-select name='securedStatus' ng-model="securedStatus" style="max-width:180px; margin: 0px 16px; font-size:14px;" required>
+                        <md-option value="1" >Secured - ShieldX</md-option>
+                        <md-option value="-1" selected>Unsecured</md-option>
+                        <md-option value="0" >All</md-option>
+                    </md-select>
+                </div>
+            </section>
+            <section layout="row" layout-align="start center">
+                <div class="more-filters" ng-click="showFilterPopup($event)"> <md-icon style="opacity: 0.6;margin:0 8px;">filter_list</md-icon> <span ng-show="checkfilter()">More&nbsp;Filters</span><span ng-show="!checkfilter()">Filters Selected <span class="filterCount">{{getFilterCount()}}</span></span></div>
+                <div ng-show="!checkfilter()" ng-click="clearFilters()" style="color:#4a90e2; margin-left:5px;cursor:pointer;">
+                    Clear
+                </div>
+            </section>
+            <div flex="100"></div>
+            <section layout="row" layout-align="start start"  class="search-container" style="background: #f7f7f7;">
+                <md-icon>search</md-icon>
+                <search datalist='networkInfo' methodbridge="methodBridge" searchconfig='{listname:"networkInfo", searchkeylocale: "!", key: "name", customTooltip: "Search Networks", serchboxprifix:"maincanvas"}' showicon='false' hidechips="true"></search>
+            </section>
+        </section>
+        <section layout="row" ng-if="chipCreated">
+            <md-chips ng-model="Totalchips" name="searched chips" readonly="readonly" md-removable="removable" md-on-remove= "deletedChip()"   class="header-dir-custom-chips">
+                <md-chip-template>
+                     <strong>{{$chip.name}}</strong>
+                 </md-chip-template>
+            </md-chips>
+        </section>
+        <section layout="row" layout-align="start center" ng-show="!checkfilter()" style="height:40px;font-size:14px;padding: 0 25px;"> 
+            <div style="margin-right:8px;">
+                <md-icon style="font-size: 14px;padding: 5px 0 0 0;">share</md-icon>{{networksavailableCopy.length}}
+            </div>
+            <div style="margin-right:16px;">
+                <md-icon style="font-size:14px;padding: 5px 0 0 0;">layers</md-icon>
+                {{filteredWorkloadsCount}}
+            </div>
+            <div ng-show="existingfilter.os.length" style="margin-right:8px;">
+                <div ng-repeat="item in existingfilter.os track by $index" class="clearbutton md-button md-ink-ripple" style="background-color:#f7f7f7;border-radius:10px;font-size:14px;min-height: 28px;">
+                    <md-icon style="font-size:14px;padding: 5px 0 0 0;">settings_system_daydream</md-icon>
+                        {{getAttributeName('os',item)}}
+                    <md-icon ng-click="uncheckFilter('os',$index);">cancel</md-icon>
+                </div>
+            </div>
+            <div ng-show="existingfilter.appname.length" style="margin-right:8px;">
+                <div ng-repeat="item in existingfilter.appname track by $index" class="clearbutton md-button md-ink-ripple" style="background-color:#f7f7f7;border-radius:10px;font-size:14px;min-height: 28px;">
+                    <md-icon style="font-size:14px;padding: 5px 0 0 0;">settings_applications</md-icon>
+                        {{getAttributeName('application',item)}}
+                    <md-icon ng-click="uncheckFilter('appname',$index);">cancel</md-icon>
+                </div>
+            </div>
+            <div ng-show="existingfilter.alphanumeric.length" style="margin-right:8px;">
+                <div ng-repeat="item in existingfilter.alphanumeric track by $index" class="clearbutton md-button md-ink-ripple" style="background-color:#f7f7f7;border-radius:10px;font-size:14px;min-height: 28px;">
+                    <md-icon style="font-size:14px;padding: 5px 0 0 0;">sort_by_alpha</md-icon>
+                        {{item}}
+                    <md-icon ng-click="uncheckFilter('alphanumeric',$index);">cancel</md-icon>
+                </div>
+            </div>
+            
+        </section>
+    </section>
+    <section class="serucrity-policy-counts" layout="row" layout-align="space-around center" style="height:64px"
+             ng-class='(sandboxMode) ? "sandboxMode" : ""'>
+        <section layout="column" layout-align="space-around center">
+            <div class="value">{{totalWorkLoads.length}}</div>
+            <label>Total Workloads</label>
+        </section>
+        <div class="networks-header-seperator">&nbsp;</div>
+        <section layout="column" layout-align="space-around center">
+            <div class="value">{{securedWorkLoads}}</div>
+            <label><span class="workload" style="background: #13ce66;"></span>Secured(Grouped)</label>
+        </section>
+        <div class="networks-header-seperator">&nbsp;</div>
+         <section layout="column" layout-align="space-around center">
+            <div class="value">{{unsecgroupvmcount}}</div>
+            <label><span class="workload" style="background:#ffc030;"></span>Unsecured(Grouped)</label>
+        </section> 
+        <div class="networks-header-seperator">&nbsp;</div>
+        <section layout="column" layout-align="space-around center">
+            <div class="value">{{unsecuredWorkloads}}</div>
+            <label><span class="workload" style="background: #ff4949;"></span>Unsecured</label>
+        </section>
+    </section>
+    <section class="stacked-bar-show-groups"  ng-class='(sandboxMode) ? "sandboxMode" : ""'>  
+        <div layout="row" class="graph-bar-wrapper" layout-align="start end">
+            <div style="margin-right:1px;width : {{widthOfdBar(data.workloads)}};" ng-class="getClassSPS(data)" ng-repeat="data in tempListRules track by $index"  ng-init='widthOfSecured = widthOfdBar(data.workloads)'>
+            <md-tooltip md-delay="250" md-direction="top" class="bar-tooltip">
+                        {{data.groupName}} <br> {{ getWorkloadPercentage(data.workloads) }} &nbsp;&nbsp;{{data.workloads}}
+                </md-tooltip>
+             </div>
+            <div style="background-color:#ff4949;" ng-hide="{{unsecuredWorkloads === 0}}" ng-style="{ 'width' : unsecuredBarWidth}">
+                <md-tooltip md-delay="250" md-direction="top" class="bar-tooltip">
+                        Unsecured <br> {{ getWorkloadPercentage(unsecuredWorkloads) }} &nbsp;&nbsp;{{unsecuredWorkloads}}
+                 </md-tooltip>
+            </div>
+        </div>
+    </section>
+</section>

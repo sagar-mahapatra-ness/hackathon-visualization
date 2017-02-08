@@ -1,0 +1,309 @@
+<div layout="column" layout-align="start stretch" class="policy-table-page  admin-page">
+    <div class="admin-page-policies-header">
+         <md-toolbar layout="row" layout-align="start center" class="admin-policy-table-toolbar">
+            <div style="font-size: 16px;">
+                <span class="policy-title" ui-sref="home.policy.policylist.threatdetection">Threat Prevention Policies</span> <md-icon style="color: #6d6e71;opacity: 0.6;">keyboard_arrow_right</md-icon> {{rulepageTitle}}
+            </div>
+        </md-toolbar>
+        <!-- <div layout="row" layout-sm="column" layout-align="space-around">
+            <md-progress-circular ng-hide="promiseCompleted" class="md-accent" md-diameter="40"></md-progress-circular>
+        </div> -->
+        <md-table-container>
+        <section layout="row" style="padding: 0 144px;">
+            <form name="addnewRule" novalidate="true" style="width:100%;">
+                <h3 class="titleHeading">1. Name your Rule</h3>                     
+                <label class="labelnameSmall" style="color: #4a90e2;">Name</label>
+                <md-input-container class="md-block section-wrapper" style="width:432px;margin-top:0;">
+                    <input name='rulename'  ng-model="newRule.name" required autofocus md-maxlength="100" ng-pattern="/^[a-zA-Z0-9 _.-]*$/" id="threatNewRuleName" style="font-size:16px;">
+                    <div ng-messages="addnewRule.rulename.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The name has to be less than or equal to 100 characters long.</div>
+                        <div ng-message="pattern">Only alphanumeric, ".", "-" are allowed.</div>
+                    </div>
+                </md-input-container>
+                <div class="">
+                    <h3 class="titleHeading">2. A valid rule is comprised by selecting values for one or more of the questions below (<span class="seehelp">see examples</span>).</h3>                     
+                    <md-radio-group ng-model="selectedType" layout="row" layout-align="start center" style="padding: 16px 0 12px 0;">
+                      <md-radio-button value="type2" id="threatSelectCriteria">I want to select the criteria that will automatically select threats</md-radio-button>
+                      <md-radio-button value="type1" id="threatSpecificRules">I want to select specific threats for this rule</md-radio-button>
+                    </md-radio-group>
+                </div>
+                <md-divider style="margin: 32px 0px; "></md-divider>
+                <!-- Left Side Start -->
+                <div class="left-panel" ng-show="selectedType === 'type1' ">
+                    <div class="section-wrapper">
+                        <h3 class="titleHeading">
+                            3. Which specific threats does this rule target? (optional)
+                            <md-icon class="edit-button-icon-threat" ng-show="selectedThreats.length > 0" ng-click='showSSList($event,selectedThreats)'>edit</md-icon>
+                            <md-icon class="clear-button-icon-threat" ng-show="selectedThreats.length > 0"  ng-click='deleteSelected()'>close</md-icon>
+                        </h3>   
+
+                        <div>
+                            <md-progress-circular ng-hide="promiseCompleted" class="md-accent" md-diameter="20"></md-progress-circular>
+                            <md-button ng-show="selectedThreats.length == 0" id="slectThreatsFromList" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showSSList($event,selectedThreats)'>
+                                SELECT 
+                            </md-button>
+                            <div layout="row" layout-align="start start">
+                                <div class='listHosts' layout="column">
+                                    <!-- <div ng-show="selectedThreats.length <= 3" ng-repeat="threat in selectedThreats">
+                                        {{threat.name}}
+                                    </div>
+                                    <div ng-show="selectedThreats.length > 3">
+                                        <div ng-repeat="threat in selectedThreats|limitTo:3">
+                                            {{threat.name}}
+                                        </div>
+                                        <div class="labelnameSmall" style="font-size:16px;">+ {{selectedThreats.length - 3}} more</div>
+                                    </div> -->
+                                      <span ng-repeat="item in selectedThreats track by $index" ng-show="$index < 3">{{item.name}}</span>
+                                      <span ng-show="selectedThreats.length > 3" class="policy-title" ng-click="showMoreItemPopUp($event,selectedThreats,'Threats')"> + {{selectedThreats.length - 3}}more </span>
+                                      
+                                    <!-- <span ng-show="selectedThreats.length > 3" class="policy-title" ng-click="showMoreThreatsList = !showMoreThreatsList">
+                                <span ng-show="!showMoreThreatsList"> + {{selectedThreats.length - 3}}more </span>
+                                    <span ng-show="showMoreThreatsList">Show less</span>
+                                    </span> -->
+
+
+                                </div>
+                                <!-- <div ng-show="selectedThreats.length > 0" layout="row" class="listHosts ">
+                                    <div layout="row" class="deployment-specc-hosts">
+                                       <md-button class="md-accent md-hue-3 smallbutton"  ng-click='showSSList($event,selectedThreats)'>
+                                        <md-icon class="edit-button-icon" >edit</md-icon>
+                                        </md-button>
+                                        <md-button class="md-accent md-hue-3 smallbutton nomargin"  ng-click='selectedThreats.length = 0'>
+                                        <md-icon class="edit-button-icon">close</md-icon>
+                                        </md-button>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Left Side End -->
+                <!-- Right Side Start -->
+                <div class="right-panel" ng-show="selectedType === 'type2' ">
+                    <div class="section-wrapper">
+                        <h3 class="titleHeading">
+                            3. Which applications or protocols do you want to detect/block? (optional)
+                            <span ng-show="selectedApp.length && blockType === 'app' ">
+                                <md-icon class="edit-button-icon-threat" ng-click='showPopupList($event,"Applications To Monitor","appid",selectedApp)'>edit</md-icon>
+                                <md-icon class="clear-button-icon-threat" ng-click='selectedApp.length = 0'>close</md-icon>
+                            </span>
+                            <span ng-show="selectedProtocols.length && blockType === 'protocol' ">
+                                <md-icon class="edit-button-icon-threat"  ng-click='showPopupList($event,"Protocols To Monitor","protocol",selectedProtocols)'>edit</md-icon>
+                                <md-icon class="clear-button-icon-threat"  ng-click='selectedProtocols.length = 0'>close</md-icon>
+                            </span>
+                        </h3>
+                        <div class="radio-option-wrapper" style="height:48px; padding-bottom:20px;">
+                            <md-radio-group  style="padding: 16px 0 12px 0;" ng-model="blockType" layout="row" layout-align="start center">
+                              <md-radio-button class="nofocus" value="app" ng-click="checkOther('protocol')">Applications</md-radio-button>
+                              <md-radio-button class="nofocus" value="protocol" ng-click="checkOther('app')">Protocols</md-radio-button>
+                            </md-radio-group>
+                        </div>
+                        <div>
+                            <div ng-show="transitState !== 0 " class="transitmsg">
+                                <div ng-show="transitState === 1 ">
+                                    To detect/block Protocols you must first clear Applications
+                                    <div>
+                                        <md-button class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='clearState(selectedApp)'>
+                                            CLEAR Applications
+                                        </md-button>    
+                                    </div>
+                                </div>
+                                <div ng-show="transitState === 2 ">
+                                    To detect/block Applications you must first clear Protocols
+                                    <div>
+                                        <md-button class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='clearState(selectedProtocols)'>
+                                        CLEAR Protocols
+                                        </md-button>    
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <md-button ng-show="selectedApp.length == 0 && blockType === 'app' && transitState === 0 " id="appsSelectForThreat" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Applications To Monitor","appid",selectedApp)'>
+                                SELECT 
+                            </md-button>
+                            <md-button ng-show="selectedProtocols.length == 0  && blockType === 'protocol' && transitState === 0 " id="protocolSelectForThreat" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Protocols To Monitor","protocol",selectedProtocols)'>
+                                SELECT 
+                            </md-button>
+                            <div ng-show="blockType === 'app' " layout="row" layout-align="start start">
+                                <div class='listHosts' layout="column">
+                                    <!-- <div ng-show="selectedApp.length <= 3" ng-repeat="app in selectedApp">
+                                        {{app}}
+                                    </div>
+                                    <div ng-show="selectedApp.length > 3">
+                                        <div ng-repeat="app in selectedApp|limitTo:3">
+                                            {{app}}
+                                        </div>
+                                        <div class="labelnameSmall" style="font-size:16px;">+ {{selectedApp.length - 3}} more</div>
+                                    </div> -->
+                                    <span ng-repeat="item in selectedApp track by $index" ng-show="$index < 3">{{item}}</span>
+                                    <span class="policy-title" ng-show="selectedApp.length > 3" ng-click="showMoreItemPopUp($event,selectedApp,'Applications')"> + {{selectedApp.length - 3}}more </span>
+                                    <!-- <span ng-show="showMoreAppIds">Show less</span> -->
+                                </div>
+                                <!-- <div ng-show="selectedApp.length > 0" layout="row" class="listHosts ">
+                                    <div layout="row" class="deployment-specc-hosts">
+                                       <md-button class="md-accent md-hue-3 smallbutton"  ng-click='showPopupList($event,"Applications To Monitor","appid",selectedApp)'>
+                                        <md-icon class="edit-button-icon-threat" >edit</md-icon>
+                                        </md-button>
+                                        <md-button class="md-accent md-hue-3 smallbutton nomargin"  ng-click='selectedApp.length = 0'>
+                                        <md-icon class="clear-button-icon-threat">close</md-icon>
+                                        </md-button>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div ng-show="blockType === 'protocol' " layout="row" layout-align="start start">
+                                <div class='listHosts' layout="column">
+                                    <!-- <div ng-show="selectedProtocols.length <= 3" ng-repeat="protocol in selectedProtocols">
+                                        {{protocol}}
+                                    </div>
+                                    <div ng-show="selectedProtocols.length > 3">
+                                        <div ng-repeat="protocol in selectedProtocols|limitTo:3">
+                                            {{protocol}}
+                                        </div>
+                                        <div class="labelnameSmall" style="font-size:16px;">+ {{selectedProtocols.length - 3}} more</div>
+                                    </div> -->
+                                     <span ng-repeat="item in selectedProtocols track by $index" ng-show="$index < 3">{{item}}</span><span ng-show="selectedProtocols.length > 3" class="policy-title" >
+                                <!-- <span ng-show="!showMoreProtocol"> + {{selectedProtocols.length - 3}}more </span>
+                                    <span ng-show="showMoreProtocol">Show less</span>
+                                    </span> -->
+                                    <span ng-show="selectedProtocols.length > 3" ng-click="showMoreItemPopUp($event,selectedProtocols,'Protocols')" class="policy-title"> + {{selectedProtocols.length - 3}}more </span>
+                                </div>
+                                <!-- <div ng-show="selectedProtocols.length > 0" layout="row" class="listHosts ">
+                                    <div layout="row" class="deployment-specc-hosts">
+                                       <md-button class="md-accent md-hue-3 smallbutton"  ng-click='showPopupList($event,"Protocols To Monitor","protocol",selectedProtocols)'>
+                                        <md-icon class="edit-button-icon-threat" >edit</md-icon>
+                                        </md-button>
+                                        <md-button class="md-accent md-hue-3 smallbutton nomargin"  ng-click='selectedProtocols.length = 0'>
+                                        <md-icon class="clear-button-icon-threat">close</md-icon>
+                                        </md-button>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-wrapper">
+                        <h3 class="titleHeading">
+                            4. Which operating system do you want to detect/block? (optional)
+                            <md-icon ng-show="selectedOS.length > 0" class="edit-button-icon-threat" ng-click='showPopupList($event,"Operating Systems","os",selectedOS)'>edit</md-icon>
+                            <md-icon ng-show="selectedOS.length > 0" class="clear-button-icon-threat" ng-click='selectedOS.length = 0'>close</md-icon>
+                        </h3>                     
+                        <div>
+                            <md-button ng-show="selectedOS.length == 0" id="selectOSForThreat" class="md-primary md-hue-3 addNewTypePolicy zeroMargin" style="width:auto;" aria-label="add" ng-click='showPopupList($event,"Operating Systems","os",selectedOS)'>
+                                SELECT 
+                            </md-button>
+                            <div layout="row" layout-align="start start">
+                                <div class='listHosts' layout="column">
+                                    <!-- <div ng-show="selectedOS.length <= 3" ng-repeat="os in selectedOS">
+                                        {{os}}
+                                    </div>
+                                    <div ng-show="selectedOS.length > 3">
+                                        <div ng-repeat="os in selectedOS|limitTo:3">
+                                            {{os}}
+                                        </div>
+                                        <div class="labelnameSmall" style="font-size:16px;">+ {{selectedOS.length - 3}} more</div>
+                                    </div> -->
+                                    <span ng-repeat="item in selectedOS track by $index" ng-show="$index < 3">{{item}}</span>
+                                    <!-- <span ng-show="selectedOS.length > 3" class="policy-title" ng-click="showMoreOS = !showMoreOS">
+                                <span ng-show="!showMoreOS"> + {{selectedOS.length - 3}}more </span>
+                                    <span ng-show="showMoreOS">Show less</span>
+                                    </span> -->
+                                    <span ng-show="selectedOS.length > 3" class="policy-title" ng-click="showMoreItemPopUp($event,selectedOS,'OS')"> + {{selectedOS.length - 3}}more </span>
+                                </div>
+                                <!-- <div ng-show="selectedOS.length > 0" layout="row" class="listHosts ">
+                                    <div layout="row" class="deployment-specc-hosts">
+                                       <md-button class="md-accent md-hue-3 smallbutton"  ng-click='showPopupList($event,"Operating Systems","os",selectedOS)'>
+                                        <md-icon class="edit-button-icon-threat" >edit</md-icon>
+                                        </md-button>
+                                        <md-button class="md-accent md-hue-3 smallbutton nomargin"  ng-click='selectedOS.length = 0'>
+                                        <md-icon class="clear-button-icon-threat">close</md-icon>
+                                        </md-button>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-wrapper">
+                        <h3>5. What is the target type (optional)</h3>                     
+                        <md-input-container class="md-block ruledropdown" flex="15" style="margin-top:25px; ">
+                        <label class="labelnameSmall">Target Type</label>
+                            <md-select name='target' class="dropdowntext" ng-model="newRule.protectionType" required>
+                                <md-option ng-repeat="target in targets" value="{{target}}"  ng-selected="{{target == newRule.protectionType}}">
+                                    {{target}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                    <div class="section-wrapper">
+                        <h3 class="titleHeading">6. What is the minimum severity level of threats selected by this rule? (optional)</h3>                   
+                        <md-input-container class="md-block ruledropdown" flex="15" style="margin-top:25px;">
+                            <label class="labelnameSmall">Severity Level</label>
+                            <md-select name='severity' class="dropdowntext" ng-model="newRule.severity" required>
+                                <md-option ng-repeat="severity in severities" value="{{severity}}" ng-selected="{{newRule.severities.join() == severity}}">
+                                    {{severity}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                <!-- Right Side End -->
+                <div layout="row" layout-align="start center">
+                    <md-button class="md-accent md-hue-3 md-button md-ink-ripple" class="stepper-back" ng-click="cancelNewRule();">
+                        CANCEL
+                    </md-button>
+                    <md-button ng-show="selectedType === 'type1' " class="md-accent md-raised modal-done-button" ng-click="addNewRule();" ng-disabled="addnewRule.rulename.$invalid ||  !selectedThreats.length " id="addRules" >
+                        ADD
+                    </md-button>
+                    <md-button ng-show="selectedType === 'type2' " class="md-accent md-raised modal-done-button" ng-click="addNewRule();" ng-disabled="addnewRule.rulename.$invalid || ( !selectedApp.length && !selectedOS.length && !selectedProtocols.length && !selectedThreats.length && !newRule.protectionType && !newRule.severity ) ">
+                        ADD
+                    </md-button>
+                </div>
+            </form>
+        </section>
+        
+        </md-table-container>
+        <div flex></div>
+    </div>    
+</div>
+<style type="text/css">
+    .labelnameSmall{    
+        color:#6d6e71;
+        font-size: 13px;
+    }
+    .addNewTypePolicy.zeroMargin{
+        margin: 8px 0px 0px !important;
+    }
+    .section-wrapper{
+        margin-bottom: 64px;
+    }
+    .titleHeading{
+        font-size: 20px;
+    }
+    .listHosts .md-button.smallbutton{
+        padding: 0;
+        min-width: 0;
+        min-height: 0;
+        margin: 0 0 0 20px;
+        background: #fff;
+    }
+    .listHosts .md-button.smallbutton:hover{
+        background: #fff;
+    }
+    .listHosts .md-button.smallbutton.nomargin{
+        margin: 0px;
+    }
+    .edit-button-icon-threat{
+        height: 14px;
+        width: 14px;
+        min-width: 14px;
+        min-height: 14px;
+        font-size: 18px;
+        margin: -5px 0 0 5px;
+        cursor: pointer;
+    }
+    .clear-button-icon-threat{
+        cursor: pointer;
+    }
+    .dropdowntext{
+        font-size: 16px;
+    }
+</style>

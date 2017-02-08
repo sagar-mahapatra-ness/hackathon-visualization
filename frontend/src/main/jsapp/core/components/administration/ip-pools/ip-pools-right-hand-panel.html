@@ -1,0 +1,94 @@
+
+<section  ng-controller="ipPoolsRightHandPanelCtr">
+    <section>
+             <section>
+                  <md-subheader class="sub-header" id="ipPoolEditDetails">Details 
+                     <md-icon ng-show="!editMiscMode && is_update_ippool" class="edit" ng-click="editMiscellaneousData(adornmentData)" id="ipPoolEditBtn">edit</md-icon>
+                    <!-- <a ng-show="editMcrSer" style='float:right;' ng-click="editDeploySpec()"> Apply </a> -->
+                    <md-button class="md-icon-button apply" aria-label="delete" ng-click="applyMiscellaneousDataChanges()" ng-show="editMiscMode" style='float:right;  margin-top: -12px;' id="ipPoolApplyBtn">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Apply
+                        </md-tooltip>
+                        <md-icon>done</md-icon>
+                    </md-button>                
+                    <md-button class="md-icon-button " aria-label="delete" ng-show="editMiscMode" style='float:right; margin-top: -12px;' ng-click="discardMiscellaneousDataChanges()" id="ipPoolDiscardBtn">
+                        <md-tooltip md-delay="250" md-direction="bottom">
+                            Discard Changes
+                        </md-tooltip>
+                        <md-icon>clear</md-icon>
+                    </md-button> 
+                 </md-subheader>
+                 <md-content class="content" layout="column">
+                    <md-input-container>
+                        <label>Name </label>
+                        <input ng-model="adornmentData.editIPoolData.name" ng-disabled="!editMiscMode" id="ipName">
+                   </md-input-container>
+
+                    <md-input-container>
+                        <label>Default Gateway</label>
+                        <input ng-model="adornmentData.editIPoolData.gateway" ng-disabled="!editMiscMode" id="ipGateway">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Netmask</label>
+                        <input ng-model="adornmentData.editIPoolData.mask" ng-disabled="!editMiscMode" type="number" ng-min="0" ng-max="32" id="ipMask">
+                         <div ng-messages="projectForm.rate.$error">
+                             <div ng-message="required"> This is required. </div>
+                             <div ng-message="max"> Value of Netmask should be less than 32. </div>
+                             <div ng-message="min"> Value of Netmask should be greater than 0. </div>
+                         </div>
+                    </md-input-container>
+
+                </md-content>
+                
+            </section>
+            <section>
+    			<md-subheader class="sub-header">Ranges <div style="float: right; font-weight: normal; color: #f37864;" layout="row"></div>
+                
+               <md-icon ng-show="!editIPRangeMode && is_update_ippool" class="edit" ng-click="editIPRange(adornmentData)">edit</md-icon>
+                    <!-- <a ng-show="editMcrSer" style='float:right;' ng-click="editDeploySpec()"> Apply </a> -->
+                   
+    			</md-subheader>
+    			<md-content class="content" layout="column">
+    				
+                    <div ng-repeat="range in adornmentData.readOnlyranges">
+                        
+                        <section layout="row"  ng-if="range.type === 'range'">   
+                        <md-input-container>
+                            <label>Start Range</label>
+                            <input ng-model="range.start" ng-disabled="true" id="ipPollStartRange1">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>End Range</label>
+                            <input ng-model="range.end" ng-disabled="true" id="ipPollendRange1">
+                        </md-input-container>
+                        </section>     
+                        
+                        <section ng-if="range.type === 'cidr'"  >
+                        <md-input-container>
+                            <label>CIDR</label>
+                            <input ng-model="range.value" ng-disabled="true" id="ipPollCidrtRange1">
+                        </md-input-container>
+                        
+                        </section>
+                        
+                    </div>    
+    	           
+    			</md-content>
+            </section>
+           	
+		</section>
+		<section>
+			<md-subheader class="sub-header">Deployment Specification</md-subheader>
+			<md-content class="content" layout="column">
+              <md-progress-circular ng-hide="deploySpecFetched" class="md-accent" md-diameter="40" style= "margin: auto;"></md-progress-circular>
+				<div ng-repeat="spec in adornmentData.deploySpecData track by $index" class="list"> 
+                    <a style=" text-decoration: none;" ui-sref="home.deploymentSpecificationById({deploySpecId: spec.id})" class="link-to">
+                        <div layout="row" layout-align="space-between none">
+                            <span> {{spec.name}} </span>
+                            <md-icon>keyboard_arrow_right</md-icon>
+                        </div>
+                    </a>
+                </div>
+			</md-content>
+        </section>
+</section>

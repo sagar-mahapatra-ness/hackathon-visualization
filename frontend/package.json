@@ -1,0 +1,40 @@
+{
+  "name": "shieldx-visualaization",
+  "version": "1.0.0",
+  "description": "hackathon demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sagar mahapatro",
+  "license": "ISC",
+  "devDependencies": {
+    "angular": "1.5.8",
+    "angular-animate": "1.5.8",
+    "angular-aria": "1.5.8",
+    "angular-material": "1.0.9",
+    "angular-material-data-table": "0.10.9",
+    "angular-mocks": "1.5.8",
+    "bower": "^1.7.9",
+    "connect": "^3.4.1",
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^1.2.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-config": "^0.3.0",
+    "gulp-connect": "^4.1.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-inject-string": "^1.1.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-jslint": "^1.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sequence": "^0.4.5",
+    "jasmine-core": "^2.4.1",
+    "jshint": "^2.9.2",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "proxy-middleware": "^0.15.0",
+    "restangular": "^1.5.2"
+  }
+}

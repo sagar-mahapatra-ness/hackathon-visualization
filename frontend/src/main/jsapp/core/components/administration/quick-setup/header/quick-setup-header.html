@@ -1,0 +1,10 @@
+<section layout="row" layout-align="space-between stretch" class="quick-setup-header-info" ng-show="!maximize">
+    <div layout="row" layout-align="{{model==0 ? 'start center' : 'space-around center'}}" ng-repeat="model in [0,1,2,3,4,5,6]" class="qs-header-tile">
+        <div layout="column">
+            <div class="qs-header-label"> {{$ctrl.values[model].label}} </div>
+            <div class="qs-header-data"> {{$ctrl.values[model].value}} </div>
+        </div>
+        <span ng-if="dividerCntObj.dividerSetup[model]" style="width: 1px;height: 28px; opacity: 0.2; background-color: #6d6e71;">&nbsp;</span>
+    </div>
+</section>
+<md-divider></md-divider>

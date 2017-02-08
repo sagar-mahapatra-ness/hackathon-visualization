@@ -1,0 +1,50 @@
+<md-dialog aria-label="List dialog" class="ip-host-dialog">
+    <md-dialog-content style="overflow: hidden;">
+        <div layout="column">
+            <div layout="row" class="dialog-header">
+                <h3>{{heading}}</h3>
+            </div>
+            <div flex></div>
+            <div class="search-container-box" layout="row" layout-align="space-between center">
+            <div></div>
+<!--                 <div id="ip-config-dialog-network-count">
+                    <div class='fullCheck'>
+                        {{ProtocolList.length}} {{ProtocollenghtText}}
+                    </div>
+                </div> -->
+                <!-- <md-input-container id="ip-config-dialog-search-input">
+                    <input ng-model="networkName" type="text">                     
+                </md-input-container> 
+                <i class="material-icons dialog-search-icon">search</i>  -->
+                <div class="search-div">
+                    <search datalist='protocolCopyList' searchconfig='{listname:"protocolCopyList", searchkeylocale: "!", key: "protocolName"}' showicon='true'></search>
+                </div>
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div layout="column" class="ip-config-dialog-content" >
+            <div layout="row" layout-sm="column" layout-align="space-around">
+                <md-progress-circular ng-hide="!list_protocol_activated" class="md-accent" md-diameter="40"></md-progress-circular>
+            </div>
+            <md-radio-group ng-model="selectedprotocol" ng-change="onSelectProtocolChanged()">
+                <md-radio-button  value="{{item}}" ng-repeat="item in protocolCopyList | filter: {name : protocolName}" aria-label= "{{item}}">{{item.protocolName}}</md-radio-button>
+            </md-radio-group>
+            <!--  </div> -->
+        </div>
+        <md-divider></md-divider>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="space-around">
+        <div id="ip-config-dialog-network-count">
+            <div class='fullCheck'>
+                {{ProtocolList.length}} {{ProtocollenghtText}}
+            </div>
+        </div>
+        <span flex></span>
+        <md-button class="md-accent md-hue-3 deployment-button" ng-click="canceProtocolDialogue()">
+            Cancel
+        </md-button>
+        <md-button class="md-accent md-raised deployment-button" ng-click="listProtocolIdDone(selectedprotocol)" style="color: #FFFFFF;" ng-disabled="!protocolFromPopSelected">
+            SELECT
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,43 @@
+<section layout="row" class="content-height-fixer security-orchestration" style="border-style: solid;   border-color:#f5f2f2; border-width: thin; height:100%">
+    <div layout="column" flex style="border-right: solid #f5f2f2 thin; height:100%;width:100%">
+        <div >
+            <securityorchestrationheader
+                networkfetched="networkFetched" 
+                netinfo="networkInfo" 
+                selectednetworks="selectedNetworks" 
+                masterlist="masterList" 
+                broadcastevent="broadcastSOREvents(event,args)"
+                tenants="tenants"
+                activetenant="activeTenant"
+                configinfo="configinfo"
+                networksavailable="networksCopy"
+                workloads = "workloads"
+                attributesfound = "attributesFound"
+                virtualchassisdata="virtualchassisdata"
+                resouregroupassigned="resouregroupassigned"
+                vchassisid="vchassisid"
+                groupobj="groupObj"
+                >
+            </securityorchestrationheader>
+        </div>
+         <md-divider> </md-divider>
+        <div flex style="height:100%;">
+            <securityorchestrationcanvas 
+                networkfetched="networkFetched" 
+                netinfo="networkInfo" 
+                selectednetworks="selectedNetworks" 
+                selectedworkloads="selectedWorkloads" 
+                allNetworksFetched="allNetworksFetched"
+                secrules="rules" 
+                networksavailable="networksCopy"
+                on-toggle="toggleNetwork(networkval)"  broadcastevent="broadcastSOREvents(event,args)"
+                virtualchassisdata="virtualchassisdata"
+                workloads = "workloads"
+                resouregroupassigned="resouregroupassigned"
+                style="height:100%"></securityorchestrationcanvas>
+        </div>
+    </div>
+    <div style="width:360px; height:100%; overflow-y: hidden " flex="none">
+    <securityorchestrationrightpanel networksavailable="networks" selectednetworks="selectedNetworks" configinfo="configinfo" seccloudid="cloudid" sectenantid = "tenantid" secrules="rules" workloads = "workloads"  broadcastevent="broadcastSOREvents(event,args)" tenants="tenants" vcname="vcname"></securityorchestrationrightpanel>
+    </div>
+</section>

@@ -1,0 +1,28 @@
+<section layout="row" flex>
+<div layout="column" layout-align="start stretch" class="content-height-fixer admin-page admin-page-policies-list" style="width:100%;">
+    <div class="admin-page-policies-header">
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="currentTab">
+                <md-tab label="Backup Now" class="policy-tabs" ui-sref="home.maintenance.maintenancetasks.backup">
+                    <div ui-view="backupnow"></div>
+                </md-tab>
+                <md-tab label="Automated Backup" ui-sref="home.maintenance.maintenancetasks.schedulebackup">
+                    <div ui-view="schedulebackup"></div>
+                </md-tab>
+                <md-tab label="Restore Backup" ui-sref="home.maintenance.maintenancetasks.restore">
+                    <div ui-view="restorebackup"></div>
+                </md-tab>
+                <!--
+                <md-tab label="Automated Pruning" ui-sref="home.maintenance.maintenancetasks.schedulepruning">
+                    <div ui-view="schedulepruning"></div>
+                </md-tab>
+                -->
+                <md-tab label="Automated Content Update" ui-sref="home.maintenance.maintenancetasks.autocontentdownload">
+                    <div ui-view="autocontentdownload"></div>
+                </md-tab>				
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+<helpcontainer contentid="active_help_id" ></helpcontainer>
+</section>

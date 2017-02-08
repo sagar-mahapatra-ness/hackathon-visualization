@@ -1,0 +1,67 @@
+<div layout="column" layout-align="start center" class="content-height-fixer backup-restore">
+    <div class="admin-page-component-header">
+        Restore Data <md-icon class="light-bulb icon-18" ng-click=" helpButtonClicked('admin_system_maintenance_help')" style="margin-right:0px;" md-svg-src="images/Bulp.svg">lightbulb</md-icon>
+    </div> 
+    <form name='restoreForm' class="backup-restore-form">
+        <div class="md-dialog-content" >
+            <div layout="column">
+
+                <section layout="row" layout-align="space-between stretch">
+                    <md-input-container class="single-col-component elem-width-large">
+                        <label>Type</label>
+                        <md-select name='backupdataforType' ng-model="backuprestore.type" required>
+                            <md-option ng-repeat="type in backuptypes.types" value="{{type.value}}">
+                                {{type.name}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="restoreForm.backupdataforType.$error" role="alert">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                </section>
+
+                <section layout="row" layout-align="space-between stretch">
+                    <md-input-container class="single-col-component elem-width-large">
+                        <label>{{backuprestore_filepath}}</label>
+                        <input name='restore'
+                               ng-model="backuprestore.relativepath">
+                    </md-input-container>
+                </section>
+
+                <!--
+                <section layout="row" layout-align="space-between stretch" style="padding-bottom: 20px;">
+                    <label class="uploadbutton single-col-component elem-width-large"
+                           style="position:relative; padding-bottom: 9px"
+                           >
+                        <div class="button" ng-show="backuprestore.type">Browse</div>
+                        <div class="button" ng-show="!backuprestore.type" 
+                             style="background-color: #4a90e2; opacity: 0.38;">
+                            Browse
+                        </div>
+                        <div class='input-file-text'>{{fileInputText}}</div>
+                        <input 
+                            class="input-file" 
+                            type="file"
+                            id = "fid"
+                            multiple
+                            onchange="angular.element(this).scope().fileNameChanged(this)"
+                            file-model="backupFile" 
+                            aria-label="Restore backup data"
+                            ng-disabled="!backuprestore.type"
+                            />
+                    </label>
+                </section>                   
+                -->
+
+                <section layout="row" layout-align="space-between stretch">
+                    <label>&nbsp;</label>
+                    <md-button ng-if="is_update_maintenance" class="md-accent backup-restore-buttom md-raised modal-done-button md-button md-ink-ripple fullRowButton" 
+                               ng-click = "restore()"
+                               ng-disabled="!backuprestore.relativepath">
+                        Restore
+                    </md-button>
+                </section>
+            </div>
+        </div>
+    </form>            
+ </div>

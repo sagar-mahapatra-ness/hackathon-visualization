@@ -1,0 +1,49 @@
+<md-dialog aria-label="List dialog" class="ip-host-dialog" style="max-width: none;">
+    <div layout="column" style="height:113px;min-height:113px;">
+            <div layout="row" class="dialog-header">
+                <h3>Select Specific Threats</h3>
+            </div>
+            <div flex></div>
+            <div class="search-container-box" layout="row" layout-align="space-between center">
+                <div id="ip-config-dialog-network-count"><div class='fullCheck' >
+                    <md-checkbox aria-label="Select All"
+                                 ng-checked="isChecked()"
+                                 md-indeterminate="isIndeterminate()"
+                                 ng-click="toggleAll()">
+                        Select All <span ng-show='no_of_hosts'>({{items.length}})<span>
+                    </md-checkbox>
+                </div>
+                </div>
+                <!-- <md-input-container id="ip-config-dialog-search-input">
+                    <input ng-model="networkName" type="text">                     
+                </md-input-container> 
+                <i class="material-icons dialog-search-icon">search</i>  -->
+                <div class="search-div-host">
+                    <search datalist='items' searchconfig='{listname:"items", searchkeylocale: "!", key: "name"}' showicon='true'></search>  
+                </div>
+                
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <md-dialog-content class="ip-config-dialog-content">
+            <div layout="column">
+             <div layout="row" layout-sm="column" layout-align="space-around">
+                        <md-progress-circular ng-show="!host_activated" class="md-accent" md-diameter="40"></md-progress-circular>
+                    </div>
+                    <div class="demo-select-all-checkboxes" ng-repeat="item in items track by $index" layout="column" >
+                        <md-checkbox ng-model="item.check" ng-click="toggle(item, selected)">
+                            {{ item.name}}
+                         </md-checkbox>
+                    </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row" layout-align="space-around"  style="border-top:solid 1px rgba(0,0,0,0.12);">
+                <span class="action-counter" flex>{{no_of_selected_hosts}} <span ng-show="no_of_selected_hosts >= 0 "> selected</span></span>
+                <md-button class="md-accent md-hue-3 deployment-button" ng-click="closeDialog()">
+                    CANCEL
+                </md-button>
+                <md-button class="md-accent md-raised deployment-button" ng-click="doneHosts()" style="color: #FFFFFF;">
+                    SELECT
+                </md-button>
+        </md-dialog-actions>
+</md-dialog>

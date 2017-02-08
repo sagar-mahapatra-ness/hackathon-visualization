@@ -1,0 +1,81 @@
+<div layout="column" layout-align="start stretch" class="content-height-fixer  widget-page"  ng-controller="NewApplicationsCtr" style="height: 100%;">
+	<div class="drilldown-title" layout="row" layout-align="space-between none">
+		<span>{{title}}</span>
+		<md-button class="md-icon-button md-primary md-hue-3 export" aria-label="export"  ng-csv="tableData" csv-header="['App ID', 'Application Name', 'Destination IP','Destination Port','Protocol','Protocol Name','Source IP','Source Port']"  filename="totalData.csv" field-separator="," decimal-separator=",">
+            <md-tooltip md-delay="250" md-direction="bottom">
+                Export
+            </md-tooltip>
+            <md-icon>system_update_alt</md-icon>
+        </md-button>
+	</div>
+	<div class="select-interval-drildown" layout="row">
+				<md-input-container>
+		            <label>Time Interval </label>
+		            <md-select ng-model="timeInterval" >
+		                <md-option ng-repeat="opt in intervalOptions" ng-value="opt.value">
+		                    <span>{{opt.text}}</span>
+		                </md-option>
+		            </md-select>
+		        </md-input-container>
+		        <div>
+		        <md-button class="md-raised set-dridown-interval" ng-click="updateDirllDownInterval(timeInterval)">Set</md-button>
+		        </div>
+			</div>
+		<div layout="column" layout-padding>
+		
+		<md-table-container>
+			<table md-table md-row-select ng-model="selected"   md-progress="promise">
+				<thead md-head md-on-reorder="onReorder">
+					<tr md-row >
+						<th  md-column md-order-by="appId">App ID</th>
+						<th  md-column md-order-by="applicationName">Application Name</th>
+						<th  md-column md-order-by="dstIpAddress">Destination IP</th>
+						<th  md-column md-order-by="dstPort">Destination Port</th>
+						<!-- <th  md-column md-order-by="eventType">Event Type</th> -->
+						<th  md-column md-order-by="protocol">Protocol</th>
+						<th  md-column md-order-by="protocolName">Protocol Name</th>
+						<th  md-column md-order-by="srcIpAddress">Source IP</th>
+						<th  md-column md-order-by="srcPort">Source Port</th>
+						<!-- <th md-column >Type</th> -->
+						<!-- UPDATE THIS BLOCK FOR CUSTOM COLUMN HEADERS -->
+						<!-- <th md-column><span>data.title</span></th> -->
+						<!-- END -->
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr >
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"appId"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"applicationName"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"dstIpAddress"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"dstPort"}' showicon='false' ></td>
+						<!-- <td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"eventType"}' showicon='false' ></td> -->
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"protocol"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"protocolName"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"srcIpAddress"}' showicon='false' ></td>
+						<td> <search datalist='tableData' searchconfig='{listname:"tableData", searchkeylocale: "!", key:"srcPort"}' showicon='false' ></td>
+					</tr>
+					<tr md-row md-auto-select md-select="data" md-select-id="name" ng-repeat="data in tableData | limitTo: query.limit: (query.page - 1) * query.limit" ng-mouseenter="hover = true" ng-mouseleave="hover = false"  ng-class="{highlighted : data.active}">
+						<td md-cell class="button-cluster" >
+							{{data.appId}}
+						</td>
+						<td md-cell><span>{{data.applicationName}}</span></td>
+						<td md-cell><span>{{data.dstIpAddress}}</span></td>
+						<td md-cell><span>{{data.dstPort}}</span></td>
+						<!-- <td md-cell><span>{{data.eventType}}</span></td> -->
+						<td md-cell><span>{{data.protocol}}</span></td>
+						<td md-cell><span>{{data.protocolName}}</span></td>
+						<td md-cell><span>{{data.srcIpAddress}}</span></td>
+						<td md-cell><span>{{data.srcPort}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</md-table-container>
+		</div>
+		<div flex></div>
+		<div>
+			<md-content layout="column" layout-align="start stretch" class="widget-footer">
+				<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{(tableData.length)? tableData.length : 0 }}" md-page-select>
+				</md-table-pagination>
+			</md-content>
+		</div>
+</div>
