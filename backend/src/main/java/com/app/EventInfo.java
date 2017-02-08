@@ -11,6 +11,14 @@ public class EventInfo {
 	private String region  =  "Mumbai";
 	private String time = "37434";
 	
+	private String Widgetype="def";
+	
+	public String getWidgetype() {
+		return Widgetype;
+	}
+	public void setWidgetype(String widgetype) {
+		Widgetype = widgetype;
+	}
 	public String getTransactionid() {
 		return transactionid;
 	}

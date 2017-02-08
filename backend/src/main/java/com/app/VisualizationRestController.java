@@ -21,8 +21,39 @@ public class VisualizationRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	void captureEvent(@RequestBody EventInfo eventinfo) {
-		System.out.println("eventinfo");
-		JSONManipulater fr = new JSONManipulater("creditcardinf.json");
+		String filename="";
+		System.out.println("eventinfo "+eventinfo.getWidgetype());
+		/*if(eventinfo.getWidgetype().equals("one"))
+				{
+			filename="one.json";
+				}
+		else if(eventinfo.getWidgetype().equals("two"))
+				{
+			filename="two.json";
+				}		
+		else if(eventinfo.getWidgetype().equals("three"))
+				{
+			filename="three.json";
+				}		
+		else if(eventinfo.getWidgetype().equals("four"))
+				{
+			filename="four.json";
+				}		
+		else if(eventinfo.getWidgetype().equals("five"))
+				{
+			filename="five.json";
+				}		
+		else if(eventinfo.getWidgetype().equals("six"))
+				{
+			filename="six.json";
+				}
+		else if(eventinfo.getWidgetype().equals("seven"))
+				{
+			filename="seven.json";
+				}*/		
+		
+		filename = eventinfo.getWidgetype()+".json";
+		JSONManipulater fr = new JSONManipulater(filename);
 		String data = eventinfo.toJson();
 		JsonNode nc = fr.readJson();
 		ObjectNode on = eventinfo.mapToObject(); 
