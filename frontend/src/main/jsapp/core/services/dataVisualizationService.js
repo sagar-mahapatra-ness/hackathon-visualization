@@ -298,8 +298,8 @@
             websocketfectory.sendData(topic,data);
         };
 
-        this.subscribToTheTopic = function(topic){
-          return websocketfectory.subscribToTheTopic(topic);
+        this.subscribToTheTopic = function(topic, callback){
+          return websocketfectory.subscribToTheTopic(topic,callback);
         };
         this.setTwoDDataTwoAnalsis = function(data){
             vm.twod_data = data;

@@ -12,9 +12,10 @@ def timeStamp(order=None):
         epochTime = int(sec_since_epoch * 1000)  # convert the time to milliSeconds
     return epochTime
 
-typeList = ["gold","silver","economical","heighflyer"]
-areaList = ["MH","GU","MP","AP","WB"]
+typeList = ["SL","GL","TT","PL","VL"]
+areaList = ["MH","GJ","MP","AP","WB"]
 regionMHList = ["mumbai","rathnagiri","pune"]
+severityList = ["Critical","High","Medium","Low","None"]
 while True:
     time.sleep(2)
     data = {
@@ -24,6 +25,7 @@ while True:
             'area':random.choice(areaList),
             'value':random.randint(100,1000000),
             'region':random.choice(regionMHList),
+            'severity':random.choice(severityList),
             'time' : timeStamp("micro")
     }
     data_json = json.dumps(data)

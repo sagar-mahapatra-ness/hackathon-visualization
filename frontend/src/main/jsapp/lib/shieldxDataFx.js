@@ -726,6 +726,7 @@ function shieldxDataFx() {
                             .style("background", function(d){
                                 if(d.value) {
                                     var filterSelected = angular.element(document.getElementById('events')).scope().graphAttributeModel.colorSelected;
+                                    filterSelected = "severity";
                                     if(filterSelected.match(/severity/ig)) {                                    
                                             return _colorScale[d.value.severity];
                                     } else if (filterSelected.match(/volume/ig)) {
@@ -804,10 +805,15 @@ function shieldxDataFx() {
                             z: -zvalue * 5
                         };
 
-                        var coords = new TWEEN.Tween(object.position)
+                       /* var coords = new TWEEN.Tween(object.position)
                             .to({x: newMetrics.x, y: newMetrics.y, z: newMetrics.z}, duration)
                             .easing(TWEEN.Easing.Sinusoidal.InOut)
                             .start();
+                            */
+                        object.position.x= newMetrics.x;
+                        object.position.y= newMetrics.y;
+                        object.position.z= newMetrics.z;
+                            
                       
                         /* jshint ignore: start */
                         var update = new TWEEN.Tween(this)
@@ -886,7 +892,7 @@ function shieldxDataFx() {
                         _scene.add(planeLeftDiv);
                       
                         render();
-                        animate();
+                        //animate();
                         transform();
                     };
                     

@@ -10,7 +10,14 @@ public class EventInfo {
 	private String value   = "500";
 	private String region  =  "Mumbai";
 	private String time = "37434";
+	private String severity = "Low";
 	
+	public String getSeverity() {
+		return severity;
+	}
+	public void setSeverity(String severity) {
+		this.severity = severity;
+	}
 	private String Widgetype="def";
 	
 	public String getWidgetype() {
@@ -64,9 +71,10 @@ public class EventInfo {
 		eventinfo.put("value", this.getValue());
 		eventinfo.put("region", this.getRegion());
 		eventinfo.put("time",this.getTime());
+		eventinfo.put("severity",this.getSeverity());
 		return eventinfo;
 	}
 	public String toJson(){
-		return  "\"transactionid\":"+this.transactionid+",\"type\":"+this.type+",\"area\":"+this.area+",\"value\":"+this.value+",\"region\":"+this.region+",\"time\":"+this.time;
+		return  "{\"transactionid\":"+this.transactionid+",\"type\":"+this.type+",\"area\":"+this.area+",\"value\":"+this.value+",\"region\":"+this.region+",\"time\":"+this.time+",\"severity\":"+this.severity+"}";
 	}
 }
