@@ -301,7 +301,12 @@
         this.subscribToTheTopic = function(topic){
           return websocketfectory.subscribToTheTopic(topic);
         };
-
+        this.setTwoDDataTwoAnalsis = function(data){
+            vm.twod_data = data;
+        };
+        this.returnTwoDDataToAnalysis = function(){
+            return vm.twod_data;
+        };
 
 
     }

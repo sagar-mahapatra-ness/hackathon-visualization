@@ -3,9 +3,9 @@
 		<section id="canvas" flex> 
 			<md-toolbar id="canvas-toolbar" layout="row" layout-align="space-between center">
 				<div>
-					<md-button class="md-icon-button"  ui-sref="home.EventCorrelationExplorer">
-						Go To Selection
-					</md-button>
+					<span  ui-sref="home.dashboard">
+						<md-icon style="color: #6d6e71;">keyboard_backspace</md-icon> Go To Selection Panel
+					</span>
 					<md-button class="md-icon-button" ng-show="switchTo3D" ng-click="closeLandscapeExplorer($event)">
 						<md-icon style="color: #6d6e71;">keyboard_backspace</md-icon>
 					</md-button>
@@ -21,7 +21,7 @@
 							<md-icon md-svg-src="images/selector.svg">selector</md-icon>
 						</md-button>
 					</div>
-					<span ng-click="showPane = !showPane">Show Pane</span>
+					<span ng-click="showPane = !showPane" style="margin-top: 5px;">Show Pane</span>
 				</div>
 				<div style="margin: 0 24px 0 0; font-size: 14px;" ng-show="switchTo3D">
 					<div id="unselect-3D-values" style="margin: 0 16px 0 0; float:left; cursor: pointer; display: none;" ng-click="clearLabels($event)">Unselect All</div>
