@@ -26,12 +26,16 @@
             sendData:function(topic,data){
                  stompClient.send(topic, {}, JSON.stringify(data));
             },
-            subscribToTheTopic:function(topic){
+            subscribToTheTopic:function(topic, callBack){
               var deferred = $q.defer();
               stompClient.subscribe(topic, function (data) {
-                 console.log(" subscribToTheTopic 2 ");
-                 console.dir(data.body); 
-                 deferred.resolve(JSON.parse(data.body));
+                 console.log(" subscribToTheTopic 3 ");
+                 //console.dir(data.body); 
+                 var temp = JSON.parse(data.body);
+                 console.log(" subscribToTheTopic 4 ");
+                 callBack.call(null, temp);
+                 //deferred.resolve(temp);
+
               });
               return deferred.promise;
             }     

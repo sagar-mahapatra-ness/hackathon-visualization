@@ -52,15 +52,17 @@ public class VisualizationRestController {
 			filename="seven.json";
 				}*/		
 		
-		filename = eventinfo.getWidgetype()+".json";
-		JSONManipulater fr = new JSONManipulater(filename);
-		String data = eventinfo.toJson();
-		JsonNode nc = fr.readJson();
-		ObjectNode on = eventinfo.mapToObject(); 
-		((ArrayNode) nc).add(on);
-		String newVal = fr.getJsonString(nc);
-		fr.writeJson(nc);
-		messageSender.convertAndSend("/topic/outgoing", new ClientData(newVal));
+			filename = eventinfo.getWidgetype()+".json";
+			JSONManipulater fr = new JSONManipulater(filename);
+			String data = eventinfo.toJson();
+			JsonNode nc = fr.readJson();
+			ObjectNode on = eventinfo.mapToObject(); 
+			((ArrayNode) nc).add(on);
+			String newVal = fr.getJsonString(nc);
+			//fr.writeJson(nc);
+		if(AppData.instance.getDisplayType().equals(eventinfo.getWidgetype())){	
+			messageSender.convertAndSend("/topic/outgoing", new ClientData(fr.getJsonString(on)));
+		}
 	}
 
 }

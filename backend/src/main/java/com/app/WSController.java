@@ -12,7 +12,10 @@ public class WSController {
     @MessageMapping("/incoming")
     @SendTo("/topic/outgoing")
     public ClientData greeting(CommandRecived message) throws Exception {
-    	JSONManipulater fr = new JSONManipulater("creditcardinf.json");
+    	System.out.println(" get data >>>> "+message.getData());
+    	AppData.instance.setDisplayType(message.getData());
+    	String filename = message.getData()+".json"; 
+    	JSONManipulater fr = new JSONManipulater(filename);
     	JsonNode jn = fr.readJson();
     	String data = fr.getJsonString(jn);
     	System.out.println("command recived >> ");

@@ -804,7 +804,7 @@
             if(!shieldXUI.landscapeData) {
                 return;
             }
-            $scope.show3DData();   
+            //$scope.show3DData();   
 
             angular.element(document.querySelector('#events-tabs')).css('display', 'block');
             angular.element(document.querySelector('#landscape-explorer')).css('display', 'none');
@@ -854,9 +854,10 @@
             angular.element(document.querySelector('#events-container')).css('height', window.innerHeight - 192+'px');    
 
         }); 
-
+       
         dataVisualizationService.conectToWebSocket().then(
             function(data){
+<<<<<<< Updated upstream
                 dataVisualizationService.subscribToTheTopic("/topic/greetings").then(function(dataRecived){
                    console.log(" data recived from server "+dataRecived);
                 });
@@ -865,14 +866,97 @@
 
        $scope.senDataToWebSocket = function(){
           dataVisualizationService.sendDataToWebSocketTopic("/app/hello","sagar mahapatro");
+=======
+                var callback = function(dataRecived){
+                   console.log(" data recived from server 3"+dataRecived);
+                   console.dir(dataRecived);
+                   var refdata = JSON.parse(dataRecived.content);
+                   $scope.processCraditData(refdata);
+                };
+                dataVisualizationService.subscribToTheTopic("/topic/outgoing",callback).then(callback);
+            }
+        );
+        
+        $scope.event3d = null;
+        $scope.result = null;
+        $scope.result =  {
+            "nodesX":{"name":"Cradit_Type","nodes":[{"name":"GL"},{"name":"SL"},{"name":"PL"},{"name":"TT"},{"name":"VL"}]},
+            "nodesY":{"name":"area","nodes":[{"name":"MH"},{"name":"GJ"},{"name":"MP"},{"name":"AP"},{"name":"WB"}]},
+            "links":[]
+            };
+        $scope.processCraditData = function(data){
+           console.log("processCraditData 2");
+           console.dir(data);
+           console.log("$scope.result");
+           console.dir($scope.result);
+           var presentEpoch = Math.round(new Date().getTime());
+           $scope.timeRange = ["1486472447319", presentEpoch];
+/* jshint ignore:start */
+
+           if(!(data instanceof Array))
+           {
+               var t = [];
+               t.push(data);
+               data = t;
+           }
+           for(var i =0; i<data.length; i++){
+             var xVal =  _.findIndex($scope.result.nodesX.nodes, function(val){
+                 if(val.name === data[i].type){
+                    return true;
+                 }
+             });
+
+              var yVal =  _.findIndex($scope.result.nodesY.nodes, function(val){
+                 if(val.name === data[i].area){
+                    return true;
+                 }
+                });
+
+              $scope.result.links.push({"source":xVal,"target":yVal,"value":{"volume":0,"threeDimValues":parseInt(data[i].time),"severity":data[i].severity}});
+              
+           }
+           console.log(" $scope.result ");
+           console.dir($scope.result);
+           /* jshint ignore:end */
+           //var result = {"nodesX":{"name":"Src_RG","nodes":[{"name":"teamZenith"},{"name":"mastersOfUniverse"}]},"nodesY":{"name":"Dest_RG","nodes":[{"name":"suicideSquad"},{"name":"thunderCats"}]},"links":[{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486495193744174,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486507557146212,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486527911222646,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486538854111826,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486505901581326,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486547532356012,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486477503451025,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486524737117782,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486481211082273,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486537028440621,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486478790022342,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486521945439144,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486490817865998,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486497171221399,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486484540218403,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486493156413829,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486504618703450,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486520362646141,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486554492743742,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486530474695475,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486499302140490,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486546630068869,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486548135769494,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486491346354539,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486509686682446,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486498464468195,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486514286982622,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486557816449965,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486484691346592,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486492025099559,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486496334105104,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486522623684248,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486479546767755,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486506278235993,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486540816901800,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486476973939988,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486540590605700,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486471603469324,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486485901818091,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486517467454505,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486526778695311,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486489682153866,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486494590142700,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486523377710915,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486510743384294,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486477503450876,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486493156413964,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486480908845468,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486498921012735,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486552508863088,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486480304345124,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486509536283099,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486536569180075,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486548287199312,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486509761953995,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486536569180211,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486548587995559,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486534508283992,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486525341700260,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486472813865872,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486502731691842,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486504240932317,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486528137346396,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486531840462196,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486484842418576,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486487715571113,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486510743384429,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486490363834580,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486500064899323,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486496334105246,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486509914463001,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486472662483325,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486484766900979,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486497323415375,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486518153347257,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486534050980772,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486556682994309,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486491799207364,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486532450179484,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486491573088233,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486529042311435,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486536416865843,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486556909218088,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486538627623166,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486547231569423,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486507331309225,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486512098606754,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486487791098911,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486535654873086,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486534431770718,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486494137516161,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486539382615289,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486503863846929,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486517315047394,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486533365036917,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486518686758224,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486504543312883,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486517086478147,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486519830973736,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486493835739199,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486535042711893,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486475537701579,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486502354453854,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486502882554651,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486503863846980,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486496410117342,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486547005831424,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486491648527716,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486473269177573,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486526174159589,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486541118757964,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486503939283032,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486521568565979,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486539835483174,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486475084026292,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486495497079552,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486501514562129,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486501285812709,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486500598787920,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486508707981268,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486510818740777,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486514664629358,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486476520632186,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486480151960311,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486487791098861,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486507632337582,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486515193347937,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486525190531050,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486539005211137,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486551151568670,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486544594034621,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486479394884886,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486527459060824,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486475537701715,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486502430203069,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486503485861458,"severity":""}},{"source":0,"target":1,"value":{"volume":0,"threeDimValues":1486539759972068,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486510517302968,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486523076203510,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486527383699449,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486494741295913,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486497931775331,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486497931775383,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486530323960104,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486534279476733,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486555551050205,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486472435677144,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486485069067437,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486487111247112,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486537181685880,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486540061898078,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486478714396809,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486546479752333,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486490742263261,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486513757899758,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486514891165437,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486517086478096,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486535042711999,"severity":""}},{"source":1,"target":1,"value":{"volume":0,"threeDimValues":1486497855728869,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486522096152067,"severity":""}},{"source":0,"target":0,"value":{"volume":0,"threeDimValues":1486532830886693,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486499912440991,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486508093775351,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486529494498794,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486533441240461,"severity":""}},{"source":1,"target":0,"value":{"volume":0,"threeDimValues":1486548210991137,"severity":""}}]};
+           /*if(!$scope.result){
+            
+            
+           } else {
+        
+            $scope.result.links.push({"source":$scope.xcounter,"target":$scope.ycounter,"value":{"volume":0,"threeDimValues":presentEpoch,"severity":""}});
+            console.log($scope.result)
+           }*/
+           
+
+           $scope.event3d = dataVisualizationApi.eventsVfx({ elem: "#events-container-3D", dataset: $scope.result },$scope.event3d);
+        };
+
+       $scope.senDataToWebSocket = function(data){
+          dataVisualizationService.sendDataToWebSocketTopic("/app/incoming",data);
+>>>>>>> Stashed changes
        }; 
 
         $scope.showGraph = function(event) {
-          /*  angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
+            $scope.senDataToWebSocket({command:"start",data:"one"});
+            // angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
             $scope.filterApplyed = true;
+<<<<<<< Updated upstream
             $scope.show2DData();*/
             //$scope.senDataToWebSocket();
        };
+=======
+           /* $scope.show2DData();
+            */
+
+            $scope.timeRange = ["1486472447319", "1486558847319"];
+            $scope.show3DLabels = false;
+            
+            //if(!$scope.switchTo3D) dataVisualizationApi.eventsVfx({ elem: "#events-container-3D", dataset: result });
+            $scope.switchTo3D = $scope.switchTo3D ? false: true;    
+            $scope.toggle3D(event);
+        };
+>>>>>>> Stashed changes
         
         
     }
