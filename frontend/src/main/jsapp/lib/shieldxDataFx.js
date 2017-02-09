@@ -273,20 +273,11 @@ function shieldxDataFx() {
                 
             })
             .enter()
-            .append("path")
-            .attr("fill", function(d, i) { 
+            .append("g");
+            arcs.append("path").attr("fill", function(d, i) { 
                 return colourSet[i]; 
             })
             .attr("d", arc)
-            .append("text")
-            .attr("transform",function(d){
-                d.innerRadius = 0;
-                d.outerRadius = radius_pie_data/2;
-                return "translate(" + arc.centroid(d) + ")";   
-            })
-            .attr("text-anchor", "middle")
-            .text(function(d, i) { 
-                return d.value; })
             /*.attr("x", function (d) {return d.x+(d.height / 2);})
             .attr("y", function (d) {return d.y+(d.height / 2);})*/
             //.attr("height", function (d) {return d.height;})
@@ -299,6 +290,15 @@ function shieldxDataFx() {
                 return setColors(d.value);
             })*/
             .style("fill-opacity", function (d) { return d.weight * 0.8; /*return 1;*/ });
+            arcs.append("text")
+            .attr("transform",function(d){
+                d.innerRadius = 0;
+                d.outerRadius = radius_pie_data/2;
+                return "translate(" + arc.centroid(d) + ")";   
+            })
+            .attr("text-anchor", "middle")
+            .text(function(d, i) { 
+                return d.value; });
             /*.on('mouseover', function(d,i){
                 
             })
