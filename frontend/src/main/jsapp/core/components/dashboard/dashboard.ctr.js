@@ -31,7 +31,7 @@
         "ngInject";				
             /*,{"type":"c6","value":"c6"},{"type":"c7","value":"c7"}*/
     		console.log("hello");
-    		$scope.cardType= [{"type":"c1","value":"Sales"},{"type":"c2","value":"Card Closure"},{"type":"c3","value":"Card Issuance"},{"type":"c4","value":"EMI Generation"},{"type":"c5","value":"Payment Received"}];
+    		$scope.cardType= [{"type":"c1","value":"Sales:Region vs Spending Areas"},{"type":"c2","value":"Risk Aversion: Region vs Card Closure"},{"type":"c3","value":"Disbursement:Region vs Card Issuance/Credit Limits"},{"type":"c4","value":"Lending:Region vs EMI Generation"},{"type":"c5","value":"Payments:Region vs Payment Received"}];
             var currentDate = new Date();
             var endDate = new Date(currentDate.getTime()- (24*60*60*1000));
             $scope.startDate = endDate;

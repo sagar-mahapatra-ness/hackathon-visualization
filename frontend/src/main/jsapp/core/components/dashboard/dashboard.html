@@ -21,7 +21,7 @@
         </div>
         <div layout="column">
             <p>Selected Card Type: </p>
-            <md-radio-group ng-model="cardTypeSelected" layout="row" >
+            <md-radio-group ng-model="cardTypeSelected" layout="column" style="font-size: 20px;" >
                 <md-radio-button ng-repeat="val in cardType" value="{{val.type}}" class="md-primary card-type">{{val.value}}</md-radio-button>
             </md-radio-group>
         </div>
