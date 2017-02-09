@@ -62,7 +62,7 @@
 				md-whiteframe="16"
 				style="position:fixed;">
 				<md-content style="border-bottom: solid 1px rgba(0,0,0,0.12);overflow: hidden; height: 63px;width:100%;">
-					<img src="images/quick-setup-logo_new.png" style="width: 152px;height: 32px;padding: 16px 24px;">
+					Hackathon
 				</md-content>
 				<v-accordion id="accordionA" class="vAccordion--shieldX-menu" control="accordionA" onexpand="expandCallback(index, id)" oncollapse="collapseCallback(index, id)"
 				style="overflow-x: hidden;">
@@ -70,10 +70,10 @@
 					<v-pane id="{{ ::pane.id }}" ng-repeat="pane in panesA" expanded="pane.isExpanded">
 						<v-pane-header id="{{ ::pane.id }}-header" aria-controls="{{ ::pane.id }}-content" ng-click="gotoPage($event)"
 						ng-show="pane.isVisible" ng-class="pane.subpanes.length > 0 ? 'showArrow' : ''">
-							<span style="display:inline; padding: 12px 15px; position:relative; top: 10px;">
+							<!-- <span style="display:inline; padding: 12px 15px; position:relative; top: 10px;">
 								<md-icon class="material-icons" ng-hide="pane.icon.indexOf('.svg', pane.icon.length - 4) !== -1">{{ ::pane.icon }}</md-icon>
 								<md-icon md-svg-src="{{ ::pane.icon }}" ng-show="pane.icon.indexOf('.svg', pane.icon.length - 4) !== -1">{{ ::pane.icon }}</md-icon>
-							</span>
+							</span> -->
 							<h5 style="display:inline;">{{ ::pane.header }}
 								<span ng-if="pane.bubble" class="header-bubble">{{ ::pane.bubble }}</span>
 							</h5>

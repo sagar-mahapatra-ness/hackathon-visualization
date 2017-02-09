@@ -35,9 +35,11 @@
         $scope.filterApplyed = false;
         var twodData = dataVisualizationService.returnTwoDDataToAnalysis();
         console.dir(twodData);
+        $scope.showPane= false;
         $scope.load2DData = function(result){
             angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
             $scope.filterApplyed = true;
+            var color_to_show = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
             //console.log(dataVC);
            // dataVisualizationService.getEventDataFor2DRendering(dataVC).then(function(result){
                 angular.element(document.querySelector('#events-page-mask')).css('display', 'none');
@@ -57,17 +59,21 @@
                 }
                 var chartObj = {
                     elem: '#navigator',
-                    dataset: result  // not customisable option
+                    dataset: result,
+                    color:color_to_show  // not customisable option
                 };
             setTimeout(function(){ 
                 dataVisualizationApi.eventsNavigator(chartObj); 
-             }, 3000);
+             }, 2000);
             
 
          // });
        };
        if(twodData !== ''){
             console.dir(twodData);
+            if(twodData.length === 0){
+               twodData.data = "c1"; 
+            }
             $http.get('/languages/'+twodData.data+'.json').then(function(res){
                 $scope.load2DData(res.data);  
             });
@@ -848,9 +854,9 @@
 
         $scope.$on('$viewContentLoaded', function (event) {
 
-            angular.element(document.querySelector('#events-y-axis')).css('width', (window.innerWidth * 0.75) - 144+'px');
-            angular.element(document.querySelector('#events-container')).css('width', (window.innerWidth * 0.75) - 144+'px');
-            angular.element(document.querySelector('#events-x-axis')).css('height', window.innerHeight - 192+'px');
+            angular.element(document.querySelector('#events-y-axis')).css('width', (window.innerWidth ) - 144+'px');
+            angular.element(document.querySelector('#events-container')).css('width', (window.innerWidth ) - 144+'px');
+            //angular.element(document.querySelector('#events-x-axis')).css('height', window.innerHeight - 192+'px');
             angular.element(document.querySelector('#events-container')).css('height', window.innerHeight - 192+'px');    
 
         }); 

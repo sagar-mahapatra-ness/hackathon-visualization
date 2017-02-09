@@ -258,9 +258,12 @@ function shieldxDataFx() {
             .selectAll("rect")
             .data(matrixData)
             .enter()
-            .append("g");
+            .append("g")
+            .attr("transform",function(d){ 
+                return "translate(" + w/2 + "," + h/2 + ")"; 
+            });
             
-        nodes.selectAll("path")   
+       var arcs = nodes.selectAll("path")   
             .data(function(d){
                 if(d.value){
                     return pie(d.value);    
@@ -275,6 +278,15 @@ function shieldxDataFx() {
                 return colourSet[i]; 
             })
             .attr("d", arc)
+            .append("text")
+            .attr("transform",function(d){
+                d.innerRadius = 0;
+                d.outerRadius = radius_pie_data/2;
+                return "translate(" + arc.centroid(d) + ")";   
+            })
+            .attr("text-anchor", "middle")
+            .text(function(d, i) { 
+                return d.value; })
             /*.attr("x", function (d) {return d.x+(d.height / 2);})
             .attr("y", function (d) {return d.y+(d.height / 2);})*/
             //.attr("height", function (d) {return d.height;})
@@ -286,8 +298,8 @@ function shieldxDataFx() {
             .style("fill", function (d) { 
                 return setColors(d.value);
             })*/
-            .style("fill-opacity", function (d) { return d.weight * 0.8; /*return 1;*/ })
-            .on('mouseover', function(d,i){
+            .style("fill-opacity", function (d) { return d.weight * 0.8; /*return 1;*/ });
+            /*.on('mouseover', function(d,i){
                 
             })
             .on('mouseout', function(d,i){
@@ -324,7 +336,7 @@ function shieldxDataFx() {
                     angular.element(document.querySelector('.events-x-axis-data')).css('display', 'none');
                     angular.element(document.querySelector('.events-y-axis-data')).css('display', 'none');
                 }
-            }); 
+            });*/ 
         nodes.transition()
             .delay(function(d, i) { return i * 200; })
             .duration(500)
@@ -1020,7 +1032,7 @@ function shieldxDataFx() {
                 .attr("id", "events-analysis")
                 .attr("width",w)
                 .attr("height",h);
-            var colourSet = ['#1f77b4','#1f77b4','#1f77b4','#1f77b4','#1f77b4'];
+            var colourSet = options.color;
 
             var pie = d3.layout.pie()
                 .sort(null)
@@ -1051,7 +1063,7 @@ function shieldxDataFx() {
                 .enter()
                 .append("path")
                 .attr("fill", function(d, i) { 
-                    return colourSet[i]; 
+                    return colourSet; 
                 })
                 .attr("d", arc)
                 /*.style("stroke", "black")
