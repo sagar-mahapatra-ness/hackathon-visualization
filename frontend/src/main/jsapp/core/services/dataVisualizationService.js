@@ -19,7 +19,7 @@
 (function() {
     function dataVisualizationService(getDataService, chartDataLoader, $injector, $q, authRestangular, userSessionMenagment,websocketfectory) {
         "ngInject";
-
+        var vm = this; 
         this.getDataForWidget = function(dataWidgetConfig) {
             if (dataWidgetConfig.getProxyData()) {
                 return this.loadDataFromProxySource(dataWidgetConfig.getProxyData());

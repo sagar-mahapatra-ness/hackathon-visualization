@@ -807,6 +807,11 @@
         };
 
         $scope.toggle3D = function(event) {
+            $scope.senDataToWebSocket({command:"start",data:"one"});
+            $scope.filterApplyed = true;
+            $scope.timeRange = ["1486472447319", "1486558847319"];
+            $scope.show3DLabels = false;
+            $scope.switchTo3D = true;   
             if(!shieldXUI.landscapeData) {
                 return;
             }
