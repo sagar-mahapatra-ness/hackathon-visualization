@@ -857,17 +857,7 @@
        
         dataVisualizationService.conectToWebSocket().then(
             function(data){
-<<<<<<< Updated upstream
-                dataVisualizationService.subscribToTheTopic("/topic/greetings").then(function(dataRecived){
-                   console.log(" data recived from server "+dataRecived);
-                });
-            }
-        );
-
-       $scope.senDataToWebSocket = function(){
-          dataVisualizationService.sendDataToWebSocketTopic("/app/hello","sagar mahapatro");
-=======
-                var callback = function(dataRecived){
+           var callback = function(dataRecived){
                    console.log(" data recived from server 3"+dataRecived);
                    console.dir(dataRecived);
                    var refdata = JSON.parse(dataRecived.content);
@@ -934,30 +924,11 @@
 
        $scope.senDataToWebSocket = function(data){
           dataVisualizationService.sendDataToWebSocketTopic("/app/incoming",data);
->>>>>>> Stashed changes
        }; 
 
         $scope.showGraph = function(event) {
-            $scope.senDataToWebSocket({command:"start",data:"one"});
-            // angular.element(document.querySelector('#events-page-mask')).css('display', 'block');
-            $scope.filterApplyed = true;
-<<<<<<< Updated upstream
-            $scope.show2DData();*/
-            //$scope.senDataToWebSocket();
-       };
-=======
-           /* $scope.show2DData();
-            */
-
-            $scope.timeRange = ["1486472447319", "1486558847319"];
-            $scope.show3DLabels = false;
-            
-            //if(!$scope.switchTo3D) dataVisualizationApi.eventsVfx({ elem: "#events-container-3D", dataset: result });
-            $scope.switchTo3D = $scope.switchTo3D ? false: true;    
-            $scope.toggle3D(event);
+           
         };
->>>>>>> Stashed changes
-        
         
     }
 
