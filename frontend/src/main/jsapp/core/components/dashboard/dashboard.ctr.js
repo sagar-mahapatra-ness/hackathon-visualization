@@ -29,9 +29,9 @@
             dataVisualizationService,
             $rootScope,coreservices, dashbordservice) {
         "ngInject";				
-
+            /*,{"type":"c6","value":"c6"},{"type":"c7","value":"c7"}*/
     		console.log("hello");
-    		$scope.cardType= [{"type":"c1","value":"c1"},{"type":"c2","value":"c2"},{"type":"c3","value":"c3"},{"type":"c4","value":"c4"},{"type":"c5","value":"c5"},{"type":"c6","value":"c6"},{"type":"c7","value":"c7"}];
+    		$scope.cardType= [{"type":"c1","value":"Sales"},{"type":"c2","value":"Card Closure"},{"type":"c3","value":"Card Issuance"},{"type":"c4","value":"EMI Generation"},{"type":"c5","value":"Payment Received"}];
             var currentDate = new Date();
             var endDate = new Date(currentDate.getTime()- (24*60*60*1000));
             $scope.startDate = endDate;

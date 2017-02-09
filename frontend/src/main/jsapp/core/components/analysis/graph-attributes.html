@@ -1,5 +1,17 @@
 <div id="graph-attributes" ng-controller="graphAttributesFilterCtr" style="background: black;">
-	
+		<div style="padding-top: 65%;margin-right: 50px;">
+			<md-radio-group ng-model="dateSelected" layout="column">
+	                    <md-radio-button value="Today" class="md-primary">
+	                    	<div style="background-color:rgb(31, 119, 180);height: 14px;    width: 15px;margin-top: 3px;" class="color-legend-ie-fix"></div>{{dataarrya[0].value}}
+	                    </md-radio-button>
+	                    <md-radio-button value="YesterDay">
+	                    <div style="background-color:rgb(174, 199, 232);height: 14px;    width: 15px;margin-top: 3px;" class="color-legend-ie-fix"></div>{{dataarrya[1].value}}
+	                     </md-radio-button>
+	                    <md-radio-button value="YesterDay">
+	                    	<div style="background-color:rgb(255, 127, 14);height: 14px;    width: 15px;margin-top: 3px;" class="color-legend-ie-fix"></div>
+	                    {{dataarrya[2].value}} </md-radio-button>
+	        </md-radio-group>
+        </div>
 	<!-- <section id="axis-filters" class="filter-sections" layout="column">
 	
 		<md-input-container>

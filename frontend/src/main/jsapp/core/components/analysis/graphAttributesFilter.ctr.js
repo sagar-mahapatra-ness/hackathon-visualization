@@ -17,8 +17,23 @@
  */
 
 (function () {
-    function graphAttributesFilterCtr($scope){
+    function graphAttributesFilterCtr($scope,dataVisualizationService){
     	//dynamically correcting all the heights and widths of elements
+        var twodData = dataVisualizationService.returnTwoDDataToAnalysis();
+        if(twodData.length === 0 || twodData.data === "c1"){
+               twodData.data = "c1"; 
+               $scope.dataarrya = [{"value":"Utlility"},{"value":"Fuel"},{"value":"Shopping"}];
+        }
+        if(twodData.data === "c2"){
+              $scope.dataarrya = [{"value":"Theft"},{"value":"Lost"},{"value":"Fraud"}];   
+        }
+        if(twodData.data === "c3"){
+              $scope.dataarrya = [{"value":"2L"},{"value":"5L"},{"value":"8L"}];      
+        }
+        if(twodData.data === "c4" || twodData.data === "c5"){
+              $scope.dataarrya = [{"value":"25K"},{"value":"50K"},{"value":"1L"}];      
+        }
+        
         angular.element(document.querySelector('#graph-attributes')).css('height', (window.innerHeight-113)+'px');
         angular.element(document.querySelector('#navigator')).css('width', (window.innerWidth*0.25)+'px');
         angular.element(document.querySelector('#navigator')).css('height', (window.innerWidth*0.25)/1.7+'px');

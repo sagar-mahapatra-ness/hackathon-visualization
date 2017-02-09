@@ -450,7 +450,7 @@ function shieldxDataFx() {
                 angular.element(document.querySelector('.d3brushCloseBtnDiv')).remove();
             });
 
-            var d3evenDataBtnDiv = document.querySelector('#brush-event-data-btn').getBoundingClientRect();
+           /* var d3evenDataBtnDiv = document.querySelector('#brush-event-data-btn').getBoundingClientRect();
             var evenDataBtnDiv = document.createElement('div');
             evenDataBtnDiv.className = "d3evenDataBtnDiv marguee-btn-style";            
             angular.element(document.querySelector('body')).append(evenDataBtnDiv);
@@ -464,7 +464,7 @@ function shieldxDataFx() {
                 angular.element(document.querySelector('.dataLandscapeBtnDiv')).remove();
                 angular.element(document.querySelector('.d3evenDataBtnDiv')).remove();
                 angular.element(document.querySelector('.d3brushCloseBtnDiv')).remove();
-            });
+            });*/
 
             var d3closeBtnDiv = document.querySelector('#brush-close').getBoundingClientRect();
             var brushCloseBtnDiv = document.createElement('div');
